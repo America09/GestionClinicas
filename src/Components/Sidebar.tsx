@@ -91,7 +91,6 @@ export const Sidebar = () => {
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    p: 3,
                     width: `calc(100% - ${drawerWidth}px)`,
                     '@media (max-width: 600px)': {
                         width: `calc(100% - 70px)`, // Ancho estrecho para pantallas pequeñas
