@@ -11,6 +11,8 @@ export default function AppRouter () {
             <Routes>
                 <Route element={<MainLayout />}>
                     <Route path='/lista-de-pacientes' element={<Pacientes/>}/>
+                    <Route path='/Inicio' element={<h1>Inicio</h1>}/>
+                    <Route path='/Doctor' element={<h1>Medicos</h1>}/>
                     <Route path='/agregar-paciente' element={<AgregarPacientes/>}/>
                 </Route>
             </Routes>

@@ -1,11 +1,8 @@
 
 import * as React from 'react'; 
 import Box from '@mui/material/Box';
-
 import { Input } from '@mui/material';
 
-
-  
 export const AgregarPacientes = () => {
     return (
         <Box  component="form"

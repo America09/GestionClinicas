@@ -15,18 +15,21 @@ import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutl
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
 import logo from '../assets/logo.png'
 import { Outlet } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 
 
 const drawerWidth = 140;
 
 export const Sidebar = () => {
+    const navigate = useNavigate()
     const icons = [
-        <HomeOutlinedIcon fontSize="large" />,
+        <span color="primary" onClick={()=> navigate("/Inicio")} ><HomeOutlinedIcon fontSize="large" /></span>,
         <MedicalServicesOutlinedIcon fontSize="large" />,
         <PermContactCalendarOutlinedIcon fontSize="large" />,
         <PendingActionsOutlinedIcon fontSize="large" />,
-        <PermIdentityOutlinedIcon fontSize="large" />,
-        <Person3OutlinedIcon fontSize="large" />,
+        <span color="primary" onClick={()=> navigate("/lista-de-pacientes")} ><PermIdentityOutlinedIcon fontSize="large" /></span>,
+        <span color="primary" onClick={()=> navigate("/Doctor")} ><Person3OutlinedIcon fontSize="large" /></span>,
         <EventAvailableOutlinedIcon fontSize="large" />
     ];
 
