@@ -9,16 +9,10 @@ const AppRouter = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route element={<PublicLayout />}>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                </Route>
-                <Route element={<AuthLayout />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
+                <Route element={<MainLayout />}>
+                <Route path='/home' element={<Home />}/>
                 </Route>
             </Routes>
         </BrowserRouter>
-    );
-};
-
-export default AppRouter;
+    )
+}

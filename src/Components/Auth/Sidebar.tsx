@@ -13,19 +13,20 @@ import PermContactCalendarOutlinedIcon from '@mui/icons-material/PermContactCale
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
-import logo from '../../assets/logo.png'
+import logo from '../assets/logo.png'
 
 
 const drawerWidth = 140;
 
 export const Sidebar = () => {
+    const navigate = useNavigate()
     const icons = [
-        <HomeOutlinedIcon fontSize="large" />,
+        <span color="primary" onClick={()=> navigate("/Inicio")} ><HomeOutlinedIcon fontSize="large" /></span>,
         <MedicalServicesOutlinedIcon fontSize="large" />,
         <PermContactCalendarOutlinedIcon fontSize="large" />,
         <PendingActionsOutlinedIcon fontSize="large" />,
-        <PermIdentityOutlinedIcon fontSize="large" />,
-        <Person3OutlinedIcon fontSize="large" />,
+        <span color="primary" onClick={()=> navigate("/lista-de-pacientes")} ><PermIdentityOutlinedIcon fontSize="large" /></span>,
+        <span color="primary" onClick={()=> navigate("/Doctor")} ><Person3OutlinedIcon fontSize="large" /></span>,
         <EventAvailableOutlinedIcon fontSize="large" />
     ];
 
@@ -87,18 +88,15 @@ export const Sidebar = () => {
                     {drawer}
                 </Drawer>
             </Box>
-            <Box
-                component="main"
-                sx={{
-                    flexGrow: 1,
-                    p: 3,
-                    width: `calc(100% - ${drawerWidth}px)`,
-                    '@media (max-width: 600px)': {
-                        width: `calc(100% - 70px)`, // Ancho estrecho para pantallas pequeñas
-                    },
-                }}
-            >
-                <Toolbar />
+            <Box component="main" 
+            sx={{ p: 2, background: 'white', height: '100%',
+                flexGrow: 1,width: `calc(100vw - ${drawerWidth}px)`,
+                '@media (max-width: 600px)': {
+                    width: `calc(100vw - 70px)`, // Ancho estrecho para pantallas pequeñas
+                }
+
+             }}>
+                <Outlet />
             </Box>
         </Box>
     );
