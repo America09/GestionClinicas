@@ -13,7 +13,10 @@ import PermContactCalendarOutlinedIcon from '@mui/icons-material/PermContactCale
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
-import logo from '../assets/logo.png'
+import logo from '../../assets/logo.png'
+import { Outlet } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
 
 
 const drawerWidth = 140;

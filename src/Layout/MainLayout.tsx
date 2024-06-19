@@ -6,7 +6,7 @@ import { Sidebar } from '../Components/Auth/Sidebar';
 const MainLayout = () => {
     return (
         <>
-            <Header />
+            <HeaderAuth />
             <Sidebar />
         </>
     )
