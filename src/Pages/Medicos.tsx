@@ -8,7 +8,7 @@ export const Medicos = () => {
     return (
         <>
             <h2>Lista de Medicos</h2>
-            <Button color="primary" onClick={()=> navigate("/agregar-medicos")} > + Añadir medico</Button>
+            <Button color="primary" onClick={()=> navigate("/agregar-medicos")} > + Añadir medicos</Button>
             <ListMedicos/>
         </>
     )
