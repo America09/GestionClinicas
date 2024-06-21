@@ -4,6 +4,7 @@ import Login from '../Pages/Auth/Login';
 import Dashboard from '../Pages/Public/Dashboard';
 import AuthLayout from '../Layout/AuthLayout';
 import PublicLayout from '../Layout/PublicLayout';
+import Servicios from '../Components/Public/ServiciosPage';
 
 const AppRouter = () => {
     return (
@@ -11,6 +12,7 @@ const AppRouter = () => {
             <Routes>
                 <Route element={<PublicLayout />}>
                     <Route path="/" element={<Home />} />
+                    <Route path="/servicios" element={<Servicios />} />
                     <Route path="/login" element={<Login />} />
                 </Route>
                 <Route element={<AuthLayout />}>

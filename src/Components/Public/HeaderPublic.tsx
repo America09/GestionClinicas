@@ -7,22 +7,24 @@ const HeaderPublic = () => {
         <AppBar position="absolute" className="header-public" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
             <Toolbar>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <img src={logo} alt="Logo" style={{ width: '80px', height: 'auto', marginRight: 'auto' }} />
+                <Link component={NavLink} to="/" style={{ marginLeft: '2rem' , marginTop: 5 }}>
+                    <img src={logo} alt="Logo" style={{ width: '80px', height: 'auto'}} />
+                </Link>
                 </Box>
                 <Box sx={{ display: 'flex', gap: '2rem', flexGrow: 1, justifyContent: 'flex-end' }}>
-                    <Link component={NavLink} to="/" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                    <Link component={NavLink} to="/" sx={{ textDecoration: 'underline',  textDecorationColor: 'transparent', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
                         Inicio
                     </Link>
-                    <Link component={NavLink} to="/servicios" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                    <Link component={NavLink} to="/servicios" sx={{ textDecoration: 'underline',  textDecorationColor: 'transparent', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
                         Servicios
                     </Link>
-                    <Link component={NavLink} to="/citas" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                    <Link component={NavLink} to="/citas" sx={{ textDecoration: 'underline',  textDecorationColor: 'transparent', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
                         Citas
                     </Link>
-                    <Link component={NavLink} to="/medicos" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                    <Link component={NavLink} to="/medicos" sx={{ textDecoration: 'underline',  textDecorationColor: 'transparent', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
                         Médicos
                     </Link>
-                    <Link component={NavLink} to="/login" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                    <Link component={NavLink} to="/login" sx={{ textDecoration: 'underline',  textDecorationColor: 'transparent', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
                         Login
                     </Link>
                 </Box>
