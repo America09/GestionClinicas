@@ -4,6 +4,7 @@ import Login from '../Pages/Auth/Login';
 import Dashboard from '../Pages/Public/Dashboard';
 import AuthLayout from '../Layout/AuthLayout';
 import PublicLayout from '../Layout/PublicLayout';
+import HorarioPage from '../Pages/Auth/HorarioPage';
 
 const AppRouter = () => {
     return (
@@ -15,6 +16,7 @@ const AppRouter = () => {
                 </Route>
                 <Route element={<AuthLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/horario" element={<HorarioPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
