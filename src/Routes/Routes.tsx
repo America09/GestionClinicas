@@ -5,6 +5,7 @@ import Dashboard from '../Pages/Public/Dashboard';
 import AuthLayout from '../Layout/AuthLayout';
 import PublicLayout from '../Layout/PublicLayout';
 import HorarioPage from '../Pages/Auth/HorarioPage';
+import { AgregarHorario } from '../Components/Auth/CrudListaHorarios/AgregarHorario';
 
 const AppRouter = () => {
     return (
@@ -16,7 +17,8 @@ const AppRouter = () => {
                 </Route>
                 <Route element={<AuthLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/horario" element={<HorarioPage />} />
+                    <Route path="/Horario" element={<HorarioPage/>} />
+                    <Route path="/AgregarHorario" element={<AgregarHorario/>} />
                 </Route>
             </Routes>
         </BrowserRouter>

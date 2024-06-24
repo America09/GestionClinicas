@@ -1,7 +1,7 @@
-
-
 export const HorarioForm = () => {
-  return (
+return (
     <div>HorarioForm</div>
-  )
+
+)
 }
+
