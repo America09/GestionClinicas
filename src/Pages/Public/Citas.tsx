@@ -1,18 +1,15 @@
 import HeaderPublic from '../../Components/Public/HeaderPublic';
-import ServiciosPage from '../../Components/Public/ServiciosPage';
-
 import { Box } from '@mui/material';
 
 
-const Servicios = () => {
+const Citas = () => {
     return (
         <Box>
             <HeaderPublic />
-            <ServiciosPage />
             
-            
+        
         </Box>
     );
 };
 
-export default Servicios;
+export default Citas;

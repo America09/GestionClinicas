@@ -4,7 +4,10 @@ import Login from '../Pages/Auth/Login';
 import Dashboard from '../Pages/Public/Dashboard';
 import AuthLayout from '../Layout/AuthLayout';
 import PublicLayout from '../Layout/PublicLayout';
-import Servicios from '../Components/Public/ServiciosPage';
+import Servicios from '../Pages/Public/Servicios';
+import NotFound from '../Components/Public/NotFound';
+import Citas from '../Pages/Public/Citas';
+import Medicos from '../Pages/Public/Medicos';
 
 const AppRouter = () => {
     return (
@@ -13,11 +16,14 @@ const AppRouter = () => {
                 <Route element={<PublicLayout />}>
                     <Route path="/" element={<Home />} />
                     <Route path="/servicios" element={<Servicios />} />
+                    <Route path="/citas" element={<Citas />} />
+                    <Route path="/medicos" element={<Medicos />} />
                     <Route path="/login" element={<Login />} />
                 </Route>
                 <Route element={<AuthLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     );
