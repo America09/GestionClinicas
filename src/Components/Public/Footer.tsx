@@ -21,13 +21,13 @@ const Footer = () => {
                 </Grid>
                 <Grid item xs={12} sm={2}>
                     <Typography variant="h6">LEGAL</Typography>
-                    <Link href="#" sx={{ color: 'white', display: 'block', mt: 3, textDecoration: 'underline',  textDecorationColor: 'transparent' }}>Términos y condiciones</Link>
-                    <Link href="#" sx={{ color: 'white', display: 'block', mt: 3, textDecoration: 'underline',  textDecorationColor: 'transparent' }}>Políticas de privacidad</Link>
+                    <Link href="/terminos" sx={{ color: 'white', display: 'block', mt: 3, textDecoration: 'underline',  textDecorationColor: 'transparent' }}>Términos y condiciones</Link>
+                    <Link href="/Politicas" sx={{ color: 'white', display: 'block', mt: 3, textDecoration: 'underline',  textDecorationColor: 'transparent' }}>Políticas de privacidad</Link>
                 </Grid>
                 <Grid item xs={12} sm={2}>
                     <Typography variant="h6">NOSOTROS</Typography>
-                    <Link href="#" sx={{ color: 'white', display: 'block', mt: 3, textDecoration: 'underline',  textDecorationColor: 'transparent' }}>Sobre nosotros</Link>
-                    <Link href="#" sx={{ color: 'white', display: 'block', mt: 3, textDecoration: 'underline',  textDecorationColor: 'transparent' }}>Contacto</Link>
+                    <Link href="/nosotros" sx={{ color: 'white', display: 'block', mt: 3, textDecoration: 'underline',  textDecorationColor: 'transparent' }}>Sobre nosotros</Link>
+                    <Link href="/contacto" sx={{ color: 'white', display: 'block', mt: 3, textDecoration: 'underline',  textDecorationColor: 'transparent' }}>Contacto</Link>
                 </Grid>
                 <Grid item xs={12} sm={2}>
                     <Typography variant="h6" >SOCIAL</Typography>

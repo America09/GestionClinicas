@@ -1,11 +1,11 @@
-import HeaderPublic from '../../Components/Public/HeaderPublic';
+import { CitasPage } from '../../Components/Public/CitasPage';
 import { Box } from '@mui/material';
 
 
 const Citas = () => {
     return (
         <Box>
-            <HeaderPublic />
+            <CitasPage />
             
         
         </Box>
