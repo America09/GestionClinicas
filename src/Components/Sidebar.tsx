@@ -25,12 +25,14 @@ export const Sidebar = () => {
     const navigate = useNavigate()
     const icons = [
         <span color="primary" onClick={()=> navigate("/Inicio")} ><HomeOutlinedIcon fontSize="large" /></span>,
-        <MedicalServicesOutlinedIcon fontSize="large" />,
-        <PermContactCalendarOutlinedIcon fontSize="large" />,
-        <PendingActionsOutlinedIcon fontSize="large" />,
+        <span color="primary" onClick={()=> navigate("/lista-de-especialidades")} ><MedicalServicesOutlinedIcon fontSize="large" /></span>,
+        <span color="primary" onClick={()=> navigate("/lista-de-consultorios")} > <PermContactCalendarOutlinedIcon fontSize="large" /></span>,
+        <span color="primary" onClick={()=> navigate("/lista-de-horarios")} >  <PendingActionsOutlinedIcon fontSize="large" /></span>,
         <span color="primary" onClick={()=> navigate("/lista-de-pacientes")} ><PermIdentityOutlinedIcon fontSize="large" /></span>,
-        <span color="primary" onClick={()=> navigate("/Doctor")} ><Person3OutlinedIcon fontSize="large" /></span>,
-        <EventAvailableOutlinedIcon fontSize="large" />
+        <span color="primary" onClick={()=> navigate("/lista-de-medicos")} ><Person3OutlinedIcon fontSize="large" /></span>,
+        <span color="primary" onClick={()=> navigate("/lista-de-citas")} ><EventAvailableOutlinedIcon fontSize="large" />
+</span>,
+
     ];
 
     const getLogoStyle = () => ({
