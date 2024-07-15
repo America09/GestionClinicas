@@ -1,13 +1,13 @@
-import { Modal, Box, Typography, Button, TextField, IconButton, Divider, Link } from '@mui/material';
+import { Modal, Box, Typography, Button, TextField, IconButton, Divider, Link, Checkbox, FormControlLabel } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import { useState } from 'react';
 
-// Define la interfaz para las propiedades del modal
+
 interface CrearCuentaModalProps {
     open: boolean;
     onClose: () => void;
-    onOpenLogin: () => void; // Añadido para abrir el modal de login
+    onOpenLogin: () => void;
 }
 
 const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOpenLogin }) => {
@@ -49,15 +49,22 @@ const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOp
                     Al menos 8 caracteres*
                 </Typography>
                 <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center', marginTop: 3 }}>
-                    Al crear una cuenta, acepta los
-                    <Link href="/terminos" sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
-                        Términos y Condiciones
-                    </Link>
-                    y la
-                    <Link href="/politicas" sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
-                        Política de Privacidad
-                    </Link>
-                </Typography>
+        <FormControlLabel
+        control={<Checkbox />}
+        label={
+            <span>
+            Al crear una cuenta, acepta los
+            <Link href="/terminos" sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
+                Términos y Condiciones
+            </Link>
+            y la
+            <Link href="/politicas" sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
+                Política de Privacidad
+            </Link>
+            </span>
+        }
+        />
+    </Typography>
                 <Button onClick={onClose} variant="contained" color="primary" 
                     sx={{ mt: 2, bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}>
                     Ingresar
