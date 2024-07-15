@@ -41,33 +41,15 @@ export default function Nosotros() {
           {cardData.map((card, index) => (
             <Card 
               key={index} 
-              sx={{ 
-                maxWidth: 190, 
-                backgroundColor: '#F3F3F3', 
-                color: '#263339', 
-                boxShadow: 3, 
-                borderRadius: 3, 
+              sx={{maxWidth: 190, backgroundColor: '#F3F3F3', color: '#263339', boxShadow: 3, borderRadius: 3, 
                 transition: 'transform 0.2s, box-shadow 0.2s',
-                '&:hover': { 
-                  transform: 'scale(1.05)', 
-                  boxShadow: 6 
-                } 
-              }}
-            >
+                '&:hover': { transform: 'scale(1.05)', boxShadow: 6} }}>
               <CardActionArea>
                 <CardMedia
-                  component="img"
-                  image={card.image}
-                  alt={card.alt}
-                  sx={{ height: 190, width: 190}}
-                />
+                  component="img" image={card.image}alt={card.alt} sx={{ height: 190, width: 190}}/>
                 <CardContent>
-                  <Typography 
-                    gutterBottom 
-                    variant="h6" 
-                    component="div" 
-                    sx={{ fontSize: 15, textAlign: 'center', p: 0.5, fontWeight: 'semibold' }}
-                  >
+                  <Typography gutterBottom variant="h6" component="div" 
+                    sx={{ fontSize: 15, textAlign: 'center', p: 0.5, fontWeight: 'semibold' }}>
                     {card.title}
                   </Typography>
                 </CardContent>

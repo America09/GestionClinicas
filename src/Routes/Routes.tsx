@@ -12,6 +12,8 @@ import Terminoss from '../Pages/Public/Terminosy';
 import Politicas from '../Pages/Public/Politicas';
 import Nosotross from '../Pages/Public/Nosotros';
 import Contacto from '../Pages/Public/Contacto';
+import NewModal from '../Components/Public/CrearCuentaPage';
+import RecuperarContrasenaModal from '../Components/Public/RecupContraPage';
 
 const AppRouter = () => {
     return (
@@ -27,6 +29,8 @@ const AppRouter = () => {
                     <Route path="/politicas" element={<Politicas />} />
                     <Route path="/nosotros" element={<Nosotross />} />
                     <Route path="/contacto" element={<Contacto />} />
+                    <Route path="/modal" element={<NewModal />} />
+                    <Route path="/recuperarContrasena" element={<RecuperarContrasenaModal />} />
                 </Route>
                 <Route element={<AuthLayout />}>
                     <Route path="/dashboard" element={<Dashboard />} />
