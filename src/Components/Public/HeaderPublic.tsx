@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import CloseIcon from '@mui/icons-material/Close';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import { useAuth } from '../../Context/AuthContext';
+import { handleLogin } from '../../Handlers/AuthHandler';
 
 const HeaderPublic = () => {
     const [open, setOpen] = useState(false);
@@ -11,14 +13,24 @@ const HeaderPublic = () => {
     const handleClose = () => setOpen(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const handleEmailChange = (event) => setEmail(event.target.value);
-    const handlePasswordChange = (event) => setPassword(event.target.value);
+    const handleEmailChange = (event: any) => setEmail(event.target.value);
+    const handlePasswordChange = (event: any) => setPassword(event.target.value);
 
-    const handleFacebookLogin = () => {
-        // Lógica para iniciar sesión con Facebook
-        console.log("Iniciar sesión con Facebook");
+    const authContext = useAuth();
+
+    const handleSubmit = async (event: any) => {
+        event.preventDefault();
+        try {
+            await handleLogin({ email, password }, authContext);
+            handleClose(); 
+        } catch (error) {
+            console.error('Error al iniciar sesión', error);
+        }
     };
 
+    const handleFacebookLogin = () => {
+        console.log("Iniciar sesión con Facebook");
+    };
 
     return (
         <AppBar position="absolute" className="header-public" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
@@ -70,7 +82,7 @@ const HeaderPublic = () => {
                     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
                         Al menos 8 caracteres*
                     </Typography>
-                    <Button onClick={handleClose} variant="contained" color="primary" 
+                    <Button onClick={handleSubmit} variant="contained" color="primary" 
                         sx={{ mt: 2, bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}>
                         Ingresar
                     </Button>
