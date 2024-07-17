@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Typography, List, ListItem, ListItemText, Paper, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom'; 
 
-// Definición de tipos para el historial médico y otra información
+
 type MedicalHistory = {
   id: number;
   date: string;
@@ -14,20 +14,19 @@ type UserInfo = {
   id: number;
   name: string;
   age: number;
-  // Otros campos de información de usuario
+
 };
 
-// Props del componente
+
 type MedicalHistoryViewProps = {
   medicalHistory: MedicalHistory;
   userInfo: UserInfo;
 };
 
 const ViewHistorial: React.FC<MedicalHistoryViewProps> = ({ medicalHistory, userInfo }) => {
-  const navigate = useNavigate(); // Usar useNavigate para manejar la navegación
+  const navigate = useNavigate(); 
 
   const handleEditarHistorial = () => {
-    // Aquí defines la ruta a la página de edición del historial clínico
     navigate('/editar-historial');
   };
 

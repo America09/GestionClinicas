@@ -59,7 +59,6 @@ const patients: Patient[] = [
     gender: 'Female',
     avatar: 'https://via.placeholder.com/40',
   },
-  // Agrega más pacientes aquí si es necesario
 ];
 
 const ListaPacientes: React.FC = () => {

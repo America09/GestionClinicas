@@ -31,12 +31,12 @@ interface FormData {
   phone: string;
   state: string;
   postalCode: string;
-  smoke: string | null; // Updated type to string | null
-  drinkAlcohol: string | null; // Updated type to string | null
-  drinkCoffee: string | null; // Updated type to string | null
-  isAllergic: string | null; // Updated type to string | null
+  smoke: string | null; 
+  drinkAlcohol: string | null; 
+  drinkCoffee: string | null; 
+  isAllergic: string | null; 
   allergies: string;
-  takesMedication: string | null; // Updated type to string | null
+  takesMedication: string | null; 
   medication: string;
   medicalHistory: string;
 }
@@ -51,12 +51,12 @@ const HistorialClinico: React.FC = () => {
     phone: '',
     state: '',
     postalCode: '',
-    smoke: null, // Updated initial value to null
-    drinkAlcohol: null, // Updated initial value to null
-    drinkCoffee: null, // Updated initial value to null
-    isAllergic: null, // Updated initial value to null
+    smoke: null, 
+    drinkAlcohol: null, 
+    drinkCoffee: null, 
+    isAllergic: null, 
     allergies: '',
-    takesMedication: null, // Updated initial value to null
+    takesMedication: null, 
     medication: '',
     medicalHistory: '',
   });
@@ -114,7 +114,6 @@ const HistorialClinico: React.FC = () => {
         setTab(tab + 1);
       } else {
         console.log(formData);
-        // Aquí puedes manejar el envío del formulario, por ejemplo, enviando los datos a un servidor
       }
     }
   };

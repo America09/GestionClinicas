@@ -1,4 +1,3 @@
-// src/components/PatientProfile.tsx
 import React from 'react';
 import { Patient } from './types';
 import { Avatar, Box, Grid, Typography, Paper } from '@mui/material';

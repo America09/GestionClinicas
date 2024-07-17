@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  top: 0, // Centrar hacia arriba
+  top: 0, 
   borderRadius: theme.shape.borderRadius,
   backgroundColor: theme.palette.common.white,
   '&:hover': {

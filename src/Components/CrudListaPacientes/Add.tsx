@@ -38,7 +38,6 @@ const AgregarPacientes: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Validar campos requeridos
     const errors: Partial<FormData> = {};
     if (!formData.name) {
       errors.name = 'El nombre es requerido';
@@ -68,13 +67,10 @@ const AgregarPacientes: React.FC = () => {
       errors.gender = 'El género es requerido';
     }
 
-    // Actualizar el estado de los errores
     setFormErrors(errors);
 
-    // Si no hay errores, procede con el envío del formulario
     if (Object.keys(errors).length === 0) {
       console.log(formData);
-      // Aquí puedes manejar el envío del formulario, por ejemplo, enviando los datos a un servidor
     }
   };
 
