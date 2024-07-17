@@ -93,7 +93,7 @@ const ListaPacientes: React.FC = () => {
                   <TableCell>{patient.bloodGroup}</TableCell>
                   <TableCell>{patient.gender}</TableCell>
                   <TableCell>
-                    <IconButton aria-label="view" href="historial">
+                    <IconButton aria-label="view" href="historial-clinico">
                       <Description />
                     </IconButton>
                     <IconButton aria-label="edit">
