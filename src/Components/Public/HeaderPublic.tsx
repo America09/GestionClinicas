@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, IconButton, Divider } from '@mui/material';
+import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, Divider, Hidden, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import CloseIcon from '@mui/icons-material/Close';
+import MenuIcon from '@mui/icons-material/Menu';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import CrearCuentaModal from './CrearCuentaPage';
 import RecuperarContrasenaModal from './RecupContraPage';
@@ -11,6 +12,7 @@ const HeaderPublic = () => {
     const [openLogin, setOpenLogin] = useState(false);
     const [openSignup, setOpenSignup] = useState(false);
     const [openRecuperarContrasena, setOpenRecuperarContrasena] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(false);
 
     const handleOpenLogin = () => {
         setOpenLogin(true);
@@ -36,38 +38,81 @@ const HeaderPublic = () => {
 
     const handleCloseRecuperarContrasena = () => setOpenRecuperarContrasena(false);
 
+    const toggleDrawer = (open) => (event) => {
+        if (event.type === 'keydown' && ((event.key === 'Tab') || (event.key === 'Shift'))) {
+            return;
+        }
+        setOpenDrawer(open);
+    };
+
+    const drawerContent = (
+        <Box
+            sx={{
+                width: 250,
+                padding: 2,
+            }}
+            role="presentation"
+            onClick={toggleDrawer(false)}
+            onKeyDown={toggleDrawer(false)}
+        >
+            <List>
+            <CloseIcon />
+                {['Inicio', 'Servicios', 'Citas', 'Médicos', 'Login'].map((text) => (
+                    <ListItem
+                        key={text}
+                        button
+                        component={text === 'Login' ? 'button' : NavLink}
+                        to={text === 'Inicio' ? '/' : `/${text.toLowerCase()}`}
+                        onClick={text === 'Login' ? handleOpenLogin : undefined}
+                    >
+                        <ListItemText primary={text} />
+                    </ListItem>
+                ))}
+            </List>
+        </Box>
+    );
+
     return (
         <>
-            <AppBar position="absolute" className="header-public" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
+            <AppBar position="absolute" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                 <Toolbar>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Link component={NavLink} to="/" style={{ marginLeft: '2rem', marginTop: 5 }}>
+                        <Link component={NavLink} to="/" sx={{ ml: 2, mt: 1 }}>
                             <img src={logo} alt="Logo" style={{ width: '80px', height: 'auto' }} />
                         </Link>
                     </Box>
-                    <Box sx={{ display: 'flex', gap: '2rem', flexGrow: 1, justifyContent: 'flex-end' }}>
-                        <Link component={NavLink} to="/" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: '5rem', flexGrow: 1, justifyContent: 'center' }}>
+                        <Link component={NavLink} to="/" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
                             Inicio
                         </Link>
-                        <Link component={NavLink} to="/servicios" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
+                        <Link component={NavLink} to="/servicios" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
                             Servicios
                         </Link>
-                        <Link component={NavLink} to="/citas" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
+                        <Link component={NavLink} to="/citas" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
                             Citas
                         </Link>
-                        <Link component={NavLink} to="/medicos" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.3rem', fontWeight: 'medium' }}>
+                        <Link component={NavLink} to="/medicos" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
                             Médicos
                         </Link>
-                        <Link component="button" onClick={handleOpenLogin} sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.3rem', fontWeight: 'medium', background: 'none', border: 'none', cursor: 'pointer' }}>
+                        <Link component="button" onClick={handleOpenLogin} sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium', background: 'none', border: 'none', cursor: 'pointer' }}>
                             Login
                         </Link>
                     </Box>
+                    <Hidden mdUp>
+                        <IconButton edge="start" color="inherit" aria-label="menú" onClick={toggleDrawer(true)}>
+                            <MenuIcon />
+                        </IconButton>
+                    </Hidden>
                 </Toolbar>
             </AppBar>
 
+            <Drawer anchor="left" open={openDrawer} onClose={toggleDrawer(false)}>
+                {drawerContent}
+            </Drawer>
+
             <Modal open={openLogin} onClose={handleCloseLogin} aria-labelledby="modal-title" aria-describedby="modal-description">
-                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, 
-                    bgcolor: 'background.paper', boxShadow: 50, p: 4, borderRadius: '30px', 
+                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: { xs: '90%', sm: 400 }, 
+                    bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: '30px', 
                     display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <IconButton onClick={handleCloseLogin} sx={{ position: 'absolute', top: 10, right: 10 }}>
                         <CloseIcon />
@@ -84,8 +129,8 @@ const HeaderPublic = () => {
                     </Button>
                     
                     <Divider sx={{ width: '100%', my: 2 }} />
-                    <TextField label="Correo" variant="outlined" fullWidth margin="normal" />
-                    <TextField label="Contraseña" type="password" variant="outlined" fullWidth margin="normal" />
+                    <TextField label="Correo" variant="outlined" required fullWidth margin="normal" />
+                    <TextField label="Contraseña" type="password" variant="outlined" requiredfullWidth margin="normal" />
                     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
                         Al menos 8 caracteres*
                     </Typography>

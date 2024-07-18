@@ -1,99 +1,40 @@
 import { Box, Typography, Grid, Paper } from '@mui/material';
+import { ServiciosComponent } from './ServiciosComponent';
 
 const ServiciosPage = () => {
   return (
     <Box>
-      <Typography sx={{ marginTop: 5, fontSize: 40, textAlign: 'center', color: '#263339', fontWeight: 'medium' }}>
+      <Typography
+        sx={{
+          marginTop: 5,
+          fontSize: { xs: 30, sm: 40 }, // Responsive font size
+          textAlign: 'center',
+          color: '#263339',
+          fontWeight: 'medium',
+        }}
+      >
         Servicios y Equipamiento
       </Typography>
-      <Grid container spacing={4} sx={{ alignItems: "center", p: 12 }}>
-        <Grid item xs={3}>
-          <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image1.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image2.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-           <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image3.png)', 
-            transition: 'transform 0.2s, box-shadow 0.2s',
-            '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image4.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image5.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image6.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image7.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image8.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image9.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image10.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image11.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
-        <Grid item xs={3}>
-        <Paper sx={{ height: 200, backgroundSize: "cover", backgroundImage: 'url(/image12.png)', 
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              '&:hover': { transform: 'scale(1.05)', boxShadow: 6 } }} />
-        </Grid>
+      <Grid container spacing={4} sx={{ alignItems: "center", p: { xs: 2, sm: 4, md: 12 } }}>
+        {Array.from({ length: 12 }).map((_, index) => (
+          <Grid item xs={6} sm={4} md={3} key={index}>
+            <Paper
+              sx={{
+                height: 200,
+                backgroundSize: "cover",
+                backgroundImage: `url(/image${index + 1}.png)`,
+                transition: 'transform 0.2s, box-shadow 0.2s',
+                '&:hover': { transform: 'scale(1.05)', boxShadow: 6 },
+              }}
+            />
+          </Grid>
+        ))}
       </Grid>
-      <Box>
-      <img src="image13.png" alt="Equipamiento médico" style={{ width: "100%", height: "auto" }} />
-    </Box>
-      <Grid container spacing={3} sx={{p:4, alignItems:"center"}}>
-      <Grid item xs={3} >
-        <Paper style={{ borderRadius:20, height: 400, width:300, backgroundSize: "cover", marginTop:40, backgroundImage: 'url(/image14.png)' }}>
-        </Paper>
-      </Grid>
+      <ServiciosComponent/>
+</Box>
 
-      <Grid item xs={3} >
-        <Paper style={{ borderRadius:20, height: 400, width:300, backgroundSize: "cover", marginTop:40, backgroundImage: 'url(/image15.png)' }}>
-        </Paper>
-      </Grid>
-
-      <Grid item xs={3} >
-        <Paper style={{ borderRadius:20,height: 400, width:300, backgroundSize: "cover", marginTop:40, backgroundImage: 'url(/image16.png)' }}>
-        </Paper>
-      </Grid>
-
-      <Grid item xs={3} >
-        <Paper style={{ borderRadius:20,height: 400, width:300, backgroundSize: "cover", marginTop:40, backgroundImage: 'url(/image17.png)' }}>
-        </Paper>
-      </Grid>
-    </Grid>
-    </Box>
   );
+  
 };
 
 export default ServiciosPage;

@@ -1,29 +1,74 @@
-import { Box, Typography, Link } from '@mui/material';
+import React from 'react';
+import { Box, Typography, Button, Grid } from '@mui/material';
 
 const CitasSection = () => {
-    return (
-        <Box sx={{ display: 'flex', height: '100vh', backgroundColor: '#408D86', mt: 8 }}>
-            <Box sx={{ width: '50%', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
-                <img src="/doctorBrazo.png" alt="Citas Image" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            </Box>
-            <Box sx={{ width: '50%', p: 4, display: 'flex', flexDirection: 'column', justifyContent: 'center', boxSizing: 'border-box' }}>
-                <Typography variant="h3" gutterBottom sx={{ textAlign: 'center', color: 'white' }}>
-                    Citas
-                </Typography>
-                <Typography variant="h5" component="h3" gutterBottom sx={{ textAlign: 'left', color: 'white' }}>
-                    Agenda tu cita
-                </Typography>
-                <Typography variant="body1" gutterBottom sx={{ textAlign: 'justify', fontSize: '1.2rem', color: 'white' }}>
-                    Programar una cita con uno de nuestros profesionales de la salud es rápido y sencillo.
-                    Simplemente selecciona el día y la hora que mejor se ajuste a tu agenda, y nuestro sistema
-                    te conectará automáticamente con un médico disponible.
-                </Typography>
-                <Link href="/citas" sx={{ color: 'white', textDecoration: 'underline', mt: 2, alignSelf: 'flex-end' }}>
-                    Agendar cita
-                </Link>
-            </Box>
-        </Box>
-    );
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f9f9f9',
+        padding: '50px 0',
+      }}
+    >
+      <Grid container spacing={4} sx={{ maxWidth: '1200px', margin: '0 auto', padding: { xs: '0 20px', md: '0' } }}>
+        <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+          <Box
+            sx={{
+              width: '300px',
+              height: '300px',
+              borderRadius: '50%',
+              overflow: 'hidden',
+              boxShadow: 3,
+              '& img': {
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.3s ease-in-out',
+              },
+              '&:hover img': {
+                transform: 'scale(1.1)',
+              },
+            }}
+          >
+            <img
+              src="/doctorBrazo.png"
+              alt="Doctor Image"
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          <Typography variant="h3" gutterBottom sx={{ color: '#1976d2', fontWeight: 'bold' }}>
+            Citas
+          </Typography>
+          <Typography variant="h5" component="h3" gutterBottom sx={{ color: '#1976d2', fontWeight: 'bold' }}>
+            Agenda tu cita
+          </Typography>
+          <Typography variant="body1" gutterBottom sx={{ color: '#555', lineHeight: 1.6 }}>
+            Programar una cita con uno de nuestros profesionales de la salud es rápido y sencillo.
+            Simplemente selecciona el día y la hora que mejor se ajuste a tu agenda, y nuestro sistema
+            te conectará automáticamente con un médico disponible.
+          </Typography>
+          <Button
+            variant="contained"
+            href="/citas"
+            sx={{
+              mt: 2,
+              backgroundColor: '#4caf50',
+              color: 'white',
+              fontWeight: 'bold',
+              padding: '10px 20px',
+              borderRadius: '50px',
+              '&:hover': { backgroundColor: '#43a047' },
+            }}
+          >
+            Agendar cita
+          </Button>
+        </Grid>
+      </Grid>
+    </Box>
+  );
 };
 
 export default CitasSection;

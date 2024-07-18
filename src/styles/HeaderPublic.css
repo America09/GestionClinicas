@@ -1,10 +1,8 @@
-/* src/styles/HeaderPublic.css */
-
 .header-background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
+    width: full;
     height: 100%;
     object-fit: cover;
     z-index: -1;
@@ -12,7 +10,7 @@
 }
 
 .header-content {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -30,18 +28,36 @@
 .header-public .MuiToolbar-root {
     justify-content: center; 
     align-items: center;
+    text-align: center; 
 }
 
 .header-public .MuiBox-root {
     display: flex;
-    gap: 6rem;
+    gap: 3rem; 
     flex-grow: 1;
     justify-content: center; 
+    text-align: center; 
 }
 
 .header-public .MuiLink-root {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: medium;
     color: white;
-    margin: 0 1rem;
+    margin: 0 1.5rem; 
+}
+
+@media (max-width :fullscreen) {
+    .header-public .MuiBox-root {
+        gap: 2rem; 
+    }
+
+    .header-public .MuiLink-root {
+        font-size: 1.1rem; 
+    }
+}
+
+@media (max-width:fullscreen) {
+    .header-public .MuiLink-root {
+        font-size: 1rem; 
+    }
 }

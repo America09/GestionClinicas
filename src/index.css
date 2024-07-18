@@ -1,7 +1,6 @@
-
-
 @import './styles/reset.css';
 @import './styles/HeaderPublic.css';
+
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
@@ -24,7 +23,36 @@ p {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: auto;
     margin: 0 auto;
     padding: 0 1.5rem;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem; 
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin-bottom: 1.2rem; 
+    }
+
+    p {
+        margin-bottom: 1rem; 
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 0.5rem; 
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1.2rem; 
+    }
+
+    p {
+        font-size: 0.9rem; 
+    }
 }

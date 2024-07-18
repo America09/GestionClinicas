@@ -1,10 +1,10 @@
-import { MedicosPage } from '../../Components/Public/MedicosPage';
+import DoctorCard from '../../Components/Public/DoctorCard';
 import { Box } from '@mui/material';
 
 const Medicos = () => {
     return (
         <Box>
-            <MedicosPage />
+            <DoctorCard />
         </Box>
     );
 };
