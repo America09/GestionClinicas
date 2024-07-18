@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+// Context/AuthContext.tsx
+import React, { createContext, useContext, useState } from 'react';
 import { AuthState, AuthContextType } from '../Types/Auth';
 
 const initialAuthState: AuthState = {
@@ -6,7 +7,7 @@ const initialAuthState: AuthState = {
     isAuthenticated: false,
 };
 
-const AuthContext = createContext<AuthContextType>({
+export const AuthContext = createContext<AuthContextType>({
     authState: initialAuthState,
     login: () => {},
     logout: () => {},

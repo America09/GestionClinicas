@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, Divider, Hidden, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
@@ -7,18 +7,26 @@ import MenuIcon from '@mui/icons-material/Menu';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import CrearCuentaModal from './CrearCuentaPage';
 import RecuperarContrasenaModal from './RecupContraPage';
+import { AuthContext } from '../../Context/AuthContext';
+import { handleLogin } from '../../Handlers/AuthHandler';
+import { LoginRequest } from '../../Types/Api';
 
 const HeaderPublic = () => {
     const [openLogin, setOpenLogin] = useState(false);
     const [openSignup, setOpenSignup] = useState(false);
     const [openRecuperarContrasena, setOpenRecuperarContrasena] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const authContext = useContext(AuthContext);
+
 
     const handleOpenLogin = () => {
         setOpenLogin(true);
         setOpenSignup(false);
         setOpenRecuperarContrasena(false);
     };
+
 
     const handleCloseLogin = () => setOpenLogin(false);
 
@@ -72,6 +80,11 @@ const HeaderPublic = () => {
         </Box>
     );
 
+    const onLogin = async () => {
+        const loginRequest: LoginRequest = { email, password };
+        await handleLogin(loginRequest, authContext);
+    };
+
     return (
         <>
             <AppBar position="absolute" sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
@@ -111,35 +124,35 @@ const HeaderPublic = () => {
             </Drawer>
 
             <Modal open={openLogin} onClose={handleCloseLogin} aria-labelledby="modal-title" aria-describedby="modal-description">
-                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: { xs: '90%', sm: 400 }, 
-                    bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: '30px', 
+                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: { xs: '90%', sm: 400 },
+                    bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: '30px',
                     display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <IconButton onClick={handleCloseLogin} sx={{ position: 'absolute', top: 10, right: 10 }}>
                         <CloseIcon />
                     </IconButton>
-                    <Button onClick={handleCloseLogin} variant="outlined" 
+                    <Button onClick={handleCloseLogin} variant="outlined"
                         sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
                         <FacebookIcon sx={{ mr: 1, color: '#3b5998' }} />
                         Continuar con Facebook
                     </Button>
-                    <Button onClick={handleCloseLogin} variant="outlined" 
+                    <Button onClick={handleCloseLogin} variant="outlined"
                         sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
-                        <FacebookIcon sx={{ mr: 1, color: '#3b5998' }} />
+                        <FacebookIcon sx={{ mr: 1, color: '#db4437' }} />
                         Continuar con Google
                     </Button>
-                    
+
                     <Divider sx={{ width: '100%', my: 2 }} />
-                    <TextField label="Correo" variant="outlined" required fullWidth margin="normal" />
-                    <TextField label="Contraseña" type="password" variant="outlined"  margin="normal" />
+                    <TextField label="Correo" variant="outlined" required fullWidth margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <TextField label="Contraseña" type="password" variant="outlined" required fullWidth margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
                     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
                         Al menos 8 caracteres*
                     </Typography>
-                    <Button onClick={handleCloseLogin} variant="contained" color="primary" 
+                    <Button onClick={onLogin} variant="contained" color="primary"
                         sx={{ mt: 2, bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}>
                         Ingresar
                     </Button>
                     <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center', marginTop: 3 }}>
-                        ¿No tienes cuenta?   
+                        ¿No tienes cuenta?
                         <Link component="button" onClick={handleOpenSignup} sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
                             Crea una aquí
                         </Link>
@@ -152,9 +165,9 @@ const HeaderPublic = () => {
                 </Box>
             </Modal>
 
-            <CrearCuentaModal 
-                open={openSignup} 
-                onClose={handleCloseSignup} 
+            <CrearCuentaModal
+                open={openSignup}
+                onClose={handleCloseSignup}
                 onOpenLogin={handleOpenLogin} // Pasado el prop para abrir el modal de login
             />
             <RecuperarContrasenaModal open={openRecuperarContrasena} onClose={handleCloseRecuperarContrasena} setOpenSignup={setOpenSignup} />

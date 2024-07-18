@@ -11,8 +11,3 @@ export interface AuthContextType {
     login: (token: string) => void;
     logout: () => void;
 }
-
-export interface LoginRequest {
-    email: string;
-    password: string;
-}

@@ -1,10 +1,10 @@
-//Types/Api.ts
+// Types/Api.ts
 
 export interface ApiResponse<T> {
     data?: T;
     message?: string;
     success?: boolean;
-    token?:string;
+    token?: string;
 }
 
 export interface LoginRequest {
