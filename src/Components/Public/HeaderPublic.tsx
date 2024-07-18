@@ -38,7 +38,7 @@ const HeaderPublic = () => {
 
     const handleCloseRecuperarContrasena = () => setOpenRecuperarContrasena(false);
 
-    const toggleDrawer = (open) => (event) => {
+    const toggleDrawer = (open : any) => (event :any) => {
         if (event.type === 'keydown' && ((event.key === 'Tab') || (event.key === 'Shift'))) {
             return;
         }
@@ -130,7 +130,7 @@ const HeaderPublic = () => {
                     
                     <Divider sx={{ width: '100%', my: 2 }} />
                     <TextField label="Correo" variant="outlined" required fullWidth margin="normal" />
-                    <TextField label="Contraseña" type="password" variant="outlined" requiredfullWidth margin="normal" />
+                    <TextField label="Contraseña" type="password" variant="outlined"  margin="normal" />
                     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
                         Al menos 8 caracteres*
                     </Typography>
