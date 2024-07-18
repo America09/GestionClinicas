@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, Divider, Hidden, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate  } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,7 +18,9 @@ const HeaderPublic = () => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
     const authContext = useContext(AuthContext);
+    const navigate = useNavigate();
 
 
     const handleOpenLogin = () => {
@@ -82,7 +84,10 @@ const HeaderPublic = () => {
 
     const onLogin = async () => {
         const loginRequest: LoginRequest = { email, password };
-        await handleLogin(loginRequest, authContext);
+        const success = await handleLogin(loginRequest, authContext);
+        if (success) {
+            navigate('/dashboard'); 
+        }
     };
 
     return (

@@ -4,6 +4,7 @@ import Login from '../Pages/Auth/Login';
 import Dashboard from '../Pages/Public/Dashboard';
 import AuthLayout from '../Layout/AuthLayout';
 import PublicLayout from '../Layout/PublicLayout';
+import ProtectedLayout from '../Layout/ProtectedLayout';
 import Servicios from '../Pages/Public/Servicios';
 import NotFound from '../Components/Public/NotFound';
 import Citas from '../Pages/Public/Citas';
@@ -28,8 +29,11 @@ const AppRouter = () => {
                     <Route path="/nosotros" element={<Nosotross />} />
                     <Route path="/contacto" element={<Contacto />} />
                 </Route>
-                <Route element={<AuthLayout />}>
-                    <Route path="/dashboard" element={<Dashboard />} />
+
+                <Route element={<ProtectedLayout />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/dashboard" element={<Dashboard />} />
+                    </Route>
                 </Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
