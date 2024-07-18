@@ -1,132 +1,292 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { Input, InputLabel, FormControl, Grid, Container, Button, Typography, Breadcrumbs, Link } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Container, Breadcrumbs, Link, Switch, FormGroup, FormControlLabel } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
+import HomeIcon from '@mui/icons-material/Home';
 
-export const AgregarMedicos = () => {
-    return (
-        <Container maxWidth="md" sx={{ mt: 9.5 }}>
-            <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
-                <Link 
-                    underline="hover" 
-                    color="inherit" 
-                    component={RouterLink} 
-                    to="/lista-de-medicos"
-                >
-                    Lista Médicos
-                </Link>
-                <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                    <Typography color="text.primary" sx={{ textAlign: 'center' }}>Agregar Médicos</Typography>
-                </Box>
-            </Breadcrumbs>
-            <Typography variant="h4" component="h1" gutterBottom sx={{ textAlign: 'center' }}>
-                Agregar Médicos
-            </Typography>
-            <Box
-                component="form"
-                sx={{
-                    backgroundColor: 'white',
-                    padding: 3,
-                    borderRadius: 2,
-                    boxShadow: 3,
-                }}
-                noValidate
-                autoComplete="off"
-            >
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="nombre">Nombre</InputLabel>
-                            <Input required id="nombre" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="apellido">Apellido</InputLabel>
-                            <Input required id="apellido" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="correo-electronico">Correo Electrónico</InputLabel>
-                            <Input required id="correo-electronico" type="email" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="telefono">Teléfono</InputLabel>
-                            <Input required id="telefono" type="tel" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="fecha-nacimiento">Fecha de Nacimiento</InputLabel>
-                            <Input required id="fecha-nacimiento" type="date" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="genero">Género</InputLabel>
-                            <Input required id="genero" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="cedula-profesional">Cédula Profesional</InputLabel>
-                            <Input required id="cedula-profesional" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="escuela">Escuela</InputLabel>
-                            <Input required id="escuela" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="anios-experiencia">Años de Experiencia</InputLabel>
-                            <Input required id="anios-experiencia" type="number" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="disponibilidad">Disponibilidad</InputLabel>
-                            <Input required id="disponibilidad" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="status">Status</InputLabel>
-                            <Input required id="status" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <FormControl fullWidth>
-                            <InputLabel htmlFor="habilidades">Habilidades</InputLabel>
-                            <Input required id="habilidades" />
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Button 
-                            variant="contained" 
-                            sx={{
-                                bgcolor: '#43A49B',
-                                color: 'white',
-                                textTransform: 'capitalize',
-                                '&:hover': {
-                                    bgcolor: '#51C5BA',
-                                },
-                                mt: 3,
-                                marginLeft: 'auto',
-                                marginRight: 'auto',
-                                display: 'block',
-                            }}
-                        >
-                            Guardar
-                        </Button>
-                    </Grid>
-                </Grid>
-            </Box>
-        </Container>
-    );
+interface FormData {
+  name: string;
+  surname: string;
+  email: string;
+  phone: string;
+  dateOfBirth: string;
+  gender: string;
+  professionalLicense: string;
+  school: string;
+  yearsOfExperience: string;
+  availability: boolean;
+  status: boolean;
+  skills: string;
 }
+
+const AgregarMedicos: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    surname: '',
+    email: '',
+    phone: '',
+    dateOfBirth: '',
+    gender: '',
+    professionalLicense: '',
+    school: '',
+    yearsOfExperience: '',
+    availability: false,
+    status: false,
+    skills: '',
+  });
+
+  const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSwitchChange = (name: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [name]: e.target.checked });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const errors: Partial<FormData> = {};
+    if (!formData.name) {
+      errors.name = 'El nombre es requerido';
+    }
+    if (!formData.surname) {
+      errors.surname = 'El apellido es requerido';
+    }
+    if (!formData.email) {
+      errors.email = 'El correo electrónico es requerido';
+    }
+    if (!formData.phone) {
+      errors.phone = 'El número de teléfono es requerido';
+    }
+    if (!formData.dateOfBirth) {
+      errors.dateOfBirth = 'La fecha de nacimiento es requerida';
+    }
+    if (!formData.gender) {
+      errors.gender = 'El género es requerido';
+    }
+    if (!formData.professionalLicense) {
+      errors.professionalLicense = 'La cédula profesional es requerida';
+    }
+    if (!formData.school) {
+      errors.school = 'La escuela es requerida';
+    }
+    if (!formData.yearsOfExperience) {
+      errors.yearsOfExperience = 'Los años de experiencia son requeridos';
+    }
+    if (!formData.skills) {
+      errors.skills = 'Las habilidades son requeridas';
+    }
+
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length === 0) {
+      console.log(formData);
+    }
+  };
+
+  return (
+    <Container maxWidth="md">
+      <Box sx={{ mt: 4, mb: 2 }}>
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link color="inherit" href="/" sx={{ display: 'flex', alignItems: 'center' }}>
+            <HomeIcon sx={{ mr: 0.5 }} />
+            Inicio
+          </Link>
+          <Link color="inherit" href="/lista-de-medicos">
+            Médicos
+          </Link>
+          <Typography color="textPrimary">Añadir médico</Typography>
+        </Breadcrumbs>
+      </Box>
+      <Typography variant="h5" component="h2" gutterBottom sx={{ textAlign: 'center' }}>
+        Añadir médico
+      </Typography>
+      <Box 
+        component="form" 
+        onSubmit={handleSubmit} 
+        sx={{ mt: 3 }}
+      >
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Nombre"
+              variant="outlined"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              fullWidth
+              error={!!formErrors.name}
+              helperText={formErrors.name}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Apellido"
+              variant="outlined"
+              name="surname"
+              value={formData.surname}
+              onChange={handleChange}
+              fullWidth
+              error={!!formErrors.surname}
+              helperText={formErrors.surname}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Correo Electrónico"
+              variant="outlined"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              type="email"
+              fullWidth
+              error={!!formErrors.email}
+              helperText={formErrors.email}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Teléfono"
+              variant="outlined"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              type="tel"
+              fullWidth
+              error={!!formErrors.phone}
+              helperText={formErrors.phone}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Fecha de Nacimiento"
+              variant="outlined"
+              name="dateOfBirth"
+              value={formData.dateOfBirth}
+              onChange={handleChange}
+              type="date"
+              fullWidth
+              error={!!formErrors.dateOfBirth}
+              helperText={formErrors.dateOfBirth}
+              InputLabelProps={{ shrink: true }}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth error={!!formErrors.gender}>
+              <InputLabel>Género</InputLabel>
+              <Select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                required
+              >
+                <MenuItem value="masculino">Masculino</MenuItem>
+                <MenuItem value="femenino">Femenino</MenuItem>
+                <MenuItem value="otro">Otro</MenuItem>
+              </Select>
+            </FormControl>
+            {formErrors.gender && (
+              <Typography variant="body2" color="error">
+                {formErrors.gender}
+              </Typography>
+            )}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Cédula Profesional"
+              variant="outlined"
+              name="professionalLicense"
+              value={formData.professionalLicense}
+              onChange={handleChange}
+              fullWidth
+              error={!!formErrors.professionalLicense}
+              helperText={formErrors.professionalLicense}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Escuela"
+              variant="outlined"
+              name="school"
+              value={formData.school}
+              onChange={handleChange}
+              fullWidth
+              error={!!formErrors.school}
+              helperText={formErrors.school}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Años de Experiencia"
+              variant="outlined"
+              name="yearsOfExperience"
+              value={formData.yearsOfExperience}
+              onChange={handleChange}
+              fullWidth
+              error={!!formErrors.yearsOfExperience}
+              helperText={formErrors.yearsOfExperience}
+              required
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <FormControlLabel
+                control={<Switch checked={formData.availability} onChange={handleSwitchChange('availability')} />}
+                label="Disponible"
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth>
+              <FormControlLabel
+                control={<Switch checked={formData.status} onChange={handleSwitchChange('status')} />}
+                label="Activo"
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Habilidades"
+              variant="outlined"
+              name="skills"
+              value={formData.skills}
+              onChange={handleChange}
+              fullWidth
+              error={!!formErrors.skills}
+              helperText={formErrors.skills}
+              required
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'DarkCyan',
+                  '&:hover': {
+                    backgroundColor: 'darkcyan',
+                  },
+                }}
+                type="submit"
+              >
+                Agregar
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
+    </Container>
+  );
+};
+
+export default AgregarMedicos;

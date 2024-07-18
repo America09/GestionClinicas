@@ -1,82 +1,132 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import { Input, InputLabel, FormControl, Grid, Container, Button, Typography, Breadcrumbs, Link } from '@mui/material';
+import React, { useState } from 'react';
+import {
+    Box,
+    Button,
+    Container,
+    FormControl,
+    Grid,
+    InputLabel,
+    Switch,
+    TextField,
+    Typography,
+    Breadcrumbs,
+    Link,
+    FormGroup,
+    FormControlLabel,
+} from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
-export const AgregarConsultorios = () => {
+interface FormData {
+    disponibilidad: boolean;
+    status: boolean;
+    consultorio: string;
+}
+
+const AgregarConsultorios: React.FC = () => {
+    const [formData, setFormData] = useState<FormData>({
+        disponibilidad: false,
+        status: false,
+        consultorio: '',
+    });
+
+    const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleSwitchChange = (name: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [name]: e.target.checked });
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const errors: Partial<FormData> = {};
+        if (!formData.consultorio) {
+            errors.consultorio = 'El nombre del consultorio es requerido';
+        }
+
+        setFormErrors(errors);
+
+        if (Object.keys(errors).length === 0) {
+            console.log(formData); // Aquí puedes enviar los datos al backend
+        }
+    };
+
     return (
-        <Container maxWidth="md" sx={{ mt: 4 }}>
-            <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
-                <Link 
-                    underline="hover" 
-                    color="inherit" 
-                    component={RouterLink} 
-                    to="/lista-de-consultorios"
-                >
-                    Lista Consultorios
-                </Link>
-                <Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                    <Typography color="text.primary" variant="h6">
-                        Agregar Consultorios
-                    </Typography>
-                </Box>
-            </Breadcrumbs>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-                <Typography variant="h4" component="h1">
-                    Agregar Consultorios
-                </Typography>
+        <Container maxWidth="md">
+            <Box sx={{ mt: 4, mb: 2 }}>
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
+                        <HomeIcon sx={{ mr: 0.5 }} />
+                        Inicio
+                    </Link>
+                    <Link color="inherit" component={RouterLink} to="/lista-de-consultorios">
+                        Consultorios
+                    </Link>
+                    <Typography color="textPrimary">Agregar Consultorio</Typography>
+                </Breadcrumbs>
             </Box>
-            <Box
-                component="form"
-                sx={{
-                    backgroundColor: 'white',
-                    padding: 3,
-                    borderRadius: 2,
-                    boxShadow: 3,
-                }}
-                noValidate
-                autoComplete="off"
-            >
+            <Typography variant="h5" component="h2" gutterBottom sx={{ textAlign: 'center' }}>
+                Agregar Consultorio
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="disponibilidad">Disponibilidad</InputLabel>
-                            <Input required id="disponibilidad" />
+                            <TextField
+                                label="Nombre del Consultorio"
+                                variant="outlined"
+                                name="consultorio"
+                                value={formData.consultorio}
+                                onChange={handleChange}
+                                fullWidth
+                                error={!!formErrors.consultorio}
+                                helperText={formErrors.consultorio}
+                                required
+                            />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="status">Status</InputLabel>
-                            <Input required id="status" />
+                            <FormControlLabel
+                                control={<Switch checked={formData.disponibilidad} onChange={handleSwitchChange('disponibilidad')} />}
+                                label="Disponibilidad"
+                            />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <FormControl fullWidth>
-                            <InputLabel htmlFor="consultorio">Consultorio</InputLabel>
-                            <Input required id="consultorio" />
+                            <FormControlLabel
+                                control={<Switch checked={formData.status} onChange={handleSwitchChange('status')} />}
+                                label="Status"
+                            />
                         </FormControl>
                     </Grid>
                     <Grid item xs={12}>
-                    <Button 
-                            variant="contained" 
-                            sx={{
-                                bgcolor: '#43A49B',
-                                color: 'white',
-                                textTransform: 'capitalize',
-                                '&:hover': {
-                                    bgcolor: '#51C5BA',
-                                },
-                                mt: 3,
-                                marginLeft: 'auto',
-                                marginRight: 'auto',
-                                display: 'block',
-                            }}
-                        >
-                            Guardar
-                        </Button>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    backgroundColor: '#43A49B',
+                                    color: 'white',
+                                    '&:hover': {
+                                        backgroundColor: '#51C5BA',
+                                    },
+                                }}
+                                type="submit"
+                            >
+                                Guardar
+                            </Button>
+                        </Box>
                     </Grid>
                 </Grid>
             </Box>
         </Container>
     );
-}
+};
+
+export default AgregarConsultorios;

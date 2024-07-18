@@ -7,10 +7,9 @@ import { Consultorios } from '../Pages/Consultorios'
 
 
 import { MainLayout } from '../Layout'
-import { AgregarMedicos } from '../Components/CrudListaMedicos/Add';
+import AgregarMedicos from '../Components/CrudListaMedicos/Add';
 import { AgregarPacientes } from '../Components/CrudListaPacientes/Add';
-import { AgregarConsultorios } from '../Components/CrudListaConsultorio/Add';
-
+import AgregarConsultorios from "../Components/CrudListaConsultorio/Add"
 export default function AppRouter () {
     return (
         <BrowserRouter>
