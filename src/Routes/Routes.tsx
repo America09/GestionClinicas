@@ -18,7 +18,8 @@ export default function AppRouter () {
                     <Route path='/Inicio' element={<h1>Inicio</h1>}/>
                     <Route path='/Doctor' element={<h1>Medicos</h1>}/>
                     <Route path='/agregar-paciente' element={<AgregarPacientes/>}/>
-                    <Route path='/historial-clinico' element={<HistorialClinico/>}/>
+                    <Route path='/historial-clinico' element={<HistorialClinico/>}/>                
+
                 </Route>
             </Routes>
         
