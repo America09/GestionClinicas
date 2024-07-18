@@ -277,7 +277,7 @@ const HistorialClinico: React.FC = () => {
               </Grid>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-              <Button variant="contained" onClick={() => console.log(formData)}>
+              <Button variant="contained" sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }} type="submit" onClick={() => console.log(formData)}>
                 ATRÁS
               </Button>
               <Button variant="contained" sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }} type="submit">
@@ -377,7 +377,7 @@ const HistorialClinico: React.FC = () => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
               <Button
                 variant="contained"
-                sx={{ backgroundColor: 'grey', '&:hover': { backgroundColor: 'darkgrey' } }}
+                sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkgrey' } }}
                 onClick={() => setTab(0)}
               >
                 ATRÁS
@@ -421,7 +421,7 @@ const HistorialClinico: React.FC = () => {
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
               <Button
                 variant="contained"
-                sx={{ backgroundColor: 'grey', '&:hover': { backgroundColor: 'darkgrey' } }}
+                sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkgrey' } }}
                 onClick={() => setTab(1)}
               >
                 ATRÁS
