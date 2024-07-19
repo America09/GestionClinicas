@@ -7,9 +7,6 @@ const Terminoss = () => {
     return (
         <Box>
             <Terminos />
-            
-            
-            
         </Box>
     );
 };

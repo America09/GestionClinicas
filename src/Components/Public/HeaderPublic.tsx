@@ -59,7 +59,9 @@ const HeaderPublic = () => {
         <Box
             sx={{
                 width: 250,
-                padding: 2,
+                padding: 1.5,
+                height: '700px',
+                backgroundColor: '#508D86'
             }}
             role="presentation"
             onClick={toggleDrawer(false)}
@@ -67,8 +69,8 @@ const HeaderPublic = () => {
         >
             <List>
             <CloseIcon />
-                {['Inicio', 'Servicios', 'Citas', 'Médicos', 'Login'].map((text) => (
-                    <ListItem
+                {['Inicio', 'Servicios', 'Citas', 'Medicos', 'Login'].map((text) => (
+                    <ListItem sx={{color: 'white'}}
                         key={text}
                         button
                         component={text === 'Login' ? 'button' : NavLink}
@@ -173,7 +175,7 @@ const HeaderPublic = () => {
             <CrearCuentaModal
                 open={openSignup}
                 onClose={handleCloseSignup}
-                onOpenLogin={handleOpenLogin} // Pasado el prop para abrir el modal de login
+                onOpenLogin={handleOpenLogin} 
             />
             <RecuperarContrasenaModal open={openRecuperarContrasena} onClose={handleCloseRecuperarContrasena} setOpenSignup={setOpenSignup} />
         </>

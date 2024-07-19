@@ -1,12 +1,11 @@
-import React from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
+import React from 'react';
 import { Box, Typography, TextField, Grid } from '@mui/material';
 import { Boton } from './Boton';
 import { DatosSection } from './DatosContSection';
-import { SendTimeExtension } from '@mui/icons-material';
 import { ServMedicoSection } from './ServMedicoSection';
 import { DatoMedicoSection } from './DatoMedicoSection';
-import Calendario from './Calendario';
+
 
 const options = ['Femenino', 'Masculino', 'Otro'];
 

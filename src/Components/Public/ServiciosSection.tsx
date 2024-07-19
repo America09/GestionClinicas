@@ -85,7 +85,7 @@ const ServiciosSection = () => {
             '&:hover': { textDecoration: 'none', color: '#80cbc4' },
           }}
         >
-          Ver servicios
+          Ver serviciosss
         </Link>
       </Box>
     </Box>

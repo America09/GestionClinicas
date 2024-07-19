@@ -6,10 +6,7 @@ import { Box } from '@mui/material';
 const Servicios = () => {
     return (
         <Box>
-            
             <ServiciosPage />
-            
-            
         </Box>
     );
 };

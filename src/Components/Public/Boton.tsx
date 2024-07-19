@@ -5,9 +5,14 @@ export const Boton = () => {
 
 
 <Box sx={{ textAlign: 'center', mt: 2 }}>
-          <Button variant="contained" type="submit" sx={{bgcolor: '#408D86', textTransform: 'capitalize'}} >
-            Enviar
-          </Button>
+<Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
+            >
+              Enviar
+            </Button>
         </Box>
   )
 }

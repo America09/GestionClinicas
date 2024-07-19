@@ -7,7 +7,7 @@ const ServiciosPage = () => {
       <Typography
         sx={{
           marginTop: 5,
-          fontSize: { xs: 30, sm: 40 }, // Responsive font size
+          fontSize: { xs: 30, sm: 40 }, 
           textAlign: 'center',
           color: '#263339',
           fontWeight: 'medium',

@@ -10,14 +10,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { useNavigate } from 'react-router-dom';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
-  top: 0, // Centrar hacia arriba
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.common.white,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.85),
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
   width: '100%',
@@ -56,16 +56,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const CustomToolbar = styled(Toolbar)({
   height: '60px',
-});  
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+});
 
 export const HeaderAuth = () => {
-  const [anchorElUser, setAnchorElUser] = useState<HTMLButtonElement | null>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const settings = ['Sign Out'];
+  const handleLogout = () => {
+    localStorage.removeItem('userToken');
+    navigate('/');
+  };
+
+  const settings = ['Cerrar sesión'];
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -76,13 +89,17 @@ export const HeaderAuth = () => {
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          />
-          <Search sx={{
-            top: 0, // Centrar hacia arriba
-            width: { xs: '30%', sm: 'auto' },
-            marginLeft: { xs: 'auto', sm: 0 },
-            marginRight: { xs: 0, sm: 'auto' }
-          }}>
+          >
+            Logo
+          </Typography>
+          <Search
+            sx={{
+              top: 0,
+              width: { xs: '40%', sm: 'auto' },
+              marginLeft: { xs: 'auto', sm: 0 },
+              marginRight: { xs: 'auto', sm: 'auto' },
+            }}
+          >
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -91,22 +108,24 @@ export const HeaderAuth = () => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleCloseUserMenu}
-            color="inherit"
-          />
-          <Avatar
-            alt="User Avatar"
-            src="/static/images/avatar/2.jpg"
-            aria-label="user avatar"
-            onClick={handleCloseUserMenu}
-            sx={{ cursor: 'pointer', ml: 1 }}
-          />
-          <Typography variant="body1" sx={{ ml: 1, display: { xs: 'none', sm: 'block' } }}>@Admin</Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleOpenUserMenu}
+              color="inherit"
+            >
+              <Avatar
+                alt="User Avatar"
+                src="/static/images/avatar/2.jpg"
+                aria-label="user avatar"
+                sx={{ cursor: 'pointer', ml: 1 }}
+              />
+            </IconButton>
+            <Typography variant="body1" sx={{ ml: 1, display: { xs: 'none', sm: 'block' } }}>@Admin</Typography>
+          </Box>
           <Menu
             id="menu-appbar"
             anchorEl={anchorElUser}
@@ -123,7 +142,15 @@ export const HeaderAuth = () => {
             onClose={handleCloseUserMenu}
           >
             {settings.map((setting) => (
-              <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              <MenuItem
+                key={setting}
+                onClick={() => {
+                  handleCloseUserMenu();
+                  if (setting === 'Cerrar sesión') {
+                    handleLogout();
+                  }
+                }}
+              >
                 <Typography textAlign="center">{setting}</Typography>
               </MenuItem>
             ))}
@@ -132,5 +159,4 @@ export const HeaderAuth = () => {
       </AppBar>
     </Box>
   );
-}
-
+};

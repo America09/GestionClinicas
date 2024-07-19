@@ -6,9 +6,6 @@ const Politicas = () => {
     return (
         <Box>
             <Politicass />
-            
-            
-            
         </Box>
     );
 };

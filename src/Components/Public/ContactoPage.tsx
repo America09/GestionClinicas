@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Grid, Typography, TextField, Button, Link } from '@mui/material';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';

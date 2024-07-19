@@ -7,7 +7,7 @@ const estadosDeMexico = [
   { name: 'Medico 2' },
   { name: 'Medico 3' },
   { name: 'Medico 4' },
-]; // Añadí el corchete de cierre aquí
+];
 
 export const DatoMedicoSection = () => {
   const [estadoValue, setEstadoValue] = React.useState(estadosDeMexico[0]);

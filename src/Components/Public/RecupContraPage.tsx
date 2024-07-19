@@ -2,7 +2,6 @@ import { Modal, Box, IconButton, TextField, Button, Divider, Typography, Link } 
 import CloseIcon from '@mui/icons-material/Close';
 import { useState } from 'react';
 
-// Define las propiedades requeridas
 interface RecuperarContrasenaModalProps {
     open: boolean;
     onClose: () => void;
