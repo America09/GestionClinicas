@@ -100,6 +100,8 @@ const AgregarMedicos: React.FC = () => {
         margin: isLargeScreen ? '0' : '0 auto', // Quita el margen horizontal en pantallas grandes
         display: 'block',
         width: isLargeScreen ? 'calc(100% - 32px)' : '100%', // Ajusta el ancho en pantallas grandes
+        boxShadow: 3, // Agrega el efecto de sombra
+        borderRadius: 2, // Ajusta el radio del borde
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}> {/* Ajustar ml para mover a la derecha */}
