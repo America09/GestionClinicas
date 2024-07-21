@@ -4,6 +4,7 @@ import { Typography, Breadcrumbs, Link, Button, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 50 },
@@ -52,12 +53,50 @@ const rows = [
     { id: 9, Nombre: 'Ricardo', Apellido: 'Sánchez', Disponibilidad: 'Mañana', Status: 'Inactivo', Habilidades: 'Ginecología, Obstetricia' },
 ];
 
-const handleEdit = (id) => {
-    console.log('Editar fila con ID:', id);
+const handleEdit = (id: number) => {
+    Swal.fire({
+        title: "¿Estás seguro de que deseas editar este médico?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Sí, editar',
+        cancelButtonText: 'No, cancelar',
+        dangerMode: true,
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                // Simulamos una llamada a la API
+                await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+
+                Swal.fire("Editado", "El médico ha sido editado correctamente.", "success");
+                // Aquí podrías actualizar el estado de tu aplicación o recargar los datos
+            } catch (error) {
+                Swal.fire("Error", "Hubo un problema al editar el médico. Inténtalo de nuevo.", "error");
+            }
+        }
+    });
 };
 
-const handleDelete = (id) => {
-    console.log('Eliminar fila con ID:', id);
+const handleDelete = (id: number) => {
+    Swal.fire({
+        title: "¿Estás seguro de que deseas eliminar este médico?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'No, cancelar',
+        dangerMode: true,
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                // Simulamos una llamada a la API
+                await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+
+                Swal.fire("Eliminado", "El médico ha sido eliminado correctamente.", "success");
+                // Aquí podrías actualizar el estado de tu aplicación o recargar los datos
+            } catch (error) {
+                Swal.fire("Error", "Hubo un problema al eliminar el médico. Inténtalo de nuevo.", "error");
+            }
+        }
+    });
 };
 
 export const MedicosPage = () => {

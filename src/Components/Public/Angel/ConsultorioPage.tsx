@@ -5,6 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -52,11 +53,49 @@ const rows = [
 ];
 
 const handleEdit = (id: number) => {
-    console.log('Editar fila con ID:', id);
+    Swal.fire({
+        title: "¿Estás seguro de que deseas editar este consultorio?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Sí, editar',
+        cancelButtonText: 'No, cancelar',
+        dangerMode: true,
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                // Simulamos una llamada a la API
+                await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+
+                Swal.fire("Editado", "El consultorio ha sido editado correctamente.", "success");
+                // Aquí podrías actualizar el estado de tu aplicación o recargar los datos
+            } catch (error) {
+                Swal.fire("Error", "Hubo un problema al editar el consultorio. Inténtalo de nuevo.", "error");
+            }
+        }
+    });
 };
 
 const handleDelete = (id: number) => {
-    console.log('Eliminar fila con ID:', id);
+    Swal.fire({
+        title: "¿Estás seguro de que deseas eliminar este consultorio?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'No, cancelar',
+        dangerMode: true,
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                // Simulamos una llamada a la API
+                await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+
+                Swal.fire("Eliminado", "El consultorio ha sido eliminado correctamente.", "success");
+                // Aquí podrías actualizar el estado de tu aplicación o recargar los datos
+            } catch (error) {
+                Swal.fire("Error", "Hubo un problema al eliminar el consultorio. Inténtalo de nuevo.", "error");
+            }
+        }
+    });
 };
 
 export const ConsultorioPage = () => {
