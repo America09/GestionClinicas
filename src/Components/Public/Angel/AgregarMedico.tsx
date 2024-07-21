@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Switch, FormControlLabel, Button, Typography, Paper, Box, Breadcrumbs, Link, useMediaQuery, useTheme } from '@mui/material';
+import { Grid, TextField, Switch, FormControlLabel, Button, Typography, Paper, Box, Breadcrumbs, Link, useMediaQuery, useTheme, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ const AgregarMedicos = () => {
     correo: '',
     telefono: '',
     fechaNacimiento: '',
-    genero: '',
+    genero: '', // Valor inicial vacío
     cedula: '',
     escuela: '',
     anosExperiencia: '',
@@ -120,13 +120,19 @@ const AgregarMedicos = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Género"
-                name="genero"
-                value={formData.genero}
-                onChange={handleChange}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="genero-label">Género</InputLabel>
+                <Select
+                  labelId="genero-label"
+                  name="genero"
+                  value={formData.genero}
+                  onChange={handleChange}
+                  required
+                >
+                  <MenuItem value="masculino">Masculino</MenuItem>
+                  <MenuItem value="femenino">Femenino</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField

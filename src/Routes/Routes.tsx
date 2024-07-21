@@ -20,7 +20,7 @@ import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
 import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
 import { AGConsultorios } from '../Pages/Public/Angel/AGConsultorios';
 import { AGMedicos} from '../Pages/Public/Angel/AGMedicos';
-
+import { EditConsultorios } from '../Pages/Public/Angel/EditConsultorios';
 
 const AppRouter = () => {
     return (
@@ -45,6 +45,7 @@ const AppRouter = () => {
                         <Route path="/agregar-consultorios" element={<AGConsultorios/>} />
                         <Route path="/admin-medicos" element={<CrudMedico />} />
                         <Route path="/agregar-medicos" element={<AGMedicos/>} />
+                        <Route path="/Editar-Consultorios" element={<EditConsultorios/>} />
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
                         <Route path="/admin-pacientes" element={<CrudPacientes />} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
