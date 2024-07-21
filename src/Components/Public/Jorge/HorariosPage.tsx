@@ -1,23 +1,23 @@
-// HorariosPage.tsx
-
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Container } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Container, useMediaQuery, Theme } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import { CreateHorario } from './CreateHorarioPage';
+import { useTheme } from '@mui/material/styles';
 
 const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'fecha', headerName: 'Fecha', width: 150 },
-    { field: 'turno', headerName: 'Turno', width: 150 },
-    { field: 'entrada', headerName: 'Entrada', width: 150 },
-    { field: 'salida', headerName: 'Salida', width: 150 },
+    { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 90 },
+    { field: 'fecha', headerName: 'Fecha', flex: 1, minWidth: 150 },
+    { field: 'turno', headerName: 'Turno', flex: 1, minWidth: 150 },
+    { field: 'entrada', headerName: 'Entrada', flex: 1, minWidth: 150 },
+    { field: 'salida', headerName: 'Salida', flex: 1, minWidth: 150 },
     {
         field: 'editar',
         headerName: 'Editar',
-        width: 100,
+        flex: 0.5,
+        minWidth: 100,
         sortable: false,
         renderCell: (params) => (
             <GridActionsCellItem
@@ -30,7 +30,8 @@ const columns: GridColDef[] = [
     {
         field: 'eliminar',
         headerName: 'Eliminar',
-        width: 100,
+        flex: 0.5,
+        minWidth: 100,
         sortable: false,
         renderCell: (params) => (
             <GridActionsCellItem
@@ -63,11 +64,13 @@ const handleDelete = (id: number) => {
 
 export const HorariosPage: React.FC = () => {
     const navigate = useNavigate();
+    const theme = useTheme();
+    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-        <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
-            <Box sx={{ width: '100%', maxWidth: 1000, textAlign: 'center', lg: { xs: 2, sm: 4, md: 6, lg: 8 } }}>
-                <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'center', display: 'flex' }}>
+        <Container maxWidth="lg" sx={{ mt: 4 }}>
+            <Box sx={{ textAlign: 'center', width: '100%' }}>
+                <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'center', display: 'flex', mb: 2 }}>
                     <Link underline="hover" color="inherit" href="/">
                         Home
                     </Link>
@@ -93,8 +96,8 @@ export const HorariosPage: React.FC = () => {
                         disableSelectionOnClick
                         autoHeight
                         sx={{
-                            '& .MuiDataGrid-viewport': {
-                                overflow: 'hidden',
+                            '& .MuiDataGrid-root': {
+                                overflowX: 'auto',
                             },
                         }}
                     />

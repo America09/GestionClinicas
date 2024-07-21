@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import {
-  TextField, Button, Box, Typography, Breadcrumbs, Link, Paper, Container, CssBaseline, Grid, FormControl
+  TextField, Button, Box, Typography, Breadcrumbs, Link, Container, Grid, FormControl
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 interface FormData {
   nombre: string;
@@ -37,14 +38,27 @@ const CreateEspecialidad: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      console.log(formData);
+      // Simulamos una llamada a una API
+      Swal.fire({
+        title: 'Guardado exitosamente',
+        text: 'La especialidad ha sido guardada correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, completa todos los campos requeridos.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
     }
   };
 
   return (
     <Container maxWidth="md">
       <Box sx={{ mt: 5, mb: 4, px: 0 }}>
-        <Box sx={{ display: 'flex', ml: -14 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />
@@ -57,13 +71,13 @@ const CreateEspecialidad: React.FC = () => {
           </Breadcrumbs>
         </Box>
       </Box>
-      <Box sx={{ textAlign: 'left', ml: 6 }}>
+      <Box sx={{ textAlign: 'center' }}>
         <Typography variant="h5" component="h2" gutterBottom>
           Añadir Especialidad
         </Typography>
       </Box>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4, display: 'flex', justifyContent: 'flex-start', ml: -15 }}>
-        <Grid container spacing={2} sx={{ maxWidth: '600px' }}>
+      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
+        <Grid container spacing={2} sx={{ maxWidth: '600px', width: '100%' }}>
           <Grid item xs={12}>
             <FormControl fullWidth>
               <TextField
@@ -118,4 +132,3 @@ const CreateEspecialidad: React.FC = () => {
 };
 
 export default CreateEspecialidad;
-

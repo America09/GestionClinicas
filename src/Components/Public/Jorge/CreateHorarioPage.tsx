@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import {
-  TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Breadcrumbs, Link, Paper, Container, CssBaseline
+  TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Breadcrumbs, Link, Container
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 interface FormData {
   clinicaConsultorio: string;
@@ -58,7 +59,20 @@ const CreateHorario: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      console.log(formData);
+      // Simulamos una llamada a una API
+      Swal.fire({
+        title: 'Guardado exitosamente',
+        text: 'El horario ha sido guardado correctamente.',
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, completa todos los campos requeridos.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
     }
   };
 
@@ -86,33 +100,45 @@ const CreateHorario: React.FC = () => {
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4, display: 'flex', justifyContent: 'flex-start', ml: -15 }}>
         <Grid container spacing={2} sx={{ maxWidth: '600px' }}>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                label="Clínica o consultorio"
-                variant="outlined"
+            <FormControl fullWidth error={!!formErrors.clinicaConsultorio}>
+              <InputLabel>Clínica o consultorio</InputLabel>
+              <Select
                 name="clinicaConsultorio"
                 value={formData.clinicaConsultorio}
                 onChange={handleChange}
-                fullWidth
-                error={!!formErrors.clinicaConsultorio}
-                helperText={formErrors.clinicaConsultorio}
                 required
-              />
+                label="Clínica o consultorio"
+              >
+                <MenuItem value="Clínica 1">Clínica 1</MenuItem>
+                <MenuItem value="Clínica 2">Clínica 2</MenuItem>
+                <MenuItem value="Consultorio 1">Consultorio 1</MenuItem>
+                <MenuItem value="Consultorio 2">Consultorio 2</MenuItem>
+              </Select>
+              {formErrors.clinicaConsultorio && (
+                <Typography variant="body2" color="error">
+                  {formErrors.clinicaConsultorio}
+                </Typography>
+              )}
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                label="Médico"
-                variant="outlined"
+            <FormControl fullWidth error={!!formErrors.medico}>
+              <InputLabel>Médico</InputLabel>
+              <Select
                 name="medico"
                 value={formData.medico}
                 onChange={handleChange}
-                fullWidth
-                error={!!formErrors.medico}
-                helperText={formErrors.medico}
                 required
-              />
+                label="Médico"
+              >
+                <MenuItem value="Dr. Juan Pérez">Dr. Juan Pérez</MenuItem>
+                <MenuItem value="Dr. María López">Dr. María López</MenuItem>
+              </Select>
+              {formErrors.medico && (
+                <Typography variant="body2" color="error">
+                  {formErrors.medico}
+                </Typography>
+              )}
             </FormControl>
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -142,6 +168,7 @@ const CreateHorario: React.FC = () => {
                 value={formData.turno}
                 onChange={handleChange}
                 required
+                label="Turno"
               >
                 <MenuItem value="Mañana">Mañana</MenuItem>
                 <MenuItem value="Tarde">Tarde</MenuItem>
