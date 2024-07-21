@@ -63,7 +63,7 @@ const AgregarConsultorios: React.FC = () => {
                             <HomeIcon sx={{ mr: 0.5 }} />
                             Inicio
                         </Link>
-                        <Link color="inherit" component={RouterLink} to="/lista-de-consultorios">
+                        <Link color="inherit" component={RouterLink} to="/admin-consultorios">
                             Consultorios
                         </Link>
                         <Typography color="textPrimary">Agregar Consultorio</Typography>

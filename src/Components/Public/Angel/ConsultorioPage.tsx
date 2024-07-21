@@ -63,34 +63,43 @@ export const ConsultorioPage = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 2 }}>
             <Box sx={{ width: '100%', maxWidth: 850 }}>
-                <Breadcrumbs aria-label="breadcrumb">
-                    <Link underline="hover" color="inherit" href="/">
-                        Home
-                    </Link>
-                    <Typography color="text.primary">Consultorios</Typography>
-                </Breadcrumbs>
+                {/* Breadcrumbs */}
+                <Box sx={{ mb: 3 }}>
+                    <Breadcrumbs aria-label="breadcrumb">
+                        <Link underline="hover" color="inherit" href="/">
+                            Home
+                        </Link>
+                        <Typography color="text.primary">Consultorios</Typography>
+                    </Breadcrumbs>
+                </Box>
 
-                <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'left' }}>
-                    Lista de Consultorios
-                </Typography>
+                {/* Page Title */}
+                <Box sx={{ textAlign: 'center', mb: 2 }}>
+                    <Typography variant="h4" component="h2" gutterBottom>
+                        Lista de Consultorios
+                    </Typography>
+                </Box>
 
-                <DataGrid
-                    rows={rows}
-                    columns={columns}
-                    initialState={{
-                        pagination: {
-                            paginationModel: {
-                                pageSize: 5,
+                {/* Data Grid */}
+                <Box sx={{ mt: 2 }}>
+                    <DataGrid
+                        rows={rows}
+                        columns={columns}
+                        initialState={{
+                            pagination: {
+                                paginationModel: {
+                                    pageSize: 5,
+                                },
                             },
-                        },
-                    }}
-                    pageSizeOptions={[5]}
-                    disableSelectionOnClick
-                    autoHeight
-                    sx={{ mt: 2 }}
-                />
+                        }}
+                        pageSizeOptions={[5]}
+                        disableSelectionOnClick
+                        autoHeight
+                    />
+                </Box>
 
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 2 }}>
+                {/* Add Consultorio Button */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                     <Button 
                         variant="contained"
                         sx={{
