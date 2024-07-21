@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -105,21 +106,18 @@ export const ConsultorioPage = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 2 }}>
             <Box sx={{ width: '100%', maxWidth: 850 }}>
                 {/* Breadcrumbs */}
-                <Box sx={{ display: 'flex', ml: -14 }}>
+                <Box sx={{ display: 'flex', ml: -1 }}>
                     <Breadcrumbs aria-label="breadcrumb">
                         <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
                             <HomeIcon sx={{ mr: 0.5 }} />
                             Inicio
                         </Link>
-                        <Link color="inherit" component={RouterLink} to="/admin-consultorios">
-                            Consultorios
-                        </Link>
-                        <Typography color="textPrimary">Lista de Consultorios</Typography>
+                        <Typography color="textPrimary">Consultorios</Typography>
                     </Breadcrumbs>
                 </Box>
 
                 {/* Page Title */}
-                <Box sx={{ textAlign: 'center', mb: 2 }}>
+                <Box sx={{ textAlign: 'center', mb: 2, ml: -4 }}>
                     <Typography variant="h4" component="h2" gutterBottom>
                         Lista de Consultorios
                     </Typography>
