@@ -19,6 +19,11 @@ import { CrudCitas } from '../Pages/Public/America/CrudCitas';
 import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
 import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
 
+
+import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
+import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
+import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
+
 const AppRouter = () => {
     return (
         <BrowserRouter>
@@ -43,6 +48,12 @@ const AppRouter = () => {
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
                         <Route path="/admin-pacientes" element={<CrudPacientes />} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
+                        <Route path="/admin-createHorarios" element={<AddHorario/>} />
+
+                        <Route path="/admin-Especialidades" element={<CrudEspecialidad/>} />
+
+                        <Route path="/admin-createEspecialidad" element={<AddEspecialidad/>} />
+
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />
