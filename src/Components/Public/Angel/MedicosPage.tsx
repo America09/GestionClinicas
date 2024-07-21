@@ -66,17 +66,20 @@ export const MedicosPage = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 2 }}>
             <Box sx={{ width: '100%', maxWidth: 850 }}>
-                 <Breadcrumbs aria-label="breadcrumb">
-                <Link underline="hover" color="inherit" href="/">
-                    Home
-                </Link>
-                <Typography color="text.primary">Médicos</Typography>
-            </Breadcrumbs>
+                {/* Breadcrumbs */}
+                <Breadcrumbs aria-label="breadcrumb">
+                    <Link underline="hover" color="inherit" href="/">
+                        Home
+                    </Link>
+                    <Typography color="text.primary">Médicos</Typography>
+                </Breadcrumbs>
 
-                <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'left' }}>
+                {/* Page Title */}
+                <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'center' }}>
                     Lista de Médicos
                 </Typography>
 
+                {/* Data Grid */}
                 <DataGrid
                     rows={rows}
                     columns={columns}
@@ -93,7 +96,8 @@ export const MedicosPage = () => {
                     sx={{ mt: 2 }}
                 />
 
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 2 }}>
+                {/* Add Médico Button */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                     <Button 
                         variant="contained"
                         sx={{
@@ -104,7 +108,7 @@ export const MedicosPage = () => {
                                 bgcolor: '#51C5BA',
                             },
                         }}
-                        onClick={() => navigate("/admin-Agregar-medicos")}
+                        onClick={() => navigate("/Agregar-medicos")}
                     >
                         + Añadir Médicos
                     </Button>
