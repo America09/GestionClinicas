@@ -2,7 +2,9 @@ import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 const columns: GridColDef[] = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -49,11 +51,11 @@ const rows = [
     { id: 9, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Ginecología' },
 ];
 
-const handleEdit = (id) => {
+const handleEdit = (id: number) => {
     console.log('Editar fila con ID:', id);
 };
 
-const handleDelete = (id) => {
+const handleDelete = (id: number) => {
     console.log('Eliminar fila con ID:', id);
 };
 
@@ -64,12 +66,16 @@ export const ConsultorioPage = () => {
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 2 }}>
             <Box sx={{ width: '100%', maxWidth: 850 }}>
                 {/* Breadcrumbs */}
-                <Box sx={{ mb: 3 }}>
+                <Box sx={{ display: 'flex', ml: -14 }}>
                     <Breadcrumbs aria-label="breadcrumb">
-                        <Link underline="hover" color="inherit" href="/">
-                            Home
+                        <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
+                            <HomeIcon sx={{ mr: 0.5 }} />
+                            Inicio
                         </Link>
-                        <Typography color="text.primary">Consultorios</Typography>
+                        <Link color="inherit" component={RouterLink} to="/admin-consultorios">
+                            Consultorios
+                        </Link>
+                        <Typography color="textPrimary">Lista de Consultorios</Typography>
                     </Breadcrumbs>
                 </Box>
 

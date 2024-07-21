@@ -14,6 +14,7 @@ import {
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+import Swal from 'sweetalert2';
 
 interface FormData {
     disponibilidad: boolean;
@@ -39,7 +40,7 @@ const AgregarConsultorios: React.FC = () => {
         setFormData({ ...formData, [name]: e.target.checked });
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const errors: Partial<FormData> = {};
@@ -50,7 +51,32 @@ const AgregarConsultorios: React.FC = () => {
         setFormErrors(errors);
 
         if (Object.keys(errors).length === 0) {
-            console.log(formData); // Aquí puedes enviar los datos al backend
+            // Simulamos una llamada a una API
+            try {
+                // Aquí puedes hacer la llamada a la API para guardar los datos
+                await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+
+                Swal.fire({
+                    title: 'Guardado exitosamente',
+                    text: 'El consultorio ha sido guardado correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                });
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un problema al guardar el consultorio. Inténtalo de nuevo.',
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+        } else {
+            Swal.fire({
+                title: 'Error',
+                text: 'Por favor, completa todos los campos requeridos.',
+                icon: 'error',
+                confirmButtonText: 'Aceptar'
+            });
         }
     };
 

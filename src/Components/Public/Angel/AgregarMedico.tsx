@@ -1,9 +1,27 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Switch, FormControlLabel, Button, Typography, Paper, Box, Breadcrumbs, Link, useMediaQuery, useTheme, Select, MenuItem, InputLabel, FormControl } from '@mui/material';
+import {
+  Grid,
+  TextField,
+  Switch,
+  FormControlLabel,
+  Button,
+  Typography,
+  Paper,
+  Box,
+  Breadcrumbs,
+  Link,
+  useMediaQuery,
+  useTheme,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
+} from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
-const AgregarMedicos = () => {
+const AgregarMedicos: React.FC = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -19,7 +37,9 @@ const AgregarMedicos = () => {
     habilidades: '',
   });
 
-  const handleChange = (e) => {
+  const [formErrors, setFormErrors] = useState<any>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
@@ -27,10 +47,46 @@ const AgregarMedicos = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Maneja el envío del formulario
-    console.log('Datos enviados:', formData);
+
+    const errors: any = {};
+    if (!formData.nombre) errors.nombre = 'El nombre es requerido';
+    if (!formData.apellido) errors.apellido = 'El apellido es requerido';
+    if (!formData.correo) errors.correo = 'El correo es requerido';
+    if (!formData.fechaNacimiento) errors.fechaNacimiento = 'La fecha de nacimiento es requerida';
+    if (!formData.genero) errors.genero = 'El género es requerido';
+
+    setFormErrors(errors);
+
+    if (Object.keys(errors).length === 0) {
+      // Simulamos una llamada a una API
+      try {
+        // Aquí puedes hacer la llamada a la API para guardar los datos
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+
+        Swal.fire({
+          title: 'Guardado exitosamente',
+          text: 'El médico ha sido guardado correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      } catch (error) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al guardar el médico. Inténtalo de nuevo.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Por favor, completa todos los campos requeridos.',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
+    }
   };
 
   const theme = useTheme();
@@ -76,6 +132,8 @@ const AgregarMedicos = () => {
                 value={formData.nombre}
                 onChange={handleChange}
                 required
+                error={!!formErrors.nombre}
+                helperText={formErrors.nombre}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -86,6 +144,8 @@ const AgregarMedicos = () => {
                 value={formData.apellido}
                 onChange={handleChange}
                 required
+                error={!!formErrors.apellido}
+                helperText={formErrors.apellido}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -97,6 +157,8 @@ const AgregarMedicos = () => {
                 value={formData.correo}
                 onChange={handleChange}
                 required
+                error={!!formErrors.correo}
+                helperText={formErrors.correo}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -117,6 +179,8 @@ const AgregarMedicos = () => {
                 InputLabelProps={{ shrink: true }}
                 value={formData.fechaNacimiento}
                 onChange={handleChange}
+                error={!!formErrors.fechaNacimiento}
+                helperText={formErrors.fechaNacimiento}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -128,10 +192,14 @@ const AgregarMedicos = () => {
                   value={formData.genero}
                   onChange={handleChange}
                   required
+                  error={!!formErrors.genero}
                 >
                   <MenuItem value="masculino">Masculino</MenuItem>
                   <MenuItem value="femenino">Femenino</MenuItem>
                 </Select>
+                {formErrors.genero && (
+                  <Typography variant="caption" color="error">{formErrors.genero}</Typography>
+                )}
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -198,7 +266,11 @@ const AgregarMedicos = () => {
               />
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Button type="submit" variant="contained" sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
+              >
                 Agregar 
               </Button>
             </Grid>
