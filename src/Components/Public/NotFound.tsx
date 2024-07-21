@@ -8,10 +8,10 @@ const NotFound = () => {
   return (
     <Box
       sx={{
-        width: "100%",
-        height: "90vh",
+        width: "auto",
+        height: "570px", 
         backgroundColor: "#A4BBBB",
-        display: "absolute",
+        display: "flex", 
         justifyContent: "center",
         alignItems: "center",
         padding: { xs: 2, sm: 3, md: 4 },

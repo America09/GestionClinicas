@@ -18,6 +18,9 @@ import { CrudHorario } from '../Pages/Public/Jorge/CrudHorarios';
 import { CrudCitas } from '../Pages/Public/America/CrudCitas';
 import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
 import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
+import Confirma from '../Pages/Public/Confirma';
+import PasswordForm from '../Components/FormContraseña';
+
 
 const AppRouter = () => {
     return (
@@ -33,6 +36,8 @@ const AppRouter = () => {
                     <Route path="/politicas" element={<Politicas />} />
                     <Route path="/nosotros" element={<Nosotross />} />
                     <Route path="/contacto" element={<Contacto />} />
+                    <Route path="/confirma" element={<Confirma />} />
+                    <Route path="/form" element={<PasswordForm />} />
                 </Route>
 
                 <Route element={<ProtectedLayout />}>

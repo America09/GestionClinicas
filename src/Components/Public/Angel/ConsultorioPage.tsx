@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -71,7 +70,7 @@ export const ConsultorioPage = () => {
                     <Typography color="text.primary">Consultorios</Typography>
                 </Breadcrumbs>
 
-                <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'left' }}>
+                <Typography variant="h4" component="h2" sx={{ textAlign: 'center', color: '#263339' }}>
                     Lista de Consultorios
                 </Typography>
 
@@ -91,16 +90,26 @@ export const ConsultorioPage = () => {
                     sx={{ mt: 2 }}
                 />
 
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', mt: 2 }}>
-                    <Button 
+                <Box
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '100%',
+                        height: 'auto',
+                        mt: 3,
+                        mb: 2,
+                    }}
+                >
+                    <Button
+                        type="submit"
                         variant="contained"
                         sx={{
-                            bgcolor: '#43A49B',
+                            backgroundColor: '#408D86',
                             color: 'white',
                             textTransform: 'capitalize',
-                            '&:hover': {
-                                bgcolor: '#51C5BA',
-                            },
+                            width: '300px',
+                            '&:hover': { backgroundColor: '#004d50' }
                         }}
                         onClick={() => navigate("/agregar-consultorios")}
                     >
