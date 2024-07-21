@@ -24,7 +24,7 @@ const columns: GridColDef<(typeof rows)[number]>[] = [
     {
       field: 'fullName',
       headerName: 'Full name',
-      description: 'This column has a value getter and is not sortable.',
+      description: 'This column has  getter and is not sortable.',
       sortable: false,
       width: 160,
       valueGetter: (value, row) => `${row.firstName || ''} ${row.lastName || ''}`,
@@ -47,6 +47,7 @@ export const ListPacientes = () => {
     return (
         <Box sx={{ width: '100%' }}>
           <DataGrid
+          
             rows={rows}
             columns={columns}
             initialState={{
