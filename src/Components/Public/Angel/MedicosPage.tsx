@@ -110,7 +110,7 @@ export const MedicosPage = () => {
                         }}
                         onClick={() => navigate("/Agregar-medicos")}
                     >
-                        + Añadir Médicos
+                        Agregar Médicos
                     </Button>
                 </Box>
             </Box>

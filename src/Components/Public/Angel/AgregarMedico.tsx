@@ -1,291 +1,205 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Container, Breadcrumbs, Link, Switch, FormGroup, FormControlLabel } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select';
+import { Grid, TextField, Switch, FormControlLabel, Button, Typography, Paper, Box, Breadcrumbs, Link, useMediaQuery, useTheme } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
+import { Link as RouterLink } from 'react-router-dom';
 
-interface FormData {
-  name: string;
-  surname: string;
-  email: string;
-  phone: string;
-  dateOfBirth: string;
-  gender: string;
-  professionalLicense: string;
-  school: string;
-  yearsOfExperience: string;
-  availability: boolean;
-  status: boolean;
-  skills: string;
-}
-
-const AgregarMedicos: React.FC = () => {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    surname: '',
-    email: '',
-    phone: '',
-    dateOfBirth: '',
-    gender: '',
-    professionalLicense: '',
-    school: '',
-    yearsOfExperience: '',
-    availability: false,
+const AgregarMedicos = () => {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    apellido: '',
+    correo: '',
+    telefono: '',
+    fechaNacimiento: '',
+    genero: '',
+    cedula: '',
+    escuela: '',
+    anosExperiencia: '',
+    disponibilidad: false,
     status: false,
-    skills: '',
+    habilidades: '',
   });
 
-  const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value,
+    });
   };
 
-  const handleSwitchChange = (name: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [name]: e.target.checked });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    const errors: Partial<FormData> = {};
-    if (!formData.name) {
-      errors.name = 'El nombre es requerido';
-    }
-    if (!formData.surname) {
-      errors.surname = 'El apellido es requerido';
-    }
-    if (!formData.email) {
-      errors.email = 'El correo electrónico es requerido';
-    }
-    if (!formData.phone) {
-      errors.phone = 'El número de teléfono es requerido';
-    }
-    if (!formData.dateOfBirth) {
-      errors.dateOfBirth = 'La fecha de nacimiento es requerida';
-    }
-    if (!formData.gender) {
-      errors.gender = 'El género es requerido';
-    }
-    if (!formData.professionalLicense) {
-      errors.professionalLicense = 'La cédula profesional es requerida';
-    }
-    if (!formData.school) {
-      errors.school = 'La escuela es requerida';
-    }
-    if (!formData.yearsOfExperience) {
-      errors.yearsOfExperience = 'Los años de experiencia son requeridos';
-    }
-    if (!formData.skills) {
-      errors.skills = 'Las habilidades son requeridas';
-    }
-
-    setFormErrors(errors);
-
-    if (Object.keys(errors).length === 0) {
-      console.log(formData);
-    }
+    // Maneja el envío del formulario
+    console.log('Datos enviados:', formData);
   };
+
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md')); // Pantallas grandes
 
   return (
-    <Container maxWidth="md">
-      <Box sx={{ mt: 4, mb: 2 }}>
+    <Paper
+      sx={{
+        padding: 3,
+        maxWidth: 800,
+        margin: isLargeScreen ? '0' : '0 auto', // Quita el margen horizontal en pantallas grandes
+        display: 'block',
+        width: isLargeScreen ? 'calc(100% - 32px)' : '100%', // Ajusta el ancho en pantallas grandes
+      }}
+    >
+      <Box sx={{ display: 'flex', ml: 2, mb: 2 }}> {/* Ajustar ml para mover a la derecha */}
         <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
             <HomeIcon sx={{ mr: 0.5 }} />
             Inicio
           </Link>
-          <Link color="inherit" href="/lista-de-medicos">
+          <Link color="inherit" component={RouterLink} to="/admin-medicos">
             Médicos
           </Link>
           <Typography color="textPrimary">Añadir médico</Typography>
         </Breadcrumbs>
       </Box>
-      <Typography variant="h5" component="h2" gutterBottom sx={{ textAlign: 'center' }}>
-        Añadir médico
-      </Typography>
-      <Box 
-        component="form" 
-        onSubmit={handleSubmit} 
-        sx={{ mt: 3 }}
-      >
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Nombre"
-              variant="outlined"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              fullWidth
-              error={!!formErrors.name}
-              helperText={formErrors.name}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Apellido"
-              variant="outlined"
-              name="surname"
-              value={formData.surname}
-              onChange={handleChange}
-              fullWidth
-              error={!!formErrors.surname}
-              helperText={formErrors.surname}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Correo Electrónico"
-              variant="outlined"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              type="email"
-              fullWidth
-              error={!!formErrors.email}
-              helperText={formErrors.email}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Teléfono"
-              variant="outlined"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              type="tel"
-              fullWidth
-              error={!!formErrors.phone}
-              helperText={formErrors.phone}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Fecha de Nacimiento"
-              variant="outlined"
-              name="dateOfBirth"
-              value={formData.dateOfBirth}
-              onChange={handleChange}
-              type="date"
-              fullWidth
-              error={!!formErrors.dateOfBirth}
-              helperText={formErrors.dateOfBirth}
-              InputLabelProps={{ shrink: true }}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth error={!!formErrors.gender}>
-              <InputLabel>Género</InputLabel>
-              <Select
-                name="gender"
-                value={formData.gender}
+      <div style={{
+        width: '100%',
+        maxWidth: 800,
+        margin: isLargeScreen ? '0' : '0 auto', // Mantén el margen en pantallas pequeñas
+      }}>
+        <Typography variant="h6" gutterBottom align="center">
+          Agregar Médico
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Nombre"
+                name="nombre"
+                value={formData.nombre}
                 onChange={handleChange}
                 required
-              >
-                <MenuItem value="masculino">Masculino</MenuItem>
-                <MenuItem value="femenino">Femenino</MenuItem>
-                <MenuItem value="otro">Otro</MenuItem>
-              </Select>
-            </FormControl>
-            {formErrors.gender && (
-              <Typography variant="body2" color="error">
-                {formErrors.gender}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Cédula Profesional"
-              variant="outlined"
-              name="professionalLicense"
-              value={formData.professionalLicense}
-              onChange={handleChange}
-              fullWidth
-              error={!!formErrors.professionalLicense}
-              helperText={formErrors.professionalLicense}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Escuela"
-              variant="outlined"
-              name="school"
-              value={formData.school}
-              onChange={handleChange}
-              fullWidth
-              error={!!formErrors.school}
-              helperText={formErrors.school}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Años de Experiencia"
-              variant="outlined"
-              name="yearsOfExperience"
-              value={formData.yearsOfExperience}
-              onChange={handleChange}
-              fullWidth
-              error={!!formErrors.yearsOfExperience}
-              helperText={formErrors.yearsOfExperience}
-              required
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <FormControlLabel
-                control={<Switch checked={formData.availability} onChange={handleSwitchChange('availability')} />}
-                label="Disponible"
               />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <FormControlLabel
-                control={<Switch checked={formData.status} onChange={handleSwitchChange('status')} />}
-                label="Activo"
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Apellido"
+                name="apellido"
+                value={formData.apellido}
+                onChange={handleChange}
+                required
               />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Habilidades"
-              variant="outlined"
-              name="skills"
-              value={formData.skills}
-              onChange={handleChange}
-              fullWidth
-              error={!!formErrors.skills}
-              helperText={formErrors.skills}
-              required
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: 'DarkCyan',
-                  '&:hover': {
-                    backgroundColor: 'darkcyan',
-                  },
-                }}
-                type="submit"
-              >
-                Agregar
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Correo Electrónico"
+                name="correo"
+                type="email"
+                value={formData.correo}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Teléfono"
+                name="telefono"
+                value={formData.telefono}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Fecha de Nacimiento"
+                name="fechaNacimiento"
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                value={formData.fechaNacimiento}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Género"
+                name="genero"
+                value={formData.genero}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Cédula Profesional"
+                name="cedula"
+                value={formData.cedula}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Escuela"
+                name="escuela"
+                value={formData.escuela}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Años de Experiencia"
+                name="anosExperiencia"
+                type="number"
+                value={formData.anosExperiencia}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    name="disponibilidad"
+                    checked={formData.disponibilidad}
+                    onChange={handleChange}
+                  />
+                }
+                label="Disponibilidad"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControlLabel
+                control={
+                  <Switch
+                    name="status"
+                    checked={formData.status}
+                    onChange={handleChange}
+                  />
+                }
+                label="Status"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Habilidades"
+                name="habilidades"
+                multiline
+                rows={4}
+                value={formData.habilidades}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Button type="submit" variant="contained" sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}>
+                Agregar 
               </Button>
-            </Box>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-    </Container>
+        </form>
+      </div>
+    </Paper>
   );
 };
 

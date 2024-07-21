@@ -121,7 +121,7 @@ const AgregarConsultorios: React.FC = () => {
                                 }}
                                 type="submit"
                             >
-                                Guardar
+                                Agregar
                             </Button>
                         </Box>
                     </Grid>
