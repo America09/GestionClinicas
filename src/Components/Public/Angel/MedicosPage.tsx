@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -5,14 +6,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 
 const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', width: 90 },
-    { field: 'Status', headerName: 'Status', width: 150, editable: true },
-    { field: 'Disponibilidad', headerName: 'Disponibilidad', width: 180, editable: true },
-    { field: 'Consultorio', headerName: 'Consultorio', width: 180, editable: true },
+    { field: 'id', headerName: 'ID', width: 50 },
+    { field: 'Nombre', headerName: 'Nombre', width: 100, editable: true },
+    { field: 'Apellido', headerName: 'Apellido', width: 100, editable: true },
+    { field: 'Disponibilidad', headerName: 'Disponibilidad', width: 110, editable: true },
+    { field: 'Status', headerName: 'Status', width: 100, editable: true },
+    { field: 'Habilidades', headerName: 'Habilidades', width: 200, editable: true },
     {
         field: 'Editar',
         headerName: 'Editar',
-        width: 100,
+        width: 60,
         sortable: false,
         renderCell: (params) => (
             <GridActionsCellItem
@@ -38,15 +41,15 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-    { id: 1, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Cardiología' },
-    { id: 2, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Pediatría' },
-    { id: 3, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Neurología' },
-    { id: 4, Status: 'Disponible', Disponibilidad: 'Tarde', Consultorio: 'Ortopedia' },
-    { id: 5, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Dermatología' },
-    { id: 6, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Radiología' },
-    { id: 7, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Oncología' },
-    { id: 8, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Cirugía General' },
-    { id: 9, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Ginecología' },
+    { id: 1, Nombre: 'Juan', Apellido: 'Pérez', Disponibilidad: 'Mañana', Status: 'Activo', Habilidades: 'Cardiología, Urgencias' },
+    { id: 2, Nombre: 'María', Apellido: 'Gómez', Disponibilidad: 'Tarde', Status: 'Activo', Habilidades: 'Pediatría, Endocrinología' },
+    { id: 3, Nombre: 'Pedro', Apellido: 'Martínez', Disponibilidad: 'Mañana', Status: 'Inactivo', Habilidades: 'Neurología, Terapia Física' },
+    { id: 4, Nombre: 'Ana', Apellido: 'López', Disponibilidad: 'Tarde', Status: 'Activo', Habilidades: 'Ortopedia, Rehabilitación' },
+    { id: 5, Nombre: 'Luis', Apellido: 'Ramírez', Disponibilidad: 'Mañana', Status: 'Activo', Habilidades: 'Dermatología, Cirugía' },
+    { id: 6, Nombre: 'Laura', Apellido: 'Hernández', Disponibilidad: 'Tarde', Status: 'Inactivo', Habilidades: 'Radiología, Diagnóstico' },
+    { id: 7, Nombre: 'Carlos', Apellido: 'García', Disponibilidad: 'Mañana', Status: 'Activo', Habilidades: 'Oncología, Hematología' },
+    { id: 8, Nombre: 'Patricia', Apellido: 'Morales', Disponibilidad: 'Tarde', Status: 'Activo', Habilidades: 'Cirugía General, Gastroenterología' },
+    { id: 9, Nombre: 'Ricardo', Apellido: 'Sánchez', Disponibilidad: 'Mañana', Status: 'Inactivo', Habilidades: 'Ginecología, Obstetricia' },
 ];
 
 const handleEdit = (id) => {
@@ -57,21 +60,21 @@ const handleDelete = (id) => {
     console.log('Eliminar fila con ID:', id);
 };
 
-export const ConsultorioPage = () => {
+export const MedicosPage = () => {
     const navigate = useNavigate();
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 2 }}>
             <Box sx={{ width: '100%', maxWidth: 850 }}>
-                <Breadcrumbs aria-label="breadcrumb">
-                    <Link underline="hover" color="inherit" href="/">
-                        Home
-                    </Link>
-                    <Typography color="text.primary">Consultorios</Typography>
-                </Breadcrumbs>
+                 <Breadcrumbs aria-label="breadcrumb">
+                <Link underline="hover" color="inherit" href="/">
+                    Home
+                </Link>
+                <Typography color="text.primary">Médicos</Typography>
+            </Breadcrumbs>
 
                 <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'left' }}>
-                    Lista de Consultorios
+                    Lista de Médicos
                 </Typography>
 
                 <DataGrid
@@ -101,9 +104,9 @@ export const ConsultorioPage = () => {
                                 bgcolor: '#51C5BA',
                             },
                         }}
-                        onClick={() => navigate("/agregar-consultorios")}
+                        onClick={() => navigate("/admin-Agregar-medicos")}
                     >
-                        + Añadir Consultorios
+                        + Añadir Médicos
                     </Button>
                 </Box>
             </Box>

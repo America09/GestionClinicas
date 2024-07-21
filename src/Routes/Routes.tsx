@@ -13,11 +13,14 @@ import Terminoss from '../Pages/Public/Terminosy';
 import Politicas from '../Pages/Public/Politicas';
 import Nosotross from '../Pages/Public/Nosotros';
 import Contacto from '../Pages/Public/Contacto';
-import { CrudMedico } from '../Pages/Public/Jorge/CrudMedico';
+import { CrudMedico } from '../Pages/Public/Angel/CrudMedico';
 import { CrudHorario } from '../Pages/Public/Jorge/CrudHorarios';
 import { CrudCitas } from '../Pages/Public/America/CrudCitas';
 import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
 import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
+import { AGConsultorios } from '../Pages/Public/Angel/AGConsultorios';
+import { AGMedicos} from '../Pages/Public/Angel/AGMedicos';
+
 
 const AppRouter = () => {
     return (
@@ -39,10 +42,16 @@ const AppRouter = () => {
                     <Route element={<AuthLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/admin-consultorios" element={<CrudConsultorio />} />
+                        <Route path="/agregar-consultorios" element={<AGConsultorios/>} />
                         <Route path="/admin-medicos" element={<CrudMedico />} />
+                        <Route path="/agregar-medicos" element={<AGMedicos/>} />
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
                         <Route path="/admin-pacientes" element={<CrudPacientes />} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
+                      
+
+
+
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />
