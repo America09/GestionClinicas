@@ -20,9 +20,9 @@ return (
         bgcolor: 'background.paper',
         p: { xs: 2, sm: 4, md: 6 },
         borderRadius: '30px',
-        mx: { xs: 2, sm: 'auto' }, // Margen horizontal
-        maxWidth: { xs: '90%', sm: 400 }, // Anchura máxima para diferentes tamaños de pantalla
-        boxShadow: '0px 4px 12px #0000001A', // Sombra personalizada con hex y alfa
+        mx: { xs: 2, sm: 'auto' }, 
+        maxWidth: { xs: '90%', sm: 400 }, 
+        boxShadow: '0px 4px 12px #0000001A', 
     }}
     >
     <CheckCircleIcon sx={{ fontSize: { xs: 40, sm: 60 }, color: '#408D86', mt: 2 }} />
