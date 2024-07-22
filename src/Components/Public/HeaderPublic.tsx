@@ -1,10 +1,11 @@
 import { useState, useContext } from 'react';
 import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, Divider, Hidden, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import { NavLink, useNavigate  } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
 import FacebookIcon from '@mui/icons-material/Facebook';
+import GoogleIcon from '@mui/icons-material/Google';
 import CrearCuentaModal from './CrearCuentaPage';
 import RecuperarContrasenaModal from './RecupContraPage';
 import { AuthContext } from '../../Context/AuthContext';
@@ -18,17 +19,17 @@ const HeaderPublic = () => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
-
 
     const handleOpenLogin = () => {
         setOpenLogin(true);
         setOpenSignup(false);
         setOpenRecuperarContrasena(false);
     };
-
 
     const handleCloseLogin = () => setOpenLogin(false);
 
@@ -48,7 +49,7 @@ const HeaderPublic = () => {
 
     const handleCloseRecuperarContrasena = () => setOpenRecuperarContrasena(false);
 
-    const toggleDrawer = (open : any) => (event :any) => {
+    const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && ((event.key === 'Tab') || (event.key === 'Shift'))) {
             return;
         }
@@ -68,9 +69,9 @@ const HeaderPublic = () => {
             onKeyDown={toggleDrawer(false)}
         >
             <List>
-            <CloseIcon />
+                <CloseIcon />
                 {['Inicio', 'Servicios', 'Citas', 'Medicos', 'Login'].map((text) => (
-                    <ListItem sx={{color: 'white'}}
+                    <ListItem sx={{ color: 'white' }}
                         key={text}
                         button
                         component={text === 'Login' ? 'button' : NavLink}
@@ -84,11 +85,34 @@ const HeaderPublic = () => {
         </Box>
     );
 
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const onLogin = async () => {
-        const loginRequest: LoginRequest = { email, password };
-        const success = await handleLogin(loginRequest, authContext);
-        if (success) {
-            navigate('/dashboard'); 
+        let valid = true;
+
+        if (!validateEmail(email)) {
+            setEmailError('Correo no válido. Debe contener un "@" y un "."');
+            valid = false;
+        } else {
+            setEmailError('');
+        }
+
+        if (password.length < 8) {
+            setPasswordError('La contraseña debe tener al menos 8 caracteres');
+            valid = false;
+        } else {
+            setPasswordError('');
+        }
+
+        if (valid) {
+            const loginRequest: LoginRequest = { email, password };
+            const success = await handleLogin(loginRequest, authContext);
+            if (success) {
+                navigate('/dashboard'); 
+            }
         }
     };
 
@@ -131,46 +155,79 @@ const HeaderPublic = () => {
             </Drawer>
 
             <Modal open={openLogin} onClose={handleCloseLogin} aria-labelledby="modal-title" aria-describedby="modal-description">
-                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: { xs: '90%', sm: 400 },
-                    bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: '30px',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <IconButton onClick={handleCloseLogin} sx={{ position: 'absolute', top: 10, right: 10 }}>
-                        <CloseIcon />
-                    </IconButton>
-                    <Button onClick={handleCloseLogin} variant="outlined"
-                        sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
-                        <FacebookIcon sx={{ mr: 1, color: '#3b5998' }} />
-                        Continuar con Facebook
-                    </Button>
-                    <Button onClick={handleCloseLogin} variant="outlined"
-                        sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
-                        <FacebookIcon sx={{ mr: 1, color: '#db4437' }} />
-                        Continuar con Google
-                    </Button>
+    <Box sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: { xs: '90%', sm: '80%', md: '60%', lg: '40%', xl: 400 },
+        bgcolor: 'background.paper',
+        boxShadow: 24,
+        p: { xs: 2, sm: 3, md: 4 },
+        borderRadius: '30px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
+    }}>
+        <IconButton onClick={handleCloseLogin} sx={{ position: 'absolute', top: 10, right: 10 }}>
+            <CloseIcon />
+        </IconButton>
+        <Button onClick={handleCloseLogin} variant="outlined"
+            sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
+            <FacebookIcon sx={{ mr: 1, color: '#3b5998' }} />
+            Continuar con Facebook
+        </Button>
+        <Button onClick={handleCloseLogin} variant="outlined"
+            sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
+            <GoogleIcon sx={{ mr: 1, color: '#db4437' }} />
+            Continuar con Google
+        </Button>
 
-                    <Divider sx={{ width: '100%', my: 2 }} />
-                    <TextField label="Correo" variant="outlined" required fullWidth margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <TextField label="Contraseña" type="password" variant="outlined" required fullWidth margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
-                    <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
-                        Al menos 8 caracteres*
-                    </Typography>
-                    <Button onClick={onLogin} variant="contained" color="primary"
-                        sx={{ mt: 2, bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}>
-                        Ingresar
-                    </Button>
-                    <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center', marginTop: 3 }}>
-                        ¿No tienes cuenta?
-                        <Link component="button" onClick={handleOpenSignup} sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
-                            Crea una aquí
-                        </Link>
-                    </Typography>
-                    <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center' }}>
-                        <Link component="button" onClick={handleOpenRecuperarContrasena} sx={{ textDecoration: 'underline', color: '#408D86' }}>
-                            Recuperar contraseña
-                        </Link>
-                    </Typography>
-                </Box>
-            </Modal>
+        <Divider sx={{ width: '100%', my: 2 }} />
+        <TextField
+            label="Correo"
+            variant="outlined"
+            required
+            fullWidth
+            margin="normal"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            error={!!emailError}
+            helperText={emailError}
+        />
+        <TextField
+            label="Contraseña"
+            type="password"
+            variant="outlined"
+            required
+            fullWidth
+            margin="normal"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            error={!!passwordError}
+            helperText={passwordError}
+        />
+        <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
+            Al menos 8 caracteres*
+        </Typography>
+        <Button onClick={onLogin} variant="contained" color="primary"
+            sx={{ mt: 2, bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}>
+            Ingresar
+        </Button>
+        <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center', marginTop: 3 }}>
+            ¿No tienes cuenta?
+            <Link component="button" onClick={handleOpenSignup} sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
+                Crea una aquí
+            </Link>
+        </Typography>
+        <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center' }}>
+            <Link component="button" onClick={handleOpenRecuperarContrasena} sx={{ textDecoration: 'underline', color: '#408D86' }}>
+                Recuperar contraseña
+            </Link>
+        </Typography>
+    </Box>
+</Modal>
+
 
             <CrearCuentaModal
                 open={openSignup}
