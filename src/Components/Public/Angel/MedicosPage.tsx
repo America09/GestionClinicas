@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
@@ -105,8 +105,8 @@ export const MedicosPage = () => {
     const navigate = useNavigate();
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 2 }}>
-            <Box sx={{ width: '100%', maxWidth: 850 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 1 }}>
+            <Paper elevation={3} sx={{ width: '100%', maxWidth: 900, p: 3 }}>
                 {/* Breadcrumbs */}
                 <Breadcrumbs aria-label="breadcrumb">
                     <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
@@ -156,7 +156,7 @@ export const MedicosPage = () => {
                         Agregar Médicos
                     </Button>
                 </Box>
-            </Box>
+            </Paper>
         </Box>
     );
 };
