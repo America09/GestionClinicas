@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   Grid,
-  TextField,
   Button,
   Typography,
   Paper,
@@ -22,17 +21,15 @@ import Swal from 'sweetalert2';
 const AgregarRoles: React.FC = () => {
   const [formData, setFormData] = useState({
     rol: '',
-    acceso: '',
-    usuario: '',
   });
 
   const [formErrors, setFormErrors] = useState<any>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value,
+      [name!]: value,
     });
   };
 
@@ -40,9 +37,15 @@ const AgregarRoles: React.FC = () => {
     e.preventDefault();
 
     const errors: any = {};
-    if (!formData.rol) errors.rol = 'El rol es requerido';
-    if (!formData.acceso) errors.acceso = 'El acceso es requerido';
-    if (!formData.usuario) errors.usuario = 'El usuario es requerido';
+    if (!formData.rol) {
+      errors.rol = 'El rol es requerido';
+    }
+
+    // Validar que el rol sea uno de los valores permitidos
+    const validRoles = ['Administrador', 'Medico', 'Paciente'];
+    if (formData.rol && !validRoles.includes(formData.rol)) {
+      errors.rol = 'Rol no válido';
+    }
 
     setFormErrors(errors);
 
@@ -88,7 +91,7 @@ const AgregarRoles: React.FC = () => {
         boxShadow: 3,
         borderRadius: 2,
         mt: 4,
-        ml: isLargeScreen ? -16 : 0,
+        ml: isLargeScreen ? -32 : 0, // Mueve el formulario más a la izquierda en pantallas grandes
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
@@ -114,43 +117,19 @@ const AgregarRoles: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Rol"
-                name="rol"
-                value={formData.rol}
-                onChange={handleChange}
-                required
-                error={!!formErrors.rol}
-                helperText={formErrors.rol}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Usuario"
-                name="usuario"
-                value={formData.usuario}
-                onChange={handleChange}
-                required
-                error={!!formErrors.usuario}
-                helperText={formErrors.usuario}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl fullWidth required error={!!formErrors.acceso}>
-                <InputLabel>Acceso</InputLabel>
+              <FormControl fullWidth required error={!!formErrors.rol}>
+                <InputLabel>Rol</InputLabel>
                 <Select
-                  name="acceso"
-                  value={formData.acceso}
+                  name="rol"
+                  value={formData.rol}
                   onChange={handleChange}
                 >
-                  <MenuItem value="Acceso Total">Acceso Total</MenuItem>
-                  <MenuItem value="Acceso Limitado">Acceso Limitado</MenuItem>
-                  <MenuItem value="Acceso Moderado">Acceso Moderado</MenuItem>
+                  <MenuItem value="Administrador">Administrador</MenuItem>
+                  <MenuItem value="Medico">Medico</MenuItem>
+                  <MenuItem value="Paciente">Paciente</MenuItem>
                 </Select>
-                {formErrors.acceso && (
-                  <Typography variant="body2" color="error">{formErrors.acceso}</Typography>
+                {formErrors.rol && (
+                  <Typography variant="body2" color="error">{formErrors.rol}</Typography>
                 )}
               </FormControl>
             </Grid>
