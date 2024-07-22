@@ -74,7 +74,7 @@ export const HeaderAuth = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userToken');
+    localStorage.removeItem('token');
     navigate('/');
   };
 
