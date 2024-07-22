@@ -21,7 +21,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const AgregarMedico: React.FC = () => {
+const EditMedicos: React.FC = () => {
   const [formData, setFormData] = useState({
     nombre: '',
     apellido: '',
@@ -64,15 +64,15 @@ const AgregarMedico: React.FC = () => {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
 
         Swal.fire({
-          title: 'Guardado exitosamente',
-          text: 'El médico ha sido guardado correctamente.',
+          title: 'Editado',
+          text: 'El médico ha sido editado correctamente.',
           icon: 'success',
           confirmButtonText: 'Aceptar'
         });
       } catch (error) {
         Swal.fire({
           title: 'Error',
-          text: 'Hubo un problema al guardar el médico. Inténtalo de nuevo.',
+          text: 'Hubo un problema al editar el médico. Inténtalo de nuevo.',
           icon: 'error',
           confirmButtonText: 'Aceptar'
         });
@@ -111,7 +111,7 @@ const AgregarMedico: React.FC = () => {
           <Link color="inherit" component={RouterLink} to="/admin-medicos">
             Médicos
           </Link>
-          <Typography color="textPrimary">Agregar médico</Typography>
+          <Typography color="textPrimary">Editar médico</Typography>
         </Breadcrumbs>
       </Box>
       <div style={{
@@ -120,7 +120,7 @@ const AgregarMedico: React.FC = () => {
         margin: isLargeScreen ? '0' : '0 auto',
       }}>
         <Typography variant="h6" gutterBottom align="center">
-          Agregar Médico
+          Editar Médico
         </Typography>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
@@ -280,7 +280,7 @@ const AgregarMedico: React.FC = () => {
                 variant="contained"
                 sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
               >
-                Guardar
+                Guardar 
               </Button>
             </Grid>
           </Grid>
@@ -290,4 +290,4 @@ const AgregarMedico: React.FC = () => {
   );
 };
 
-export default AgregarMedico;
+export default EditMedicos;

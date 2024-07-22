@@ -117,7 +117,7 @@ export const ConsultorioPage = () => {
                 </Box>
 
                 {/* Page Title */}
-                <Box sx={{ textAlign: 'center', mb: 2, ml: -4 }}>
+                <Box sx={{ textAlign: 'center', mb: 2, ml: -7 }}>
                     <Typography variant="h4" component="h2" gutterBottom>
                         Lista de Consultorios
                     </Typography>
