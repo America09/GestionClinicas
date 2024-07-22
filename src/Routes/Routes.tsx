@@ -19,7 +19,7 @@ import { CrudCitas } from '../Pages/Public/America/CrudCitas';
 import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
 import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
 import Confirma from '../Pages/Public/Confirma';
-import PasswordForm from '../Components/FormContraseña';
+import { ConfirmarCOntraseña } from '../Pages/Public/ConfirmarCOntraseña';
 
 
 const AppRouter = () => {
@@ -37,7 +37,7 @@ const AppRouter = () => {
                     <Route path="/nosotros" element={<Nosotross />} />
                     <Route path="/contacto" element={<Contacto />} />
                     <Route path="/confirma" element={<Confirma />} />
-                    <Route path="/form" element={<PasswordForm />} />
+                    <Route path="/form" element={<ConfirmarCOntraseña />} />
                 </Route>
 
                 <Route element={<ProtectedLayout />}>

@@ -26,7 +26,7 @@ export const DatoMedicoSection = () => {
       autoComplete="off"
     >
       <Typography
-       sx={{ marginTop: 3, textAlign: 'left', fontWeight: 'semibold', fontSize: 24, color: '#263339' }}
+       sx={{ marginTop: 3, textAlign: 'left', marginLeft:2, fontWeight: 'semibold', fontSize: 24, color: '#263339' }}
       >
         Datos del Médico
       </Typography>
