@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  TextField, Button, Box, Typography, Breadcrumbs, Link, Container, Grid, FormControl
+  TextField, Button, Box, Typography, Breadcrumbs, Link, Container, Grid, FormControl, Paper
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
@@ -56,9 +56,21 @@ const CreateEspecialidad: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="md">
-      <Box sx={{ mt: 5, mb: 4, px: 0 }}>
-        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Container
+      maxWidth="md"
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', py: 4 }}
+    >
+      <Paper
+        sx={{
+          padding: 4,
+          textAlign: 'center',
+          width: '100%',
+          maxWidth: '800px',
+          boxShadow: 3,
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />
@@ -70,63 +82,63 @@ const CreateEspecialidad: React.FC = () => {
             <Typography color="textPrimary">Añadir Especialidad</Typography>
           </Breadcrumbs>
         </Box>
-      </Box>
-      <Box sx={{ textAlign: 'center' }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Añadir Especialidad
-        </Typography>
-      </Box>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-        <Grid container spacing={2} sx={{ maxWidth: '600px', width: '100%' }}>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <TextField
-                label="Nombre"
-                variant="outlined"
-                name="nombre"
-                value={formData.nombre}
-                onChange={handleChange}
-                fullWidth
-                error={!!formErrors.nombre}
-                helperText={formErrors.nombre}
-                required
-              />
-            </FormControl>
+        <Box sx={{ textAlign: 'center', mb: 3 }}>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Añadir Especialidad
+          </Typography>
+        </Box>
+        <Box component="form" onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Nombre"
+                  variant="outlined"
+                  name="nombre"
+                  value={formData.nombre}
+                  onChange={handleChange}
+                  fullWidth
+                  error={!!formErrors.nombre}
+                  helperText={formErrors.nombre}
+                  required
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Descripción"
+                  variant="outlined"
+                  name="descripcion"
+                  value={formData.descripcion}
+                  onChange={handleChange}
+                  fullWidth
+                  error={!!formErrors.descripcion}
+                  helperText={formErrors.descripcion}
+                  required
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: '#43A49B',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: '#51C5BA',
+                    },
+                  }}
+                  type="submit"
+                >
+                  Guardar
+                </Button>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth>
-              <TextField
-                label="Descripción"
-                variant="outlined"
-                name="descripcion"
-                value={formData.descripcion}
-                onChange={handleChange}
-                fullWidth
-                error={!!formErrors.descripcion}
-                helperText={formErrors.descripcion}
-                required
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: '#43A49B',
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: '#51C5BA',
-                  },
-                }}
-                type="submit"
-              >
-                Guardar
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </Paper>
     </Container>
   );
 };

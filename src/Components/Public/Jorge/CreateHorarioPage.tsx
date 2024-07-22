@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Breadcrumbs, Link, Container
+  TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Breadcrumbs, Link, Container, Paper
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import HomeIcon from '@mui/icons-material/Home';
@@ -16,7 +16,12 @@ interface FormData {
   salida: string;
 }
 
-const CreateHorario: React.FC = () => {
+interface CreateHorarioProps {
+  initialData?: FormData;
+  onSave: (data: FormData) => void;
+}
+
+const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) => {
   const [formData, setFormData] = useState<FormData>({
     clinicaConsultorio: '',
     medico: '',
@@ -27,6 +32,12 @@ const CreateHorario: React.FC = () => {
   });
 
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
+
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
+    }
+  }, [initialData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
     const { name, value } = e.target;
@@ -59,7 +70,7 @@ const CreateHorario: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      // Simulamos una llamada a una API
+      onSave(formData);
       Swal.fire({
         title: 'Guardado exitosamente',
         text: 'El horario ha sido guardado correctamente.',
@@ -77,9 +88,22 @@ const CreateHorario: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="md">
-      <Box sx={{ mt: 5, mb: 4, px: 0 }}>
-        <Box sx={{ display: 'flex', ml: -14 }}>
+    <Container
+      maxWidth="md"
+      sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', minHeight: '100vh', py: 4, ml: 4 }}
+    >
+      <Paper
+        sx={{
+          padding: 4,
+          textAlign: 'center',
+          width: '100%',
+          maxWidth: '800px',
+          boxShadow: 3,
+          borderRadius: 2,
+          ml: 4,
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />
@@ -91,152 +115,152 @@ const CreateHorario: React.FC = () => {
             <Typography color="textPrimary">Añadir Horario</Typography>
           </Breadcrumbs>
         </Box>
-      </Box>
-      <Box sx={{ textAlign: 'left', ml: 6 }}>
-        <Typography variant="h5" component="h2" gutterBottom>
-          Añadir Horario
-        </Typography>
-      </Box>
-      <Box component="form" onSubmit={handleSubmit} sx={{ mt: 4, display: 'flex', justifyContent: 'flex-start', ml: -15 }}>
-        <Grid container spacing={2} sx={{ maxWidth: '600px' }}>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth error={!!formErrors.clinicaConsultorio}>
-              <InputLabel>Clínica o consultorio</InputLabel>
-              <Select
-                name="clinicaConsultorio"
-                value={formData.clinicaConsultorio}
-                onChange={handleChange}
-                required
-                label="Clínica o consultorio"
-              >
-                <MenuItem value="Clínica 1">Clínica 1</MenuItem>
-                <MenuItem value="Clínica 2">Clínica 2</MenuItem>
-                <MenuItem value="Consultorio 1">Consultorio 1</MenuItem>
-                <MenuItem value="Consultorio 2">Consultorio 2</MenuItem>
-              </Select>
-              {formErrors.clinicaConsultorio && (
+        <Box sx={{ textAlign: 'center', mb: 3 }}>
+          <Typography variant="h5" component="h2" gutterBottom>
+            Añadir Horario
+          </Typography>
+        </Box>
+        <Box component="form" onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth error={!!formErrors.clinicaConsultorio}>
+                <InputLabel>Clínica o consultorio</InputLabel>
+                <Select
+                  name="clinicaConsultorio"
+                  value={formData.clinicaConsultorio}
+                  onChange={handleChange}
+                  required
+                  label="Clínica o consultorio"
+                >
+                  <MenuItem value="Clínica 1">Clínica 1</MenuItem>
+                  <MenuItem value="Clínica 2">Clínica 2</MenuItem>
+                  <MenuItem value="Consultorio 1">Consultorio 1</MenuItem>
+                  <MenuItem value="Consultorio 2">Consultorio 2</MenuItem>
+                </Select>
+                {formErrors.clinicaConsultorio && (
+                  <Typography variant="body2" color="error">
+                    {formErrors.clinicaConsultorio}
+                  </Typography>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth error={!!formErrors.medico}>
+                <InputLabel>Médico</InputLabel>
+                <Select
+                  name="medico"
+                  value={formData.medico}
+                  onChange={handleChange}
+                  required
+                  label="Médico"
+                >
+                  <MenuItem value="Dr. Juan Pérez">Dr. Juan Pérez</MenuItem>
+                  <MenuItem value="Dr. María López">Dr. María López</MenuItem>
+                </Select>
+                {formErrors.medico && (
+                  <Typography variant="body2" color="error">
+                    {formErrors.medico}
+                  </Typography>
+                )}
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Fecha"
+                  variant="outlined"
+                  name="fecha"
+                  value={formData.fecha}
+                  onChange={handleChange}
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  fullWidth
+                  error={!!formErrors.fecha}
+                  helperText={formErrors.fecha}
+                  required
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth error={!!formErrors.turno}>
+                <InputLabel>Turno</InputLabel>
+                <Select
+                  name="turno"
+                  value={formData.turno}
+                  onChange={handleChange}
+                  required
+                  label="Turno"
+                >
+                  <MenuItem value="Mañana">Mañana</MenuItem>
+                  <MenuItem value="Tarde">Tarde</MenuItem>
+                </Select>
+              </FormControl>
+              {formErrors.turno && (
                 <Typography variant="body2" color="error">
-                  {formErrors.clinicaConsultorio}
+                  {formErrors.turno}
                 </Typography>
               )}
-            </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Entrada"
+                  variant="outlined"
+                  name="entrada"
+                  value={formData.entrada}
+                  onChange={handleChange}
+                  type="time"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  fullWidth
+                  error={!!formErrors.entrada}
+                  helperText={formErrors.entrada}
+                  required
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <TextField
+                  label="Salida"
+                  variant="outlined"
+                  name="salida"
+                  value={formData.salida}
+                  onChange={handleChange}
+                  type="time"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  fullWidth
+                  error={!!formErrors.salida}
+                  helperText={formErrors.salida}
+                  required
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: '#43A49B',
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: '#51C5BA',
+                    },
+                  }}
+                  type="submit"
+                >
+                  {initialData ? 'Guardar cambios' : 'Agregar'}
+                </Button>
+              </Box>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth error={!!formErrors.medico}>
-              <InputLabel>Médico</InputLabel>
-              <Select
-                name="medico"
-                value={formData.medico}
-                onChange={handleChange}
-                required
-                label="Médico"
-              >
-                <MenuItem value="Dr. Juan Pérez">Dr. Juan Pérez</MenuItem>
-                <MenuItem value="Dr. María López">Dr. María López</MenuItem>
-              </Select>
-              {formErrors.medico && (
-                <Typography variant="body2" color="error">
-                  {formErrors.medico}
-                </Typography>
-              )}
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                label="Fecha"
-                variant="outlined"
-                name="fecha"
-                value={formData.fecha}
-                onChange={handleChange}
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-                error={!!formErrors.fecha}
-                helperText={formErrors.fecha}
-                required
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth error={!!formErrors.turno}>
-              <InputLabel>Turno</InputLabel>
-              <Select
-                name="turno"
-                value={formData.turno}
-                onChange={handleChange}
-                required
-                label="Turno"
-              >
-                <MenuItem value="Mañana">Mañana</MenuItem>
-                <MenuItem value="Tarde">Tarde</MenuItem>
-              </Select>
-            </FormControl>
-            {formErrors.turno && (
-              <Typography variant="body2" color="error">
-                {formErrors.turno}
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                label="Entrada"
-                variant="outlined"
-                name="entrada"
-                value={formData.entrada}
-                onChange={handleChange}
-                type="time"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-                error={!!formErrors.entrada}
-                helperText={formErrors.entrada}
-                required
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <TextField
-                label="Salida"
-                variant="outlined"
-                name="salida"
-                value={formData.salida}
-                onChange={handleChange}
-                type="time"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                fullWidth
-                error={!!formErrors.salida}
-                helperText={formErrors.salida}
-                required
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: '#43A49B',
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: '#51C5BA',
-                  },
-                }}
-                type="submit"
-              >
-                Agregar
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </Paper>
     </Container>
   );
 };
