@@ -21,7 +21,6 @@ export const CitasPage = () => {
 
   const handleTextChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    // Permitimos solo letras y espacios
     const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
     setter(filteredValue);
   };
@@ -57,7 +56,7 @@ export const CitasPage = () => {
     event.preventDefault();
 
     if (validateForm()) {
-      // Aquí puedes manejar el envío del formulario
+
       console.log('Formulario enviado');
     }
   };

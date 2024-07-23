@@ -204,8 +204,8 @@ const HeaderPublic = () => {
             margin="normal"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            error={!!passwordError}
-            helperText={passwordError}
+            // error={!!passwordError}
+            // helperText={passwordError}
         />
         <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
             Al menos 8 caracteres*
