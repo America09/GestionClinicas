@@ -17,7 +17,9 @@ import { CrudMedico } from '../Pages/Public/Jorge/CrudMedico';
 import { CrudHorario } from '../Pages/Public/Jorge/CrudHorarios';
 import { CrudCitas } from '../Pages/Public/America/CrudCitas';
 import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
-import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
+import {PacientesList} from '../Pages/Public/Katherine/ListPacientesPage';
+import {AddPacientes} from '../Pages/Public/Katherine/AddPacientesPage';
+import {HistorialClinicoPage} from '../Pages/Public/Katherine/HistorialPage';
 
 const AppRouter = () => {
     return (
@@ -41,8 +43,11 @@ const AppRouter = () => {
                         <Route path="/admin-consultorios" element={<CrudConsultorio />} />
                         <Route path="/admin-medicos" element={<CrudMedico />} />
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
-                        <Route path="/admin-pacientes" element={<CrudPacientes />} />
+                        <Route path="/admin-Listpacientes" element={<PacientesList/>} />
+                        <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
+                        <Route path="/admin-Historial" element={<HistorialClinicoPage/>} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
+                      
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />
