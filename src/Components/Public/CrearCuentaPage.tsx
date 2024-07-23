@@ -3,6 +3,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import GoogleIcon from '@mui/icons-material/Google';
 import { useState } from 'react';
+import { handleCreateUser } from '../../Handlers/AuthHandler';
+import { CreateUserRequest } from '../../Types/Api';
 
 interface CrearCuentaModalProps {
     open: boolean;
@@ -11,12 +13,14 @@ interface CrearCuentaModalProps {
 }
 
 const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOpenLogin }) => {
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [checked, setChecked] = useState(false);
 
+    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => setUsername(event.target.value);
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value);
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value);
     const handleConfirmPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => setConfirmPassword(event.target.value);
@@ -30,10 +34,10 @@ const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOp
         console.log("Iniciar sesión con Google");
     };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); 
 
-        if (!email || !password || !confirmPassword || !checked) {
+        if (!username || !email || !password || !confirmPassword || !checked) {
             setError('Todos los campos son obligatorios');
             return;
         }
@@ -47,8 +51,21 @@ const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOp
         }
 
         setError('');
-        console.log('Formulario enviado con éxito');
-        onClose();
+
+        const createUserRequest: CreateUserRequest = {
+            username,
+            email,
+            password,
+            roleId: 2 // Puedes ajustar esto según tus necesidades
+        };
+
+        const success = await handleCreateUser(createUserRequest);
+        if (success) {
+            console.log('Usuario creado con éxito');
+            onClose();
+        } else {
+            setError('Hubo un error al crear el usuario');
+        }
     };
 
     return (
@@ -73,6 +90,17 @@ const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOp
                 </Button>
                 <Divider sx={{ width: '100%', my: 2 }} />
                 <form onSubmit={handleSubmit} style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                    <TextField 
+                        label="Nombre de usuario" 
+                        variant="outlined" 
+                        fullWidth 
+                        margin="normal" 
+                        value={username} 
+                        onChange={handleUsernameChange} 
+                        required 
+                        error={!username && Boolean(error)}
+                        helperText={!username && error}
+                    />
                     <TextField 
                         label="Correo" 
                         variant="outlined" 
