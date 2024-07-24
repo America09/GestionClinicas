@@ -1,11 +1,5 @@
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Toolbar from '@mui/material/Toolbar';
+import  { useState } from 'react';
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, CssBaseline, IconButton } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import Person3OutlinedIcon from '@mui/icons-material/Person3Outlined';
@@ -13,81 +7,100 @@ import PermContactCalendarOutlinedIcon from '@mui/icons-material/PermContactCale
 import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlined';
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
-import logo from '../../assets/logo.png';
+import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import logo from '../../assets/logo.png';
 
-const drawerWidth = 140;
+const drawerWidth = 240;
 
-export const Sidebar = () => {
-  const navigate = useNavigate();
-  const icons = [
-    <HomeOutlinedIcon fontSize="large" onClick={() => navigate('/dashboard')} />,
-    <MedicalServicesOutlinedIcon fontSize="large" onClick={() => navigate('/ConsultorioPage')} />,
-    <PermContactCalendarOutlinedIcon fontSize="large" onClick={() => navigate('/admin-horarios')} />,
-    <PendingActionsOutlinedIcon fontSize="large" onClick={() => navigate('/admin-citas')} />,
-    <PermIdentityOutlinedIcon fontSize="large" onClick={() => navigate('/admin-Listpacientes')} />,
-    <Person3OutlinedIcon fontSize="large" onClick={() => navigate('/MedicosPage')} />,
-    <EventAvailableOutlinedIcon fontSize="large" onClick={() => navigate('/admin-horarios')} />,
-  ];
+const Sidebar = () => {
+    const navigate = useNavigate();
+    const [mobileOpen, setMobileOpen] = useState(false);
 
-  const getLogoStyle = () => ({
-    width: '40%',
-    marginBottom: '10px',
-    position: 'absolute',
-    top: 20,
-    left: '50%',
-    transform: 'translateX(-50%)',
-  });
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
-  const drawer = (
-    <div style={{ color: 'white', backgroundColor: '#263339', height: '100%', position: 'relative' }}>
-      <Toolbar />
-      <Box component="img" src={logo} alt="Hero" sx={getLogoStyle()} />
-      <List style={{ paddingTop: '35px' }}>
-        {['Inbox', 'Starred', 'Send email', 'Drafts', 'All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton sx={{ justifyContent: 'center' }}>
-              <ListItemIcon sx={{ color: 'white', fontSize: 30, margin: 1.2, marginLeft: '30px' }}>
-                {icons[index % icons.length]}
-              </ListItemIcon>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </div>
-  );
+    const menuItems = [
+        { icon: <HomeOutlinedIcon />, label: 'Inicio', route: '/dashboard' },
+        { icon: <MedicalServicesOutlinedIcon />, label: 'Consultorio', route: '/admin-consultorios' },
+        { icon: <PermContactCalendarOutlinedIcon />, label: 'Horarios', route: '/admin-horarios' },
+        { icon: <PendingActionsOutlinedIcon />, label: 'Citas', route: '/admin-citas' },
+        { icon: <PermIdentityOutlinedIcon />, label: 'Pacientes', route: '/admin-Listpacientes' },
+        { icon: <Person3OutlinedIcon />, label: 'Médicos', route: '/admin-medicos' },
+        { icon: <EventAvailableOutlinedIcon />, label: 'Horarios', route: '/admin-horarios' },
+    ];
 
-  return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <Box
-        component="nav"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '@media (max-width: 600px)': {
-            width: '70px', 
-          },
-        }}
-        aria-label="mailbox folders"
-      >
-        <Drawer
-          variant="permanent"
-          /* sx={{
-            '& .MuiDrawer-paper': {
-              width: drawerWidth,
-              boxSizing: 'border-box',
-              backgroundColor: '#263339',
-              '@media (max-width: 600px)': {
-                width: '70px', 
-              },
-            },
-          }} */
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
-    </Box>
-  );
+    const drawer = (
+        <div>
+            <Toolbar />
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 2 }}>
+                <Box component="img" src={logo} alt="Logo" sx={{ width: { xs: '40%', md: '40%' }, marginBottom: 2 }} />
+                <List sx={{ width: '100%' }}>
+                    {menuItems.map((item, index) => (
+                        <ListItem key={index} disablePadding>
+                            <ListItemButton
+                                sx={{ justifyContent: 'flex-start' }}
+                                onClick={() => navigate(item.route)}
+                            >
+                                <ListItemIcon sx={{ color: 'white', minWidth: '40px' }}>
+                                    {item.icon}
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary={item.label}
+                                    sx={{
+                                        color: 'white',
+                                        display: { xs: 'none', md: 'block' },
+                                    }}
+                                />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+            </Box>
+        </div>
+    );
+
+    return (
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { md: 'none' } }}
+            >
+                <MenuIcon />
+            </IconButton>
+            <Box component="nav" sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}>
+                <Drawer
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}
+                    sx={{
+                        display: { xs: 'block', md: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#263339', color: 'white' },
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+                <Drawer
+                    variant="permanent"
+                    sx={{
+                        display: { xs: 'none', md: 'block' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#1e1e2d', color: 'white' },
+                    }}
+                    open
+                >
+                    {drawer}
+                </Drawer>
+            </Box>
+        </Box>
+    );
 };
+
+export default Sidebar;

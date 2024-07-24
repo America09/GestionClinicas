@@ -66,16 +66,18 @@ const AppRouter = () => {
                         <Route path="/agregar-roles" element={<AGRoles/>} />
                         <Route path="/admin-roles" element={<CrudRoles/>} />
                         <Route path="/admin-rolespermisos" element={<AsignarPermisos/>} />
-                        {/* Otras Rutas */}
+                        {/* Otras Jorge */}
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
-                        <Route path="/admin-Listpacientes" element={<PacientesList/>} />
-                        <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
-                        <Route path="/admin-Historial1" element={<HistorialClinicoPage/>} />
-                        <Route path="/admin-citas" element={<CrudCitas/>} />
                         <Route path="/admin-horario" element={<AGHorario/>} />
                         <Route path="/admin-crud-especialidad" element={<CrudEspecialidad/>} />
                         <Route path="/admin-edithoario" element={<EditHorario/>} />
                         <Route path="/admin-especialidad" element={<AGEspecialidad/>} />
+                        {/* Rutas Katherine */}
+                        <Route path="/admin-Listpacientes" element={<PacientesList/>} />
+                        <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
+                        <Route path="/admin-Historial1" element={<HistorialClinicoPage/>} />
+                        {/* Rutas Ame */}
+                        <Route path="/admin-citas" element={<CrudCitas/>} />
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />

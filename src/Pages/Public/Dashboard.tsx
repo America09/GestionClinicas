@@ -1,5 +1,5 @@
-import React from 'react';
-import { Card, CardContent, Typography, Grid } from '@mui/material';
+
+import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
 import { Chart } from 'react-google-charts';
 
 const Dashboard = () => {
@@ -42,11 +42,11 @@ const Dashboard = () => {
     };
 
     return (
-        <div style={{ padding: '20px' }}>
+        <Box sx={{ padding: '20px' }}>
             <Typography sx={{ marginTop: 5, fontWeight: 'bold', color: '#263339', textTransform: 'uppercase', fontSize: 24, textAlign: 'center' }}>
                 Bienvenido a tu plataforma de Administrador
             </Typography>
-            <Grid container spacing={4} sx={{ marginTop: 3 }}>
+            <Grid container spacing={4} sx={{ marginTop: 3, justifyContent: 'center' }}>
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                     <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
                         <CardContent>
@@ -80,7 +80,7 @@ const Dashboard = () => {
                     </Card>
                 </Grid>
             </Grid>
-        </div>
+        </Box>
     );
 };
 
