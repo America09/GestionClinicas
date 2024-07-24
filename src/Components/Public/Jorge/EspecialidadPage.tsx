@@ -104,7 +104,7 @@ export const EspecialidadPage: React.FC = () => {
                                 bgcolor: '#51C5BA',
                             },
                         }}
-                        onClick={() => navigate("/admin-createEspecialidades")}
+                        onClick={() => navigate("/admin-createespecialidad")}
                     >
                         + Añadir especialidad
                     </Button>
