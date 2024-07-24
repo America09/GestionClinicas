@@ -89,11 +89,11 @@ const handleDelete = async (id: number) => {
 
     if (result.isConfirmed) {
         try {
-            // Simulación de llamada a la API
+            
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
             Swal.fire("Eliminado", "El médico ha sido eliminado correctamente.", "success");
-            // Actualizar estado o recargar datos aquí
+           
         } catch (error) {
             Swal.fire("Error", "Hubo un problema al eliminar el médico. Inténtalo de nuevo.", "error");
         }
@@ -106,7 +106,7 @@ export const MedicosPage = () => {
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 1 }}>
             <Paper elevation={3} sx={{ width: '100%', maxWidth: 900, p: 3 }}>
-                {/* Breadcrumbs */}
+              
                 <Breadcrumbs aria-label="breadcrumb">
                     <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
                         <HomeIcon sx={{ mr: 0.5 }} />
@@ -116,12 +116,12 @@ export const MedicosPage = () => {
                     <Typography color="textPrimary">Médicos</Typography>
                 </Breadcrumbs>
 
-                {/* Page Title */}
+              
                 <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'center' }}>
                     Lista de Médicos
                 </Typography>
 
-                {/* Data Grid */}
+                
                 <DataGrid
                     rows={rows}
                     columns={columns}
@@ -138,20 +138,14 @@ export const MedicosPage = () => {
                     sx={{ mt: 2 }}
                 />
 
-                {/* Add Médico Button */}
+                
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                     <Button 
-                        variant="contained"
-                        sx={{
-                            bgcolor: '#43A49B',
-                            color: 'white',
-                            textTransform: 'capitalize',
-                            '&:hover': {
-                                bgcolor: '#51C5BA',
-                            },
-                        }}
-                        onClick={() => navigate("/Agregar-medicos")}
-                    >
+                       type="submit"
+                       fullWidth
+                       variant="contained"
+                       sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
+                     >
                         Agregar Médicos
                     </Button>
                 </Box>

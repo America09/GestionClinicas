@@ -82,8 +82,8 @@ const AgregarRol: React.FC = () => {
         width: isLargeScreen ? 'calc(100% - 32px)' : '100%',
         boxShadow: 3,
         borderRadius: 2,
-        mt: 4,
-        ml: isLargeScreen ? -11 : 0, // Adjusted left margin to move the content slightly to the left
+        mt: 10,
+        ml: isLargeScreen ? -11 : 0, 
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>

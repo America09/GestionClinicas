@@ -104,7 +104,7 @@ const AsignarPermisos: React.FC = () => {
         boxShadow: 3,
         borderRadius: 2,
         mt: 4,
-        ml: isLargeScreen ? 2 : 0, // Adjust the left margin to move it to the right
+        ml: isLargeScreen ? 2 : 0, 
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>

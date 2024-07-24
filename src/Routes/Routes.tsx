@@ -53,23 +53,20 @@ const AppRouter = () => {
                 <Route element={<ProtectedLayout />}>
                     <Route element={<AuthLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
+                        {/* AngelRutas */}
                         <Route path="/admin-consultorios" element={<CrudConsultorio />} />
                         <Route path="/agregar-consultorios" element={<AGConsultorios/>} />
+                        <Route path="/editar-consultorios" element={<EditConsultorios/>} />
                         <Route path="/admin-medicos" element={<CrudMedico />} />
                         <Route path="/agregar-medicos" element={<AGMedicos/>} />
-                        <Route path="/agregar-roles" element={<AGRoles/>} />
-                        <Route path="/editar-consultorios" element={<EditConsultorios/>} />
-                        <Route path="/admin-roles" element={<CrudRoles/>} />
                         <Route path="/editar-medicos" element={<EditMedicos/>} />
+                        <Route path="/agregar-roles" element={<AGRoles/>} />
+                        <Route path="/admin-roles" element={<CrudRoles/>} />
+                        <Route path="/admin-rolespermisos" element={<AsignarPermisosComponent/>} />
+                        {/* Otras Rutas */}
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
                         <Route path="/admin-pacientes" element={<CrudPacientes />} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
-                        <Route path="/admin-rolespermisos" element={<AsignarPermisosComponent/>} />
-
-                      
-
-
-
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />

@@ -61,7 +61,7 @@ const EditMedicos: React.FC = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
 
         Swal.fire({
           title: 'Editado',
@@ -169,7 +169,7 @@ const EditMedicos: React.FC = () => {
                 type="number"
                 value={formData.telefono}
                 onChange={handleChange}
-                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
+                InputProps={{ inputProps: { min: 0 } }} 
                 error={!!formErrors.telefono}
                 helperText={formErrors.telefono}
               />
@@ -214,7 +214,7 @@ const EditMedicos: React.FC = () => {
                 type="number"
                 value={formData.cedula}
                 onChange={handleChange}
-                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
+                InputProps={{ inputProps: { min: 0 } }} 
                 error={!!formErrors.cedula}
                 helperText={formErrors.cedula}
               />
@@ -236,7 +236,7 @@ const EditMedicos: React.FC = () => {
                 type="number"
                 value={formData.anosExperiencia}
                 onChange={handleChange}
-                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
+                InputProps={{ inputProps: { min: 0 } }} 
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -277,8 +277,9 @@ const EditMedicos: React.FC = () => {
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="submit"
+                fullWidth
                 variant="contained"
-                sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
               >
                 Guardar 
               </Button>
