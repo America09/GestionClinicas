@@ -26,6 +26,8 @@ import { EditConsultorios } from '../Pages/Public/Angel/EditConsultorios';
 import { EditMedicos } from '../Pages/Public/Angel/EditMedicos';
 import { CrudRoles } from '../Pages/Public/Angel/CrudRoles';
 import { AGRoles } from '../Pages/Public/Angel/AGRoles';
+import { AsignarPermisosComponent } from '../Pages/Public/Angel/AsignarPermisos';
+
 
 
 
@@ -62,6 +64,8 @@ const AppRouter = () => {
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
                         <Route path="/admin-pacientes" element={<CrudPacientes />} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
+                        <Route path="/admin-rolespermisos" element={<AsignarPermisosComponent/>} />
+
                       
 
 

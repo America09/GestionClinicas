@@ -143,7 +143,7 @@ export const RolesPage = () => {
             />
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
             <Button
               variant="contained"
               sx={{
@@ -157,6 +157,20 @@ export const RolesPage = () => {
               onClick={() => navigate("/agregar-roles")}
             >
               + Añadir Rol
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: '#43A49B',
+                color: 'white',
+                textTransform: 'capitalize',
+                '&:hover': {
+                  bgcolor: '#51C5BA',
+                },
+              }}
+              onClick={() => navigate('/admin-rolespermisos')}
+            >
+              + Añadir Permisos
             </Button>
           </Box>
         </Box>

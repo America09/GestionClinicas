@@ -9,21 +9,19 @@ import {
   Link,
   useMediaQuery,
   useTheme,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  TextField,
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-const AgregarRoles: React.FC = () => {
+const AgregarRol: React.FC = () => {
   const [formData, setFormData] = useState({
-    rol: '',
+    nombreRol: '',
   });
 
   const [formErrors, setFormErrors] = useState<any>({});
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     const { name, value } = e.target;
@@ -37,14 +35,8 @@ const AgregarRoles: React.FC = () => {
     e.preventDefault();
 
     const errors: any = {};
-    if (!formData.rol) {
-      errors.rol = 'El rol es requerido';
-    }
-
-    // Validar que el rol sea uno de los valores permitidos
-    const validRoles = ['Administrador', 'Medico', 'Paciente'];
-    if (formData.rol && !validRoles.includes(formData.rol)) {
-      errors.rol = 'Rol no válido';
+    if (!formData.nombreRol) {
+      errors.nombreRol = 'El nombre del rol es requerido';
     }
 
     setFormErrors(errors);
@@ -85,13 +77,13 @@ const AgregarRoles: React.FC = () => {
       sx={{
         padding: 3,
         maxWidth: 600,
-        margin: isLargeScreen ? '0 auto 0 0' : '0 auto',
+        margin: isLargeScreen ? '0 auto' : '0 auto',
         display: 'block',
         width: isLargeScreen ? 'calc(100% - 32px)' : '100%',
         boxShadow: 3,
         borderRadius: 2,
         mt: 4,
-        ml: isLargeScreen ? -32 : 0, // Mueve el formulario más a la izquierda en pantallas grandes
+        ml: isLargeScreen ? -11 : 0, // Adjusted left margin to move the content slightly to the left
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
@@ -117,27 +109,22 @@ const AgregarRoles: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <FormControl fullWidth required error={!!formErrors.rol}>
-                <InputLabel>Rol</InputLabel>
-                <Select
-                  name="rol"
-                  value={formData.rol}
-                  onChange={handleChange}
-                >
-                  <MenuItem value="Administrador">Administrador</MenuItem>
-                  <MenuItem value="Medico">Medico</MenuItem>
-                  <MenuItem value="Paciente">Paciente</MenuItem>
-                </Select>
-                {formErrors.rol && (
-                  <Typography variant="body2" color="error">{formErrors.rol}</Typography>
-                )}
-              </FormControl>
+              <TextField
+                fullWidth
+                required
+                label="Nombre del Rol"
+                name="nombreRol"
+                value={formData.nombreRol}
+                onChange={handleChange}
+                error={!!formErrors.nombreRol}
+                helperText={formErrors.nombreRol}
+              />
             </Grid>
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Button
                 type="submit"
                 variant="contained"
-                sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
+                sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' }, mb: 2 }}
               >
                 Agregar
               </Button>
@@ -149,4 +136,4 @@ const AgregarRoles: React.FC = () => {
   );
 };
 
-export default AgregarRoles;
+export default AgregarRol;
