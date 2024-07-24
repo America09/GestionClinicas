@@ -1,23 +1,18 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Container, useMediaQuery, Theme } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Container } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
-import { CreateHorario } from './CreateHorarioPage';
-import { useTheme } from '@mui/material/styles';
 
 const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', flex: 0.5, minWidth: 90 },
-    { field: 'fecha', headerName: 'Fecha', flex: 1, minWidth: 150 },
-    { field: 'turno', headerName: 'Turno', flex: 1, minWidth: 150 },
-    { field: 'entrada', headerName: 'Entrada', flex: 1, minWidth: 150 },
-    { field: 'salida', headerName: 'Salida', flex: 1, minWidth: 150 },
+    { field: 'id', headerName: 'ID', width: 90 },
+    { field: 'nombre', headerName: 'Nombre', width: 150 },
+    { field: 'descripcion', headerName: 'Descripción', width: 300 },
     {
         field: 'editar',
         headerName: 'Editar',
-        flex: 0.5,
-        minWidth: 100,
+        width: 100,
         sortable: false,
         renderCell: (params) => (
             <GridActionsCellItem
@@ -30,8 +25,7 @@ const columns: GridColDef[] = [
     {
         field: 'eliminar',
         headerName: 'Eliminar',
-        flex: 0.5,
-        minWidth: 100,
+        width: 100,
         sortable: false,
         renderCell: (params) => (
             <GridActionsCellItem
@@ -44,11 +38,9 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-    { id: 1, fecha: '2023-06-19', turno: 'Matutino', entrada: '08:00', salida: '12:00' },
-    { id: 2, fecha: '2023-06-20', turno: 'Vespertino', entrada: '13:00', salida: '17:00' },
-    { id: 3, fecha: '2023-06-25', turno: 'Matutino', entrada: '08:00', salida: '12:00' },
-    { id: 4, fecha: '2023-06-26', turno: 'Vespertino', entrada: '13:00', salida: '17:00' },
-    { id: 5, fecha: '2023-06-27', turno: 'Matutino', entrada: '08:00', salida: '12:00' },
+    { id: 1, nombre: 'Cardiología', descripcion: 'Especialidad médica que se encarga del estudio, diagnóstico y tratamiento de las enfermedades del corazón y del aparato circulatorio.' },
+    { id: 2, nombre: 'Dermatología', descripcion: 'Especialidad médica encargada del estudio y tratamiento de las enfermedades de la piel.' },
+    { id: 3, nombre: 'Gastroenterología', descripcion: 'Especialidad médica que se ocupa de las enfermedades del aparato digestivo y sus glándulas anexas.' },
 ];
 
 const handleEdit = (id: number) => {
@@ -57,28 +49,26 @@ const handleEdit = (id: number) => {
 
 const handleDelete = (id: number) => {
     console.log('Eliminar fila con ID:', id);
-    if (window.confirm('¿Estás seguro de que deseas eliminar este horario?')) {
-        // Lógica para eliminar el horario
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta especialidad?')) {
+        // Lógica para eliminar la especialidad
     }
 };
 
-export const HorariosPage: React.FC = () => {
+export const EspecialidadPage: React.FC = () => {
     const navigate = useNavigate();
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
-        <Container maxWidth="lg" sx={{ mt: 4 }}>
-            <Box sx={{ textAlign: 'center', width: '100%' }}>
-                <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'center', display: 'flex', mb: 2 }}>
+        <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
+            <Box sx={{ width: '100%', maxWidth: 1000, textAlign: 'center', lg: { xs: 2, sm: 4, md: 6, lg: 8 } }}>
+                <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'center', display: 'flex' }}>
                     <Link underline="hover" color="inherit" href="/">
                         Home
                     </Link>
-                    <Typography color="text.primary">Horarios</Typography>
+                    <Typography color="text.primary">Especialidades</Typography>
                 </Breadcrumbs>
 
                 <Typography variant="h4" component="h2" gutterBottom>
-                    Lista de Horarios
+                    Lista de Especialidades
                 </Typography>
 
                 <Box sx={{ width: '100%', mt: 2 }}>
@@ -96,8 +86,8 @@ export const HorariosPage: React.FC = () => {
                         disableSelectionOnClick
                         autoHeight
                         sx={{
-                            '& .MuiDataGrid-root': {
-                                overflowX: 'auto',
+                            '& .MuiDataGrid-viewport': {
+                                overflow: 'hidden',
                             },
                         }}
                     />
@@ -114,9 +104,9 @@ export const HorariosPage: React.FC = () => {
                                 bgcolor: '#51C5BA',
                             },
                         }}
-                        onClick={() => navigate("/admin-createHorarios")}
+                        onClick={() => navigate("/admin-createEspecialidades")}
                     >
-                        + Añadir horario
+                        + Añadir especialidad
                     </Button>
                 </Box>
             </Box>
