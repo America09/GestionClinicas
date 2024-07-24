@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2'; 
 import { TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Container, Breadcrumbs, Link, Paper } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import HomeIcon from '@mui/icons-material/Home';
@@ -35,7 +36,7 @@ const AgregarPacientes: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const errors: Partial<FormData> = {};
@@ -70,7 +71,35 @@ const AgregarPacientes: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      console.log(formData);
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        Swal.fire({
+          title: 'Éxito',
+          text: 'Paciente agregado correctamente.',
+          icon: 'success',
+          confirmButtonText: 'OK',
+        });
+
+        setFormData({
+          name: '',
+          surname: '',
+          email: '',
+          phone: '',
+          bloodGroup: '',
+          occupation: '',
+          maritalStatus: '',
+          address: '',
+          gender: '',
+        });
+      } catch (error) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al agregar el paciente. Inténtalo de nuevo.',
+          icon: 'error',
+          confirmButtonText: 'OK',
+        });
+      }
     }
   };
 
@@ -170,12 +199,12 @@ const AgregarPacientes: React.FC = () => {
                   <MenuItem value="O+">O+</MenuItem>
                   <MenuItem value="O-">O-</MenuItem>
                 </Select>
+                {formErrors.bloodGroup && (
+                  <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                    {formErrors.bloodGroup}
+                  </Typography>
+                )}
               </FormControl>
-              {formErrors.bloodGroup && (
-                <Typography variant="body2" color="error">
-                  {formErrors.bloodGroup}
-                </Typography>
-              )}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -204,12 +233,12 @@ const AgregarPacientes: React.FC = () => {
                   <MenuItem value="divorciado">Divorciado</MenuItem>
                   <MenuItem value="viudo">Viudo</MenuItem>
                 </Select>
+                {formErrors.maritalStatus && (
+                  <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                    {formErrors.maritalStatus}
+                  </Typography>
+                )}
               </FormControl>
-              {formErrors.maritalStatus && (
-                <Typography variant="body2" color="error">
-                  {formErrors.maritalStatus}
-                </Typography>
-              )}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -237,12 +266,12 @@ const AgregarPacientes: React.FC = () => {
                   <MenuItem value="femenino">Femenino</MenuItem>
                   <MenuItem value="otro">Otro</MenuItem>
                 </Select>
+                {formErrors.gender && (
+                  <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                    {formErrors.gender}
+                  </Typography>
+                )}
               </FormControl>
-              {formErrors.gender && (
-                <Typography variant="body2" color="error">
-                  {formErrors.gender}
-                </Typography>
-              )}
             </Grid>
             <Grid item xs={12}>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
