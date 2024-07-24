@@ -38,7 +38,6 @@ const CreateEspecialidad: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      // Simulamos una llamada a una API
       Swal.fire({
         title: 'Guardado exitosamente',
         text: 'La especialidad ha sido guardada correctamente.',
@@ -76,7 +75,7 @@ const CreateEspecialidad: React.FC = () => {
               <HomeIcon sx={{ mr: 0.5 }} />
               Inicio
             </Link>
-            <Link color="inherit" component={RouterLink} to="/lista-de-especialidades">
+            <Link color="inherit" component={RouterLink} to="/admin-especialidades">
               Especialidades
             </Link>
             <Typography color="textPrimary">Añadir Especialidad</Typography>

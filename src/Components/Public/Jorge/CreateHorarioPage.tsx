@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
-  TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Breadcrumbs, Link, Container, Paper
+  TextField, Button, Box, Typography, MenuItem,
+  Select, InputLabel, FormControl, Grid, Breadcrumbs, Link, Container, Paper
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import HomeIcon from '@mui/icons-material/Home';
@@ -90,7 +91,7 @@ const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) =>
   return (
     <Container
       maxWidth="md"
-      sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', minHeight: '100vh', py: 4, ml: 4 }}
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', py: 4 }}
     >
       <Paper
         sx={{
@@ -100,7 +101,6 @@ const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) =>
           maxWidth: '800px',
           boxShadow: 3,
           borderRadius: 2,
-          ml: 4,
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>

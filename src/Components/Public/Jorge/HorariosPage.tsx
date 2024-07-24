@@ -60,7 +60,7 @@ export const HorariosPage: React.FC = () => {
 
     const handleEdit = (id: number) => {
         const horario = rows.find((row) => row.id === id);
-        setSelectedHorario(horario);
+        setSelectedHorario(horario); 
         setOpenEdit(true);
     };
 

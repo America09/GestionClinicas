@@ -24,7 +24,7 @@ import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
 import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
 import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
-import EditHorarioPage from '../Components/Public/Jorge/EditHorarioPage';
+/* import EditHorarioPage from '../Components/Public/Jorge/EditHorarioPage'; */
 
 
 
@@ -52,10 +52,9 @@ const AppRouter = () => {
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
                         <Route path="/admin-pacientes" element={<CrudPacientes />} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
+
                         <Route path="/admin-createhorarios" element={<AddHorario/>} />
-
                         <Route path="/admin-especialidades" element={<CrudEspecialidad/>} />
-
                         <Route path="/admin-createespecialidad" element={<AddEspecialidad/>} />
                         <Route path="/admin-edithorario/${id}" element={<EditHorario/>} />
                         {/* <Route path="/admin-editHorario/:id" element={<EditHorarioPage />} /> */}

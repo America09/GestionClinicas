@@ -81,7 +81,7 @@ export const HeaderAuth = () => {
   const settings = ['Cerrar sesión'];
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 0}}>
       <AppBar sx={{ backgroundColor: '#263339' }}>
         <CustomToolbar>
           <Typography
