@@ -18,7 +18,8 @@ import {
   FormControlLabel,
   Radio,
   FormLabel,
-  FormHelperText
+  FormHelperText,
+  Paper // Importa Paper
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
@@ -75,7 +76,7 @@ const HistorialClinico: React.FC = () => {
   };
 
   const validate = () => {
-    const tempErrors: { [key: string]: string } = {};  // Change let to const
+    const tempErrors: { [key: string]: string } = {};
     if (!formData.name) tempErrors.name = "Este campo es obligatorio.";
     if (!formData.surname) tempErrors.surname = "Este campo es obligatorio.";
     if (!formData.address) tempErrors.address = "Este campo es obligatorio.";
@@ -126,7 +127,7 @@ const HistorialClinico: React.FC = () => {
             <HomeIcon sx={{ mr: 0.5 }} />
             Inicio
           </Link>
-          <Link color="inherit" href="lista-de-pacientes">
+          <Link color="inherit" href="admin-ListPacientes">
             Pacientes
           </Link>
           <Typography color="textPrimary">Historial Clínico</Typography>
@@ -135,148 +136,178 @@ const HistorialClinico: React.FC = () => {
       <Typography variant="h5" component="h2" gutterBottom sx={{ textAlign: 'center', mb: 2 }}>
         HISTORIA CLÍNICA
       </Typography>
-      <Tabs value={tab} onChange={handleTabChange} centered>
-        <Tab label="Información General" />
-        <Tab label="Hábitos / Alergias" />
-        <Tab label="Antecedentes" />
-      </Tabs>
-      <Box sx={{ mt: 2, minHeight: '60vh' }}>
-        {tab === 0 && (
-          <Box component="form" onSubmit={handleSubmit}>
-            <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
-              A continuación usted encontrará una serie de preguntas relacionadas a su salud. Es sumamente importante que las responda de forma honesta, ya que estas podrían ser trascendentales al planear y ejecutar su tratamiento.
-            </Typography>
-            
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="h6" gutterBottom>Información del cliente</Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Nombre"
-                    variant="outlined"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                    size="small"
-                    error={Boolean(errors.name)}
-                    helperText={errors.name}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Apellidos"
-                    variant="outlined"
-                    name="surname"
-                    value={formData.surname}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                    size="small"
-                    error={Boolean(errors.surname)}
-                    helperText={errors.surname}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Dirección"
-                    variant="outlined"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                    size="small"
-                    error={Boolean(errors.address)}
-                    helperText={errors.address}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth required size="small" error={Boolean(errors.gender)}>
-                    <InputLabel>Sexo</InputLabel>
-                    <Select
-                      name="gender"
-                      value={formData.gender}
+      <Paper elevation={3} sx={{ p: 2 }}>
+        <Tabs value={tab} onChange={handleTabChange} centered>
+          <Tab label="Información General" />
+          <Tab label="Hábitos / Alergias" />
+          <Tab label="Antecedentes" />
+        </Tabs>
+        <Box sx={{ mt: 2, minHeight: '60vh' }}>
+          {tab === 0 && (
+            <Box component="form" onSubmit={handleSubmit}>
+              <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
+                A continuación usted encontrará una serie de preguntas relacionadas a su salud. Es sumamente importante que las responda de forma honesta, ya que estas podrían ser trascendentales al planear y ejecutar su tratamiento.
+              </Typography>
+              
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="h6" gutterBottom>Información del cliente</Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Nombre"
+                      variant="outlined"
+                      name="name"
+                      value={formData.name}
                       onChange={handleChange}
-                    >
-                      <MenuItem value="Hombre">Hombre</MenuItem>
-                      <MenuItem value="Mujer">Mujer</MenuItem>
-                      <MenuItem value="Otro">Otro</MenuItem>
-                    </Select>
-                    {errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
-                  </FormControl>
+                      fullWidth
+                      required
+                      size="small"
+                      error={Boolean(errors.name)}
+                      helperText={errors.name}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Apellidos"
+                      variant="outlined"
+                      name="surname"
+                      value={formData.surname}
+                      onChange={handleChange}
+                      fullWidth
+                      required
+                      size="small"
+                      error={Boolean(errors.surname)}
+                      helperText={errors.surname}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Dirección"
+                      variant="outlined"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      fullWidth
+                      required
+                      size="small"
+                      error={Boolean(errors.address)}
+                      helperText={errors.address}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <FormControl fullWidth required size="small" error={Boolean(errors.gender)}>
+                      <InputLabel>Sexo</InputLabel>
+                      <Select
+                        name="gender"
+                        value={formData.gender}
+                        onChange={handleChange}
+                      >
+                        <MenuItem value="Hombre">Hombre</MenuItem>
+                        <MenuItem value="Mujer">Mujer</MenuItem>
+                        <MenuItem value="Otro">Otro</MenuItem>
+                      </Select>
+                      {errors.gender && <FormHelperText>{errors.gender}</FormHelperText>}
+                    </FormControl>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="h6" gutterBottom>Datos de contacto</Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Email"
-                    variant="outlined"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    type="email"
-                    fullWidth
-                    required
-                    size="small"
-                    error={Boolean(errors.email)}
-                    helperText={errors.email}
-                  />
+              </Box>
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="h6" gutterBottom>Datos de contacto</Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Email"
+                      variant="outlined"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      type="email"
+                      fullWidth
+                      required
+                      size="small"
+                      error={Boolean(errors.email)}
+                      helperText={errors.email}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Teléfono"
+                      variant="outlined"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      fullWidth
+                      required
+                      size="small"
+                      error={Boolean(errors.phone)}
+                      helperText={errors.phone}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Teléfono"
-                    variant="outlined"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                    size="small"
-                    error={Boolean(errors.phone)}
-                    helperText={errors.phone}
-                  />
+              </Box>
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="h6" gutterBottom>Dirección</Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <FormControl fullWidth required size="small" error={Boolean(errors.state)}>
+                      <InputLabel>Estado</InputLabel>
+                      <Select
+                        name="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                      >
+                        <MenuItem value="Aguascalientes">Aguascalientes</MenuItem>
+                        <MenuItem value="Baja California">Baja California</MenuItem>
+                        <MenuItem value="Baja California Sur">Baja California Sur</MenuItem>
+                        <MenuItem value="Campeche">Campeche</MenuItem>
+                        <MenuItem value="Chiapas">Chiapas</MenuItem>
+                        <MenuItem value="Chihuahua">Chihuahua</MenuItem>
+                        <MenuItem value="Coahuila">Coahuila</MenuItem>
+                        <MenuItem value="Colima">Colima</MenuItem>
+                        <MenuItem value="Durango">Durango</MenuItem>
+                        <MenuItem value="Estado de México">Estado de México</MenuItem>
+                        <MenuItem value="Guanajuato">Guanajuato</MenuItem>
+                        <MenuItem value="Guerrero">Guerrero</MenuItem>
+                        <MenuItem value="Hidalgo">Hidalgo</MenuItem>
+                        <MenuItem value="Jalisco">Jalisco</MenuItem>
+                        <MenuItem value="Michoacán">Michoacán</MenuItem>
+                        <MenuItem value="Morelos">Morelos</MenuItem>
+                        <MenuItem value="Nayarit">Nayarit</MenuItem>
+                        <MenuItem value="Nuevo León">Nuevo León</MenuItem>
+                        <MenuItem value="Oaxaca">Oaxaca</MenuItem>
+                        <MenuItem value="Puebla">Puebla</MenuItem>
+                        <MenuItem value="Querétaro">Querétaro</MenuItem>
+                        <MenuItem value="Quintana Roo">Quintana Roo</MenuItem>
+                        <MenuItem value="San Luis Potosí">San Luis Potosí</MenuItem>
+                        <MenuItem value="Sinaloa">Sinaloa</MenuItem>
+                        <MenuItem value="Sonora">Sonora</MenuItem>
+                        <MenuItem value="Tabasco">Tabasco</MenuItem>
+                        <MenuItem value="Tamaulipas">Tamaulipas</MenuItem>
+                        <MenuItem value="Tlaxcala">Tlaxcala</MenuItem>
+                        <MenuItem value="Veracruz">Veracruz</MenuItem>
+                        <MenuItem value="Yucatán">Yucatán</MenuItem>
+                        <MenuItem value="Zacatecas">Zacatecas</MenuItem>
+                      </Select>
+                      {errors.state && <FormHelperText>{errors.state}</FormHelperText>}
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      label="Código Postal"
+                      variant="outlined"
+                      name="postalCode"
+                      value={formData.postalCode}
+                      onChange={handleChange}
+                      fullWidth
+                      required
+                      size="small"
+                      error={Boolean(errors.postalCode)}
+                      helperText={errors.postalCode}
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="h6" gutterBottom>Dirección</Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Estado"
-                    variant="outlined"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                    size="small"
-                    error={Boolean(errors.state)}
-                    helperText={errors.state}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Código Postal"
-                    variant="outlined"
-                    name="postalCode"
-                    value={formData.postalCode}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                    size="small"
-                    error={Boolean(errors.postalCode)}
-                    helperText={errors.postalCode}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
+              </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
               <Button variant="contained" sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }} type="submit" onClick={() => console.log(formData)}>
                 ATRÁS
               </Button>
@@ -284,9 +315,9 @@ const HistorialClinico: React.FC = () => {
                 CONTINUAR
               </Button>
             </Box>
-          </Box>
-        )}
-        {tab === 1 && (
+            </Box>
+          )}
+          {tab === 1 && (
           <Box component="form" onSubmit={handleSubmit}>
             <Typography variant="body1" gutterBottom sx={{ mt: 2 }}>
               Proporcione detalles sobre sus hábitos y alergias.
@@ -375,13 +406,13 @@ const HistorialClinico: React.FC = () => {
               </Grid>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkgrey' } }}
                 onClick={() => setTab(0)}
               >
                 ATRÁS
-              </Button>
+              </Button> */}
               <Button
                 variant="contained"
                 sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }}
@@ -436,7 +467,8 @@ const HistorialClinico: React.FC = () => {
             </Box>
           </Box>
         )}
-      </Box>
+        </Box>
+      </Paper>
     </Container>
   );
 };

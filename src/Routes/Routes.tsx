@@ -45,7 +45,7 @@ const AppRouter = () => {
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
                         <Route path="/admin-Listpacientes" element={<PacientesList/>} />
                         <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
-                        <Route path="/admin-Historial" element={<HistorialClinicoPage/>} />
+                        <Route path="/admin-Historial1" element={<HistorialClinicoPage/>} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
                       
                     </Route>
