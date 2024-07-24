@@ -8,7 +8,7 @@ const useAuth = () => {
 
 const ProtectedLayout = () => {
     const isAuth = useAuth();
-    return isAuth ? <Outlet /> : <Navigate to="/login" />;
+    return isAuth ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedLayout;

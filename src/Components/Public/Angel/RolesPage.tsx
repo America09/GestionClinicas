@@ -10,9 +10,9 @@ import Swal from 'sweetalert2';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'Status', headerName: 'Status', width: 150, editable: true },
-  { field: 'Disponibilidad', headerName: 'Disponibilidad', width: 180, editable: true },
-  { field: 'Consultorio', headerName: 'Consultorio', width: 180, editable: true },
+  { field: 'Rol', headerName: 'Rol', width: 150, editable: true },
+  { field: 'Usuario', headerName: 'Usuario', width: 180, editable: true },
+  { field: 'Acceso', headerName: 'Acceso', width: 180, editable: true }, // Nueva columna para el nivel de acceso
   {
     field: 'Editar',
     headerName: 'Editar',
@@ -42,20 +42,20 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-  { id: 1, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Cardiología' },
-  { id: 2, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Pediatría' },
-  { id: 3, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Neurología' },
-  { id: 4, Status: 'Disponible', Disponibilidad: 'Tarde', Consultorio: 'Ortopedia' },
-  { id: 5, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Dermatología' },
-  { id: 6, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Radiología' },
-  { id: 7, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Oncología' },
-  { id: 8, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Cirugía General' },
-  { id: 9, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Ginecología' },
+  { id: 1, Rol: 'Administrador', Usuario: 'Juan Pérez', Acceso: 'Acceso Total' },
+  { id: 2, Rol: 'Usuario', Usuario: 'María López', Acceso: 'Acceso Moderado' },
+  { id: 3, Rol: 'Médico', Usuario: 'Carlos Sánchez', Acceso: 'Acceso Limitado' },
+  { id: 4, Rol: 'Usuario', Usuario: 'Ana Rodríguez', Acceso: 'Acceso Moderado' },
+  { id: 5, Rol: 'Médico', Usuario: 'Luis Gómez', Acceso: 'Acceso Limitado' },
+  { id: 6, Rol: 'Administrador', Usuario: 'Laura Fernández', Acceso: 'Acceso Total' },
+  { id: 7, Rol: 'Usuario', Usuario: 'David Martínez', Acceso: 'Acceso Moderado' },
+  { id: 8, Rol: 'Médico', Usuario: 'Andrea Morales', Acceso: 'Acceso Limitado' },
+  { id: 9, Rol: 'Usuario', Usuario: 'Sofia Ramírez', Acceso: 'Acceso Moderado' },
 ];
 
 const handleEdit = (id: number) => {
   Swal.fire({
-    title: "¿Estás seguro de que deseas editar este consultorio?",
+    title: "¿Estás seguro de que deseas editar este rol?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: 'Sí, editar',
@@ -65,8 +65,9 @@ const handleEdit = (id: number) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
+        Swal.fire("Editado", "El rol ha sido editado correctamente.", "success");
       } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar el consultorio. Inténtalo de nuevo.", "error");
+        Swal.fire("Error", "Hubo un problema al editar el rol. Inténtalo de nuevo.", "error");
       }
     }
   });
@@ -74,7 +75,7 @@ const handleEdit = (id: number) => {
 
 const handleDelete = (id: number) => {
   Swal.fire({
-    title: "¿Estás seguro de que deseas eliminar este consultorio?",
+    title: "¿Estás seguro de que deseas eliminar este rol?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: 'Sí, eliminar',
@@ -84,15 +85,15 @@ const handleDelete = (id: number) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Eliminado", "El consultorio ha sido eliminado correctamente.", "success");
+        Swal.fire("Eliminado", "El rol ha sido eliminado correctamente.", "success");
       } catch (error) {
-        Swal.fire("Error", "Hubo un problema al eliminar el consultorio. Inténtalo de nuevo.", "error");
+        Swal.fire("Error", "Hubo un problema al eliminar el rol. Inténtalo de nuevo.", "error");
       }
     }
   });
 };
 
-export const ConsultorioPage = () => {
+export const RolesPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -115,13 +116,13 @@ export const ConsultorioPage = () => {
                 <HomeIcon sx={{ mr: 0.5 }} />
                 Inicio
               </Link>
-              <Typography color="textPrimary">Consultorios</Typography>
+              <Typography color="textPrimary">Roles</Typography>
             </Breadcrumbs>
           </Box>
 
           <Box sx={{ textAlign: 'center', mb: 2 }}>
             <Typography variant="h4" component="h2" gutterBottom>
-              Lista de Consultorios
+              Lista de Roles
             </Typography>
           </Box>
 
@@ -142,7 +143,7 @@ export const ConsultorioPage = () => {
             />
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
             <Button
               variant="contained"
               sx={{
@@ -153,9 +154,23 @@ export const ConsultorioPage = () => {
                   bgcolor: '#51C5BA',
                 },
               }}
-              onClick={() => navigate("/agregar-consultorios")}
+              onClick={() => navigate("/agregar-roles")}
             >
-              + Añadir Consultorios
+              + Añadir Rol
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: '#43A49B',
+                color: 'white',
+                textTransform: 'capitalize',
+                '&:hover': {
+                  bgcolor: '#51C5BA',
+                },
+              }}
+              onClick={() => navigate('/admin-rolespermisos')}
+            >
+              + Añadir Permisos
             </Button>
           </Box>
         </Box>

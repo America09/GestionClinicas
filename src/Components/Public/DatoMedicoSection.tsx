@@ -2,7 +2,7 @@ import { Box, Grid, Typography, TextField } from "@mui/material";
 import Autocomplete from '@mui/material/Autocomplete';
 import React from "react";
 
-const estadosDeMexico = [
+const medicos = [
   { name: 'Medico 1' },
   { name: 'Medico 2' },
   { name: 'Medico 3' },
@@ -10,45 +10,42 @@ const estadosDeMexico = [
 ];
 
 export const DatoMedicoSection = () => {
-  const [estadoValue, setEstadoValue] = React.useState(estadosDeMexico[0]);
-  const [estadoInputValue, setEstadoInputValue] = React.useState('');
+  const [medicoValue, setMedicoValue] = React.useState(medicos[0]);
+  const [medicoInputValue, setMedicoInputValue] = React.useState('');
 
   return (
-    <Box component="form"
+    <Box
+      component="form"
       sx={{
-        '& .MuiTextField-root': { m: 1, width: '100%' },
+        
+        flexDirection: 'column',
+        mt: 3,
+        width: '100%' 
       }}
       noValidate
       autoComplete="off"
     >
-      <Typography sx={{ marginTop: 3, textAlign: 'left', fontWeight: 'semibold', fontSize: 24, color: '#263339' }}>
+      <Typography
+       sx={{ marginTop: 3, textAlign: 'left', marginLeft:2, fontWeight: 'semibold', fontSize: 24, color: '#263339' }}
+      >
         Datos del Médico
       </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12}>
           <Autocomplete
-            value={estadoValue}
+            value={medicoValue}
             onChange={(event, newValue) => {
-              setEstadoValue(newValue);
+              setMedicoValue(newValue);
             }}
-            inputValue={estadoInputValue}
+            inputValue={medicoInputValue}
             onInputChange={(event, newInputValue) => {
-              setEstadoInputValue(newInputValue);
+              setMedicoInputValue(newInputValue);
             }}
-            id="estado-autocomplete"
-            options={estadosDeMexico}
+            id="medico-autocomplete"
+            options={medicos}
             getOptionLabel={(option) => option.name}
             renderInput={(params) => <TextField {...params} label="Médico" />}
-            sx={{ width: '100%' }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="input-2"
-            type="number"
-            label="Cédula Profesional"
-            variant="outlined"
+            sx={{ width: '100%' }} 
           />
         </Grid>
       </Grid>

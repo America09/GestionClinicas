@@ -22,7 +22,7 @@ return (
     noValidate
     autoComplete="off"
     >
-    <Typography sx={{ marginTop: 3, textAlign: 'left', fontWeight: 'semibold', fontSize: 24, color: '#263339' }}>
+    <Typography sx={{ marginTop: 3, textAlign: 'left', marginLeft:2, fontWeight: 'semibold', fontSize: 24, color: '#263339' }}>
         Servicios Médicos
     </Typography>
     <Grid container spacing={1}>

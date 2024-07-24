@@ -13,20 +13,11 @@ import Terminoss from '../Pages/Public/Terminosy';
 import Politicas from '../Pages/Public/Politicas';
 import Nosotross from '../Pages/Public/Nosotros';
 import Contacto from '../Pages/Public/Contacto';
-import { CrudMedico } from '../Pages/Public/Jorge/CrudMedico';
+import { CrudMedico } from '../Pages/Public/Angel/CrudMedico';
 import { CrudHorario } from '../Pages/Public/Jorge/CrudHorarios';
 import { CrudCitas } from '../Pages/Public/America/CrudCitas';
 import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
 import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
-
-
-import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
-import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
-import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
-import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
-/* import EditHorarioPage from '../Components/Public/Jorge/EditHorarioPage'; */
-
-
 
 const AppRouter = () => {
     return (
@@ -42,21 +33,24 @@ const AppRouter = () => {
                     <Route path="/politicas" element={<Politicas />} />
                     <Route path="/nosotros" element={<Nosotross />} />
                     <Route path="/contacto" element={<Contacto />} />
+                    <Route path="/confirma" element={<Confirma />} />
+                    <Route path="/form" element={<ConfirmarCOntraseña />} />
                 </Route>
 
                 <Route element={<ProtectedLayout />}>
                     <Route element={<AuthLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/admin-consultorios" element={<CrudConsultorio />} />
+                        <Route path="/agregar-consultorios" element={<AGConsultorios/>} />
                         <Route path="/admin-medicos" element={<CrudMedico />} />
+                        <Route path="/agregar-medicos" element={<AGMedicos/>} />
+                        <Route path="/agregar-roles" element={<AGRoles/>} />
+                        <Route path="/editar-consultorios" element={<EditConsultorios/>} />
+                        <Route path="/admin-roles" element={<CrudRoles/>} />
+                        <Route path="/editar-medicos" element={<EditMedicos/>} />
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
                         <Route path="/admin-pacientes" element={<CrudPacientes />} />
                         <Route path="/admin-citas" element={<CrudCitas/>} />
-                        <Route path="/admin-createhorarios" element={<AddHorario/>} />
-                        <Route path="/admin-especialidades" element={<CrudEspecialidad/>} />
-                        <Route path="/admin-createespecialidad" element={<AddEspecialidad/>} />
-                        <Route path="/admin-edithorario/${id}" element={<EditHorario/>} />
-                        {/* <Route path="/admin-editHorario/:id" element={<EditHorarioPage />} /> */}
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />
