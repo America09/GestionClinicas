@@ -1,46 +1,10 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Container, useMediaQuery, Theme, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, FormControl, InputLabel, Paper } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, FormControl, InputLabel, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
-
-const columns: GridColDef[] = [
-    { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
-    { field: 'fecha', headerName: 'Fecha', flex: 1, minWidth: 150 },
-    { field: 'turno', headerName: 'Turno', flex: 1, minWidth: 150 },
-    { field: 'entrada', headerName: 'Entrada', flex: 1, minWidth: 150 },
-    { field: 'salida', headerName: 'Salida', flex: 1, minWidth: 150 },
-    {
-        field: 'editar',
-        headerName: 'Editar',
-        flex: 0.5,
-        minWidth: 100,
-        sortable: false,
-        renderCell: (params) => (
-            <GridActionsCellItem
-                icon={<EditIcon />}
-                label="Edit"
-                onClick={() => handleEdit(params.id)}
-            />
-        ),
-    },
-    {
-        field: 'eliminar',
-        headerName: 'Eliminar',
-        flex: 0.5,
-        minWidth: 100,
-        sortable: false,
-        renderCell: (params) => (
-            <GridActionsCellItem
-                icon={<DeleteIcon />}
-                label="Delete"
-                onClick={() => handleDelete(params.id)}
-            />
-        ),
-    },
-];
+import Swal from 'sweetalert2';
 
 const rows = [
     { id: 1, fecha: '2023-06-19', turno: 'Matutino', entrada: '08:00', salida: '12:00' },
@@ -50,25 +14,38 @@ const rows = [
     { id: 5, fecha: '2023-06-27', turno: 'Matutino', entrada: '08:00', salida: '12:00' },
 ];
 
-export const HorariosPage: React.FC = () => {
+const HorariosPage: React.FC = () => {
+    console.log('HorariosPage component is being rendered');
+    
     const navigate = useNavigate();
-    const theme = useTheme();
-    const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
     const [openEdit, setOpenEdit] = React.useState(false);
     const [selectedHorario, setSelectedHorario] = React.useState<any>(null);
 
     const handleEdit = (id: number) => {
         const horario = rows.find((row) => row.id === id);
-        setSelectedHorario(horario); 
+        setSelectedHorario(horario);
         setOpenEdit(true);
     };
 
     const handleDelete = (id: number) => {
-        if (window.confirm('¿Estás seguro de que deseas eliminar este horario?')) {
-            console.log('Eliminar fila con ID:', id);
-            // Lógica para eliminar el horario
-        }
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log('Eliminar fila con ID:', id);
+                Swal.fire(
+                    'Eliminado!',
+                    'El horario ha sido eliminado.',
+                    'success'
+                );
+            }
+        });
     };
 
     const handleCloseEdit = () => {
@@ -77,11 +54,51 @@ export const HorariosPage: React.FC = () => {
     };
 
     const handleSaveEdit = () => {
-        // Lógica para guardar los cambios del horario editado
         console.log('Guardar cambios para el horario:', selectedHorario);
         setOpenEdit(false);
         setSelectedHorario(null);
+        Swal.fire(
+            'Guardado!',
+            'El horario ha sido editado exitosamente.',
+            'success'
+        );
     };
+
+    const columns: GridColDef[] = [
+        { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
+        { field: 'fecha', headerName: 'Fecha', flex: 1, minWidth: 150 },
+        { field: 'turno', headerName: 'Turno', flex: 1, minWidth: 150 },
+        { field: 'entrada', headerName: 'Entrada', flex: 1, minWidth: 150 },
+        { field: 'salida', headerName: 'Salida', flex: 1, minWidth: 150 },
+        {
+            field: 'editar',
+            headerName: 'Editar',
+            flex: 0.5,
+            minWidth: 100,
+            sortable: false,
+            renderCell: (params) => (
+                <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label="Edit"
+                    onClick={() => handleEdit(params.id)}
+                />
+            ),
+        },
+        {
+            field: 'eliminar',
+            headerName: 'Eliminar',
+            flex: 0.5,
+            minWidth: 100,
+            sortable: false,
+            renderCell: (params) => (
+                <GridActionsCellItem
+                    icon={<DeleteIcon />}
+                    label="Delete"
+                    onClick={() => handleDelete(params.id)}
+                />
+            ),
+        },
+    ];
 
     return (
         <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -89,13 +106,13 @@ export const HorariosPage: React.FC = () => {
                 sx={{
                     padding: 4,
                     textAlign: 'center',
-                    width: { xs: '100%', sm: '100%', md: '100%', lg: '100%' },
+                    width: '100%',
                     boxShadow: 3,
                     borderRadius: 2,
                 }}
             >
                 <Box sx={{ width: '100%' }}>
-                    <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'center', display: 'flex', mb: 2 }}>
+                    <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'flex-start', display: 'flex', mb: 2 }}>
                         <Link underline="hover" color="inherit" href="/">
                             Home
                         </Link>
@@ -195,3 +212,5 @@ export const HorariosPage: React.FC = () => {
         </Container>
     );
 };
+
+export default HorariosPage;

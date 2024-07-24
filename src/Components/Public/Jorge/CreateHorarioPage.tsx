@@ -17,12 +17,7 @@ interface FormData {
   salida: string;
 }
 
-interface CreateHorarioProps {
-  initialData?: FormData;
-  onSave: (data: FormData) => void;
-}
-
-const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) => {
+const CreateHorario: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     clinicaConsultorio: '',
     medico: '',
@@ -33,12 +28,6 @@ const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) =>
   });
 
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
-
-  useEffect(() => {
-    if (initialData) {
-      setFormData(initialData);
-    }
-  }, [initialData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
     const { name, value } = e.target;
@@ -71,7 +60,6 @@ const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) =>
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      onSave(formData);
       Swal.fire({
         title: 'Guardado exitosamente',
         text: 'El horario ha sido guardado correctamente.',
@@ -96,20 +84,19 @@ const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) =>
       <Paper
         sx={{
           padding: 4,
-          textAlign: 'center',
           width: '100%',
           maxWidth: '800px',
           boxShadow: 3,
           borderRadius: 2,
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 3 }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />
               Inicio
             </Link>
-            <Link color="inherit" component={RouterLink} to="/lista-de-horarios">
+            <Link color="inherit" component={RouterLink} to="/admin-horarios">
               Horarios
             </Link>
             <Typography color="textPrimary">Añadir Horario</Typography>
@@ -254,7 +241,7 @@ const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) =>
                   }}
                   type="submit"
                 >
-                  {initialData ? 'Guardar cambios' : 'Agregar'}
+                  Agregar
                 </Button>
               </Box>
             </Grid>
