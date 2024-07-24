@@ -56,7 +56,6 @@ export const CitasPage = () => {
     event.preventDefault();
 
     if (validateForm()) {
-
       console.log('Formulario enviado');
     }
   };
@@ -119,11 +118,11 @@ export const CitasPage = () => {
           <Grid item xs={12} sm={6}>
             <Autocomplete
               value={value}
-              onChange={(event: any, newValue: string | null) => {
+              onChange={(event: React.SyntheticEvent, newValue: string | null) => {
                 setValue(newValue);
               }}
               inputValue={inputValue}
-              onInputChange={(event, newInputValue) => {
+              onInputChange={(event: React.SyntheticEvent, newInputValue: string) => {
                 setInputValue(newInputValue);
               }}
               id="controllable-states-demo"

@@ -56,7 +56,7 @@ const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOp
             username,
             email,
             password,
-            roleId: 2 // Puedes ajustar esto según tus necesidades
+            roleId: 2
         };
 
         const success = await handleCreateUser(createUserRequest);
@@ -71,20 +71,24 @@ const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOp
     return (
         <Modal open={open} onClose={onClose} aria-labelledby="modal-title" aria-describedby="modal-description">
             <Box sx={{ 
-                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, 
-                bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: '30px', 
-                display: 'flex', flexDirection: 'column', alignItems: 'center' 
+                position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', 
+                width: { xs: '90%', sm: '80%', md: '60%', lg: '40%' }, 
+                maxWidth: 600, 
+                maxHeight: '90vh', 
+                overflowY: 'auto', 
+                bgcolor: 'background.paper', boxShadow: 24, p: { xs: 3, sm: 3 }, borderRadius: '16px', 
+                display: 'flex', flexDirection: 'column', alignItems: 'center'
             }}>
                 <IconButton onClick={onClose} sx={{ position: 'absolute', top: 10, right: 10 }}>
                     <CloseIcon />
                 </IconButton>
                 <Button onClick={handleFacebookLogin} variant="outlined" 
-                    sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
+                    sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 2, textTransform: 'capitalize' }}>
                     <FacebookIcon sx={{ mr: 1, color: '#3b5998' }} />
                     Continuar con Facebook
                 </Button>
                 <Button onClick={handleGoogleLogin} variant="outlined" 
-                    sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
+                    sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 2, textTransform: 'capitalize' }}>
                     <GoogleIcon sx={{ mr: 1, color: '#DB4437' }} />
                     Continuar con Google
                 </Button>
@@ -140,34 +144,34 @@ const CrearCuentaModal: React.FC<CrearCuentaModalProps> = ({ open, onClose, onOp
                         Al menos 8 caracteres*
                     </Typography>
                     <FormControlLabel
-                        control={<Checkbox checked={checked} onChange={handleCheckboxChange} required />}
-                        label={
-                            <span>
-                                Al crear una cuenta, acepta los
-                                <Link href="/terminos" sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
-                                    Términos y Condiciones
-                                </Link>
-                                y la
-                                <Link href="/politicas" sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
-                                    Política de Privacidad
-                                </Link>
-                            </span>
-                        }
-                        sx={{ mt: 2, width: '100%' }}
-                    />
+    control={<Checkbox checked={checked} onChange={handleCheckboxChange} required />}
+    label={
+        <Box sx={{ textAlign: 'center', fontSize: '0.9rem', mt:3 }}> 
+            Al crear una cuenta, acepta los
+            <Link href="/terminos" sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1, fontSize: '0.9' }}>
+                Términos y Condiciones
+            </Link>
+            y la
+            <Link href="/politicas" sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1, fontSize: '0.9' }}>
+                Política de Privacidad
+            </Link>
+        </Box>
+    }
+    sx={{ mt: 2, width: '100%' }}
+/>
                     {error && (
                         <Typography color="error" sx={{ mt: 2 }}>
                             {error}
                         </Typography>
                     )}
                     <Button type="submit" variant="contained" color="primary" 
-                        sx={{ mt: 2, bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}>
+                        sx={{  bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}>
                         Ingresar
                     </Button>
                 </form>
-                <Typography variant="body1" component="p" sx={{ textAlign: 'center', marginTop: 3 }}>
+                <Typography variant="body1" component="p" sx={{ textAlign: 'center', marginTop: 3, fontSize: '0.9rem' }}>
                     ¿Ya tienes cuenta?
-                    <Link onClick={onOpenLogin} sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1, cursor: 'pointer' }}>
+                    <Link onClick={onOpenLogin} sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1, cursor: 'pointer', fontSize: '0.9rem' }}>
                         Inicia sesión aquí
                     </Link>
                 </Typography>

@@ -54,12 +54,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const CustomToolbar = styled(Toolbar)({
+const CustomToolbar = styled(Toolbar)(({ theme }) => ({
   height: '60px',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
-});
+  padding: '0 16px',
+  [theme.breakpoints.up('sm')]: {
+    padding: '0 24px',
+  },
+}));
 
 export const HeaderAuth = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -95,7 +99,7 @@ export const HeaderAuth = () => {
           <Search
             sx={{
               top: 0,
-              width: { xs: '40%', sm: 'auto' },
+              width: { xs: '60%', sm: 'auto' },
               marginLeft: { xs: 'auto', sm: 0 },
               marginRight: { xs: 'auto', sm: 'auto' },
             }}

@@ -8,27 +8,27 @@ const NotFound = () => {
   return (
     <Box
       sx={{
-        width: "auto",
-        height: "570px", 
+        width: "100%",
+        height: "100vh", 
         backgroundColor: "#A4BBBB",
         display: "flex", 
         justifyContent: "center",
         alignItems: "center",
-        padding: { xs: 2, sm: 3, md: 4 },
         textAlign: "center",
+        overflow: "hidden" 
       }}
     >
       <Grid container spacing={2} alignItems="center" justifyContent="center">
         <Grid item xs={12} md={6}>
           <Container>
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: { xs: 5, md: 10 } }}>
               <Typography
                 variant="h1"
                 component="span"
                 gutterBottom
                 sx={{
                   color: "#ffffff",
-                  fontSize: { xs: "6rem", sm: "8rem", md: "12rem" },
+                  fontSize: { xs: "4rem", sm: "6rem", md: "8rem", lg: "10rem" },
                   fontWeight: "semibold",
                 }}
               >
@@ -36,10 +36,10 @@ const NotFound = () => {
               </Typography>
               <SettingsIcon
                 sx={{
-                  fontSize: { xs: "6rem", sm: "8rem", md: "12rem" },
+                  fontSize: { xs: "4rem", sm: "6rem", md: "8rem", lg: "10rem" },
                   color: "#ffffff",
-                  marginBottom: 9,
-                  mx: 1,
+                  marginBottom: { xs: 4, md: 6 },
+                  mx: { xs: 0.5, md: 1 },
                 }}
               />
               <Typography
@@ -48,7 +48,7 @@ const NotFound = () => {
                 gutterBottom
                 sx={{
                   color: "#ffffff",
-                  fontSize: { xs: "6rem", sm: "8rem", md: "12rem" },
+                  fontSize: { xs: "4rem", sm: "6rem", md: "8rem", lg: "10rem" },
                   fontWeight: "semibold",
                 }}
               >
