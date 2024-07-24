@@ -14,20 +14,20 @@ import EventAvailableOutlinedIcon from '@mui/icons-material/EventAvailableOutlin
 import MedicalServicesOutlinedIcon from '@mui/icons-material/MedicalServicesOutlined';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
 import logo from '../../assets/logo.png';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 140;
 
 export const Sidebar = () => {
   const navigate = useNavigate();
   const icons = [
-    <HomeOutlinedIcon fontSize="large" onClick={() => navigate('/Inicio')} />,
-    <MedicalServicesOutlinedIcon fontSize="large" />,
-    <PermContactCalendarOutlinedIcon fontSize="large" />,
-    <PendingActionsOutlinedIcon fontSize="large" />,
-    <PermIdentityOutlinedIcon fontSize="large" onClick={() => navigate('/lista-de-pacientes')} />,
-    <Person3OutlinedIcon fontSize="large" onClick={() => navigate('/Doctor')} />,
-    <EventAvailableOutlinedIcon fontSize="large" />,
+    <HomeOutlinedIcon fontSize="large" onClick={() => navigate('/dashboard')} />,
+    <MedicalServicesOutlinedIcon fontSize="large" onClick={() => navigate('/ConsultorioPage')} />,
+    <PermContactCalendarOutlinedIcon fontSize="large" onClick={() => navigate('/admin-horarios')} />,
+    <PendingActionsOutlinedIcon fontSize="large" onClick={() => navigate('/admin-citas')} />,
+    <PermIdentityOutlinedIcon fontSize="large" onClick={() => navigate('/admin-Listpacientes')} />,
+    <Person3OutlinedIcon fontSize="large" onClick={() => navigate('/MedicosPage')} />,
+    <EventAvailableOutlinedIcon fontSize="large" onClick={() => navigate('/admin-horarios')} />,
   ];
 
   const getLogoStyle = () => ({
