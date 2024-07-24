@@ -70,8 +70,7 @@ const handleEdit = async (id: number) => {
             // Simulación de llamada a la API
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
-            Swal.fire("Editado", "El médico ha sido editado correctamente.", "success");
-            // Actualizar estado o recargar datos aquí
+            // Aquí puedes actualizar el estado o recargar datos si es necesario
         } catch (error) {
             Swal.fire("Error", "Hubo un problema al editar el médico. Inténtalo de nuevo.", "error");
         }

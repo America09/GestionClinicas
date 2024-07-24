@@ -65,7 +65,6 @@ const handleEdit = (id: number) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Editado", "El consultorio ha sido editado correctamente.", "success");
       } catch (error) {
         Swal.fire("Error", "Hubo un problema al editar el consultorio. Inténtalo de nuevo.", "error");
       }
