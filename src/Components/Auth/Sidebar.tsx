@@ -23,7 +23,7 @@ const Sidebar = () => {
 
     const menuItems = [
         { icon: <HomeOutlinedIcon />, label: 'Inicio', route: '/dashboard' },
-        { icon: <MedicalServicesOutlinedIcon />, label: 'Consultorio', route: '/admin-consultorios' },
+        { icon: <MedicalServicesOutlinedIcon />, label: 'Especialidad', route: '/admin-especialidad' },
         { icon: <PermContactCalendarOutlinedIcon />, label: 'Horarios', route: '/admin-horarios' },
         { icon: <PendingActionsOutlinedIcon />, label: 'Citas', route: '/admin-citas' },
         { icon: <PermIdentityOutlinedIcon />, label: 'Pacientes', route: '/admin-Listpacientes' },
@@ -92,7 +92,7 @@ const Sidebar = () => {
                     variant="permanent"
                     sx={{
                         display: { xs: 'none', md: 'block' },
-                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#1e1e2d', color: 'white' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, backgroundColor: '#263339', color: 'white' },
                     }}
                     open
                 >
