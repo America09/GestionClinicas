@@ -1,4 +1,5 @@
-import { DataGrid, GridColDef, GridActionsCellItem, GridRenderCellParams } from '@mui/x-data-grid';
+import * as React from 'react';
+import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -17,11 +18,11 @@ const columns: GridColDef[] = [
     headerName: 'Editar',
     width: 100,
     sortable: false,
-    renderCell: (params: GridRenderCellParams) => (
+    renderCell: (params) => (
       <GridActionsCellItem
         icon={<EditIcon />}
         label="Edit"
-        onClick={() => handleEdit(params.id as number)}
+        onClick={() => handleEdit(params.id)}
       />
     ),
   },
@@ -30,11 +31,11 @@ const columns: GridColDef[] = [
     headerName: 'Eliminar',
     width: 100,
     sortable: false,
-    renderCell: (params: GridRenderCellParams) => (
+    renderCell: (params) => (
       <GridActionsCellItem
         icon={<DeleteIcon />}
         label="Delete"
-        onClick={() => handleDelete(params.id as number)}
+        onClick={() => handleDelete(params.id)}
       />
     ),
   },
@@ -59,12 +60,11 @@ const handleEdit = (id: number) => {
     showCancelButton: true,
     confirmButtonText: 'Sí, editar',
     cancelButtonText: 'No, cancelar',
+    dangerMode: true,
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        // Lógica para editar el consultorio utilizando `id`
-        console.log(`Editing consultorio with ID: ${id}`);
       } catch (error) {
         Swal.fire("Error", "Hubo un problema al editar el consultorio. Inténtalo de nuevo.", "error");
       }
@@ -79,12 +79,11 @@ const handleDelete = (id: number) => {
     showCancelButton: true,
     confirmButtonText: 'Sí, eliminar',
     cancelButtonText: 'No, cancelar',
+    dangerMode: true,
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        // Lógica para eliminar el consultorio utilizando `id`
-        console.log(`Deleting consultorio with ID: ${id}`);
         Swal.fire("Eliminado", "El consultorio ha sido eliminado correctamente.", "success");
       } catch (error) {
         Swal.fire("Error", "Hubo un problema al eliminar el consultorio. Inténtalo de nuevo.", "error");
@@ -106,7 +105,7 @@ export const ConsultorioPage = () => {
           boxShadow: 3,
           borderRadius: 2,
           mt: 1,
-          ml: -2, 
+          ml: -2, // Ajusta el margen izquierdo para mover el Paper más a la izquierda
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -138,17 +137,21 @@ export const ConsultorioPage = () => {
                 },
               }}
               pageSizeOptions={[5]}
-              disableSelectionOnClick={true}
+              disableSelectionOnClick
               autoHeight
             />
           </Box>
 
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Button
-              type="submit"
-              fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }
+              sx={{
+                bgcolor: '#43A49B',
+                color: 'white',
+                textTransform: 'capitalize',
+                '&:hover': {
+                  bgcolor: '#51C5BA',
+                },
               }}
               onClick={() => navigate("/agregar-consultorios")}
             >

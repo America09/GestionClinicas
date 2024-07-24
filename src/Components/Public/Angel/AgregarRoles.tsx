@@ -83,7 +83,7 @@ const AgregarRol: React.FC = () => {
         boxShadow: 3,
         borderRadius: 2,
         mt: 10,
-        ml: isLargeScreen ? -20 : 0, // Ajuste aquí para mover un poco a la izquierda
+        ml: isLargeScreen ? -20 : 0, 
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>

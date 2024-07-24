@@ -104,7 +104,7 @@ const AsignarPermisos: React.FC = () => {
         boxShadow: 3,
         borderRadius: 2,
         mt: 4,
-        ml: isLargeScreen ? 2 : 0, 
+        ml: isLargeScreen ? 2 : 0,
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
@@ -155,13 +155,15 @@ const AsignarPermisos: React.FC = () => {
                   value={formData.permiso}
                   onChange={handleChange}
                 />
-                <Button
-                  variant="contained"
-                  onClick={handleAgregarPermiso}
-                  sx={{ mt: 2, backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
-                >
-                  Agregar Permiso
-                </Button>
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                  <Button
+                    variant="contained"
+                    onClick={handleAgregarPermiso}
+                    sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' }, width: 'fit-content' }}
+                  >
+                    Agregar Permiso
+                  </Button>
+                </Box>
               </FormControl>
             </Grid>
             <Grid item xs={12}>

@@ -39,19 +39,12 @@ const AgregarMedico: React.FC = () => {
 
   const [formErrors, setFormErrors] = useState<any>({});
 
-  const handleChange = (e: React.ChangeEvent<any>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
       [name]: type === 'checkbox' ? checked : value,
     });
-  };  
-
-  const handleNameInput = (e: React.FormEvent<HTMLInputElement>) => {
-    const { value } = e.currentTarget;
-    if (!/^[a-zA-Z\s]*$/.test(value)) {
-      e.preventDefault();
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -68,7 +61,7 @@ const AgregarMedico: React.FC = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
 
         Swal.fire({
           title: 'Guardado exitosamente',
@@ -76,23 +69,6 @@ const AgregarMedico: React.FC = () => {
           icon: 'success',
           confirmButtonText: 'Aceptar'
         });
-
-        
-        setFormData({
-          nombre: '',
-          apellido: '',
-          correo: '',
-          telefono: '',
-          fechaNacimiento: '',
-          genero: '',
-          cedula: '',
-          escuela: '',
-          anosExperiencia: '',
-          disponibilidad: false,
-          status: false,
-          habilidades: '',
-        });
-
       } catch (error) {
         Swal.fire({
           title: 'Error',
@@ -117,7 +93,7 @@ const AgregarMedico: React.FC = () => {
   return (
     <Paper
       sx={{
-        padding: 1,
+        padding: 3,
         maxWidth: 800,
         margin: isLargeScreen ? '0' : '0 auto',
         display: 'block',
@@ -155,7 +131,6 @@ const AgregarMedico: React.FC = () => {
                 name="nombre"
                 value={formData.nombre}
                 onChange={handleChange}
-                onInput={handleNameInput}
                 required
                 error={!!formErrors.nombre}
                 helperText={formErrors.nombre}
@@ -168,7 +143,6 @@ const AgregarMedico: React.FC = () => {
                 name="apellido"
                 value={formData.apellido}
                 onChange={handleChange}
-                onInput={handleNameInput}
                 required
                 error={!!formErrors.apellido}
                 helperText={formErrors.apellido}
@@ -192,10 +166,10 @@ const AgregarMedico: React.FC = () => {
                 fullWidth
                 label="Teléfono"
                 name="telefono"
-                type="tel"
+                type="number"
                 value={formData.telefono}
                 onChange={handleChange}
-                inputProps={{ maxLength: 10 }}
+                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
                 error={!!formErrors.telefono}
                 helperText={formErrors.telefono}
               />
@@ -240,7 +214,7 @@ const AgregarMedico: React.FC = () => {
                 type="number"
                 value={formData.cedula}
                 onChange={handleChange}
-                InputProps={{ inputProps: { min: 0 } }} 
+                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
                 error={!!formErrors.cedula}
                 helperText={formErrors.cedula}
               />
@@ -262,7 +236,7 @@ const AgregarMedico: React.FC = () => {
                 type="number"
                 value={formData.anosExperiencia}
                 onChange={handleChange}
-                InputProps={{ inputProps: { min: 0, max: 99 } }} 
+                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -303,9 +277,8 @@ const AgregarMedico: React.FC = () => {
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
+                sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
               >
                 Guardar
               </Button>
