@@ -104,6 +104,7 @@ const handleDelete = async (id: number) => {
 export const MedicosPage = () => {
   const navigate = useNavigate();
 
+<<<<<<< HEAD
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 1 }}>
             <Paper elevation={3} sx={{ width: '100%', maxWidth: 900, p: 3 }}>
@@ -116,6 +117,19 @@ export const MedicosPage = () => {
                     
                     <Typography color="textPrimary">Médicos</Typography>
                 </Breadcrumbs>
+=======
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+      <Paper elevation={3} sx={{ width: '100%', maxWidth: 900, p: 3 }}>
+        {/* Breadcrumbs */}
+        <Breadcrumbs aria-label="breadcrumb">
+          <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+            <HomeIcon sx={{ mr: 0.5 }} />
+            Inicio
+          </Link>
+          <Typography color="textPrimary">Médicos</Typography>
+        </Breadcrumbs>
+>>>>>>> bd0d794f7f47655cca5ee4b4231f063fa61d1f09
 
                 {/* Page Title */}
                 <Typography variant="h4" component="h2" gutterBottom sx={{ textAlign: 'center' }}>
