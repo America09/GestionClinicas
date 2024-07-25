@@ -68,7 +68,8 @@ const AgregarConsultorios: React.FC = () => {
       sx={{
         display: 'flex',
         justifyContent: 'center',
-        mt: 10
+        mt: 2,
+        px: 2, 
       }}
     >
       <Paper
@@ -78,11 +79,10 @@ const AgregarConsultorios: React.FC = () => {
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
-          ml: isLargeScreen ? '130px' : '0', // Ajusta el margen izquierdo para mover el Paper más a la izquierda
-          mr: isLargeScreen ? 'auto' : '0'
+          margin: '0 auto',
         }}
       >
-        <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />

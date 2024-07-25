@@ -1,4 +1,3 @@
-
 import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
 import { Chart } from 'react-google-charts';
 
@@ -42,7 +41,7 @@ const Dashboard = () => {
     };
 
     return (
-        <Box sx={{ padding: '20px' }}>
+        <Box sx={{ padding: '10px' }}>
             <Typography sx={{ marginTop: 5, fontWeight: 'bold', color: '#263339', textTransform: 'uppercase', fontSize: 24, textAlign: 'center' }}>
                 Bienvenido a tu plataforma de Administrador
             </Typography>

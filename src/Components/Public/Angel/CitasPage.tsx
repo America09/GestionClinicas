@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -98,7 +97,7 @@ export const CitasPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
       <Paper
         sx={{
           padding: 3,
@@ -106,12 +105,11 @@ export const CitasPage = () => {
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
-          mt: 1,
-          ml: -2, 
+          margin: '0 auto', 
         }}
       >
         <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
             <Breadcrumbs aria-label="breadcrumb">
               <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                 <HomeIcon sx={{ mr: 0.5 }} />
@@ -165,3 +163,5 @@ export const CitasPage = () => {
     </Box>
   );
 };
+
+export default CitasPage;

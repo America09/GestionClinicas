@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
@@ -89,7 +88,7 @@ export const EspecialidadPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
       <Paper
         sx={{
           padding: 3,
@@ -98,7 +97,7 @@ export const EspecialidadPage: React.FC = () => {
           boxShadow: 3,
           borderRadius: 2,
           mt: 1,
-          ml: -2, // Ajusta el margen izquierdo para mover el Paper más a la izquierda
+          margin: '0 auto', // Centra el Paper horizontalmente
         }}
       >
         <Box sx={{ width: '100%' }}>

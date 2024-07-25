@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   TextField, Button, Box, Typography, Breadcrumbs, Link, Grid, Paper, useMediaQuery, useTheme
 } from '@mui/material';
@@ -38,7 +38,6 @@ const AgregarEspecialidades: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      // Simulamos una llamada a una API
       Swal.fire({
         title: 'Guardado exitosamente',
         text: 'La especialidad ha sido guardada correctamente.',
@@ -63,7 +62,10 @@ const AgregarEspecialidades: React.FC = () => {
       sx={{
         display: 'flex',
         justifyContent: 'center',
-        mt: 10
+        alignItems: 'center',
+        flexDirection: 'column',
+        mt: 10,
+        px: 2, 
       }}
     >
       <Paper
@@ -73,11 +75,10 @@ const AgregarEspecialidades: React.FC = () => {
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
-          ml: isLargeScreen ? '130px' : '0',
-          mr: isLargeScreen ? 'auto' : '0'
+          margin: '0 auto',
         }}
       >
-        <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
+        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-start', ml: 2 }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />
