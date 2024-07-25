@@ -1,46 +1,11 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, FormControl, InputLabel, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'Fecha', headerName: 'Fecha', width: 120, editable: true },
-  { field: 'Turno', headerName: 'Turno', width: 120, editable: true },
-  { field: 'Entrada', headerName: 'Entrada', width: 120, editable: true },
-  { field: 'Salida', headerName: 'Salida', width: 120, editable: true },
-  {
-    field: 'Editar',
-    headerName: 'Editar',
-    width: 100,
-    sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        onClick={() => handleEdit(params.id)}
-      />
-    ),
-  },
-  {
-    field: 'Eliminar',
-    headerName: 'Eliminar',
-    width: 100,
-    sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<DeleteIcon />}
-        label="Delete"
-        onClick={() => handleDelete(params.id)}
-      />
-    ),
-  },
-];
 
 const rows = [
   { id: 1, Fecha: '2024-07-25', Turno: 'Mañana', Entrada: '08:00', Salida: '14:00' },
@@ -54,115 +19,203 @@ const rows = [
   { id: 9, Fecha: '2024-08-02', Turno: 'Noche', Entrada: '20:00', Salida: '08:00' },
 ];
 
-const handleEdit = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas editar este horario?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, editar',
-    cancelButtonText: 'No, cancelar',
-    dangerMode: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar el horario. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
+const HorariosPage: React.FC = () => {
+    console.log('HorariosPage component is being rendered');
+    
+    const navigate = useNavigate();
+    const [openEdit, setOpenEdit] = React.useState(false);
+    const [selectedHorario, setSelectedHorario] = React.useState<any>(null);
 
-const handleDelete = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas eliminar este horario?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'No, cancelar',
-    dangerMode: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Eliminado", "El horario ha sido eliminado correctamente.", "success");
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al eliminar el horario. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
+    const handleEdit = (id: number) => {
+        const horario = rows.find((row) => row.id === id);
+        setSelectedHorario(horario);
+        setOpenEdit(true);
+    };
 
-export const HorariosPage = () => {
-  const navigate = useNavigate();
+    const handleDelete = (id: number) => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log('Eliminar fila con ID:', id);
+                Swal.fire(
+                    'Eliminado!',
+                    'El horario ha sido eliminado.',
+                    'success'
+                );
+            }
+        });
+    };
 
-  return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4 }}>
-      <Paper
-        sx={{
-          padding: 3,
-          maxWidth: 850,
-          width: '100%',
-          boxShadow: 3,
-          borderRadius: 2,
-          mt: 1,
-          ml: 2, 
-        }}
-      >
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', mb: 2 }}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
-                <HomeIcon sx={{ mr: 0.5 }} />
-                Inicio
-              </Link>
-              <Typography color="textPrimary">Horarios</Typography>
-            </Breadcrumbs>
-          </Box>
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
+        setSelectedHorario(null);
+    };
 
-          <Box sx={{ textAlign: 'center', mb: 2 }}>
-            <Typography variant="h4" component="h2" gutterBottom>
-              Lista de Horarios
-            </Typography>
-          </Box>
+    const handleSaveEdit = () => {
+        console.log('Guardar cambios para el horario:', selectedHorario);
+        setOpenEdit(false);
+        setSelectedHorario(null);
+        Swal.fire(
+            'Guardado!',
+            'El horario ha sido editado exitosamente.',
+            'success'
+        );
+    };
 
-          <Box sx={{ mt: 2 }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 5,
-                  },
-                },
-              }}
-              pageSizeOptions={[5]}
-              disableSelectionOnClick
-              autoHeight
-            />
-          </Box>
+    const columns: GridColDef[] = [
+        { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
+        { field: 'fecha', headerName: 'Fecha', flex: 1, minWidth: 150 },
+        { field: 'turno', headerName: 'Turno', flex: 1, minWidth: 150 },
+        { field: 'entrada', headerName: 'Entrada', flex: 1, minWidth: 150 },
+        { field: 'salida', headerName: 'Salida', flex: 1, minWidth: 150 },
+        {
+            field: 'editar',
+            headerName: 'Editar',
+            flex: 0.5,
+            minWidth: 100,
+            sortable: false,
+            renderCell: (params) => (
+                <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label="Edit"
+                    onClick={() => handleEdit(params.id)}
+                />
+            ),
+        },
+        {
+            field: 'eliminar',
+            headerName: 'Eliminar',
+            flex: 0.5,
+            minWidth: 100,
+            sortable: false,
+            renderCell: (params) => (
+                <GridActionsCellItem
+                    icon={<DeleteIcon />}
+                    label="Delete"
+                    onClick={() => handleDelete(params.id)}
+                />
+            ),
+        },
+    ];
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Button
-              variant="contained"
-              sx={{
-                bgcolor: '#43A49B',
-                color: 'white',
-                textTransform: 'capitalize',
-                '&:hover': {
-                  bgcolor: '#51C5BA',
-                },
-              }}
-              onClick={() => navigate("/agregar-horarios")}
+    return (
+        <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+            <Paper
+                sx={{
+                    padding: 4,
+                    textAlign: 'center',
+                    width: '100%',
+                    boxShadow: 3,
+                    borderRadius: 2,
+                }}
             >
-              + Añadir Horarios
-            </Button>
-          </Box>
-        </Box>
-      </Paper>
-    </Box>
-  );
+                <Box sx={{ width: '100%' }}>
+                    <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'flex-start', display: 'flex', mb: 2 }}>
+                        <Link underline="hover" color="inherit" href="/">
+                            Home
+                        </Link>
+                        <Typography color="text.primary">Horarios</Typography>
+                    </Breadcrumbs>
+
+                    <Typography variant="h4" component="h2" gutterBottom>
+                        Lista de Horarios
+                    </Typography>
+
+                    <Box sx={{ width: '100%', mt: 2 }}>
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 5,
+                                    },
+                                },
+                            }}
+                            pageSizeOptions={[5, 10, 20]}
+                            disableSelectionOnClick
+                            autoHeight
+                            sx={{
+                                '& .MuiDataGrid-root': {
+                                    overflowX: 'auto',
+                                },
+                            }}
+                        />
+                    </Box>
+
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                        <Button 
+                            variant="contained"
+                            sx={{
+                                bgcolor: '#43A49B',
+                                color: 'white',
+                                textTransform: 'capitalize',
+                                '&:hover': {
+                                    bgcolor: '#51C5BA',
+                                },
+                            }}
+                            onClick={() => navigate("/admin-createHorarios")}
+                        >
+                            + Añadir horario
+                        </Button>
+                    </Box>
+                </Box>
+            </Paper>
+
+            {/* Modal para editar horario */}
+            <Dialog open={openEdit} onClose={handleCloseEdit}>
+                <DialogTitle>Editar Horario</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        label="Fecha"
+                        type="date"
+                        fullWidth
+                        value={selectedHorario?.fecha || ''}
+                        onChange={(e) => setSelectedHorario({ ...selectedHorario, fecha: e.target.value })}
+                    />
+                    <FormControl fullWidth margin="dense">
+                        <InputLabel>Turno</InputLabel>
+                        <Select
+                            label="Turno"
+                            value={selectedHorario?.turno || ''}
+                            onChange={(e) => setSelectedHorario({ ...selectedHorario, turno: e.target.value })}
+                        >
+                            <MenuItem value="Matutino">Matutino</MenuItem>
+                            <MenuItem value="Vespertino">Vespertino</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        margin="dense"
+                        label="Entrada"
+                        type="time"
+                        fullWidth
+                        value={selectedHorario?.entrada || ''}
+                        onChange={(e) => setSelectedHorario({ ...selectedHorario, entrada: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Salida"
+                        type="time"
+                        fullWidth
+                        value={selectedHorario?.salida || ''}
+                        onChange={(e) => setSelectedHorario({ ...selectedHorario, salida: e.target.value })}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseEdit}>Cancelar</Button>
+                    <Button onClick={handleSaveEdit} variant="contained">Guardar</Button>
+                </DialogActions>
+            </Dialog>
+        </Container>
+    );
 };
 
 export default HorariosPage;

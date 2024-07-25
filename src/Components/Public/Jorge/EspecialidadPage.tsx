@@ -98,7 +98,7 @@ export const EspecialidadPage: React.FC = () => {
           boxShadow: 3,
           borderRadius: 2,
           mt: 1,
-          ml: -2, 
+          ml: -2, // Ajusta el margen izquierdo para mover el Paper más a la izquierda
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -146,7 +146,7 @@ export const EspecialidadPage: React.FC = () => {
                   bgcolor: '#51C5BA',
                 },
               }}
-              onClick={() => navigate("/agregar-especialidad")}
+              onClick={() => navigate("/admin-createespecialidad")}
             >
               + Añadir especialidad
             </Button>

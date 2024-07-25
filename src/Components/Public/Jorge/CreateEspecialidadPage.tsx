@@ -83,7 +83,7 @@ const AgregarEspecialidades: React.FC = () => {
               <HomeIcon sx={{ mr: 0.5 }} />
               Inicio
             </Link>
-            <Link color="inherit" component={RouterLink} to="/admin-especialidad">
+            <Link color="inherit" component={RouterLink} to="/admin-especialidades">
               Especialidades
             </Link>
             <Typography color="textPrimary">Añadir Especialidad</Typography>
