@@ -77,16 +77,14 @@ const AgregarRol: React.FC = () => {
       sx={{
         padding: 3,
         maxWidth: 600,
-        margin: isLargeScreen ? '0 auto' : '0 auto',
+        margin: '0 auto',
         display: 'block',
-        width: isLargeScreen ? 'calc(100% - 32px)' : '100%',
         boxShadow: 3,
         borderRadius: 2,
         mt: 10,
-        ml: isLargeScreen ? -20 : 0, 
       }}
     >
-      <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
+      <Box sx={{ mb: 2 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
             <HomeIcon sx={{ mr: 0.5 }} />
@@ -98,11 +96,7 @@ const AgregarRol: React.FC = () => {
           <Typography color="textPrimary">Añadir Rol</Typography>
         </Breadcrumbs>
       </Box>
-      <div style={{
-        width: '100%',
-        maxWidth: 800,
-        margin: isLargeScreen ? '0' : '0 auto',
-      }}>
+      <Box sx={{ maxWidth: 800, mx: 'auto' }}>
         <Typography variant="h6" gutterBottom align="center">
           Agregar Rol
         </Typography>
@@ -120,18 +114,18 @@ const AgregarRol: React.FC = () => {
                 helperText={formErrors.nombreRol}
               />
             </Grid>
-            <Grid item xs={12} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="submit"
                 variant="contained"
-                sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' }, mb: 2 }}
+                sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
               >
                 Agregar
               </Button>
             </Grid>
           </Grid>
         </form>
-      </div>
+      </Box>
     </Paper>
   );
 };

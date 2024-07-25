@@ -38,7 +38,6 @@ export const ListPacientes = () => {
       if (result.isConfirmed) {
         try {
           await new Promise((resolve) => setTimeout(resolve, 1000));
-          // Lógica para editar el consultorio utilizando `id`
           console.log(`Editing paciente with ID: ${id}`);
         } catch (error) {
           Swal.fire("Error", "Hubo un problema al editar los datos del paciente. Inténtalo de nuevo.", "error");
@@ -58,7 +57,6 @@ export const ListPacientes = () => {
       if (result.isConfirmed) {
         try {
           await new Promise((resolve) => setTimeout(resolve, 1000));
-          // Lógica para eliminar el consultorio utilizando `id`
           console.log(`Deleting paciente with ID: ${id}`);
           Swal.fire("Eliminado", "El paciente ha sido eliminado correctamente.", "success");
         } catch (error) {
@@ -74,7 +72,6 @@ export const ListPacientes = () => {
     { field: 'Apellido', headerName: 'Apellido', width: 180, editable: true },
     { field: 'Correo', headerName: 'Correo', width: 180, editable: true },
     { field: 'Teléfono', headerName: 'Teléfono', width: 180, editable: true },
-
     {
       field: 'Historial',
       headerName: 'Historial',
@@ -117,19 +114,19 @@ export const ListPacientes = () => {
   ];
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
       <Paper
         sx={{
           padding: 3,
-          maxWidth: 850,
+          maxWidth: 1100,
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
-          mt: 1,
+          margin: '0 auto', 
         }}
       >
         <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
             <Breadcrumbs aria-label="breadcrumb">
               <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
                 <HomeIcon sx={{ mr: 0.5 }} />

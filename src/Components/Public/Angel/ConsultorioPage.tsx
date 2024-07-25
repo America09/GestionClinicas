@@ -1,6 +1,5 @@
-import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -18,12 +17,14 @@ const columns: GridColDef[] = [
     headerName: 'Editar',
     width: 100,
     sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        onClick={() => handleEdit(params.id)}
-      />
+    renderCell: () => (
+      <IconButton
+        component={RouterLink}
+        to="/editar-consultorios"
+        sx={{ color: 'action.active' }} 
+      >
+        <EditIcon />
+      </IconButton>
     ),
   },
   {
@@ -33,7 +34,7 @@ const columns: GridColDef[] = [
     sortable: false,
     renderCell: (params) => (
       <GridActionsCellItem
-        icon={<DeleteIcon />}
+        icon={<DeleteIcon color="action" />}
         label="Delete"
         onClick={() => handleDelete(params.id)}
       />
@@ -52,25 +53,6 @@ const rows = [
   { id: 8, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Cirugía General' },
   { id: 9, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Ginecología' },
 ];
-
-const handleEdit = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas editar este consultorio?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, editar',
-    cancelButtonText: 'No, cancelar',
-    dangerMode: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar el consultorio. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
 
 const handleDelete = (id: number) => {
   Swal.fire({
@@ -96,7 +78,7 @@ export const ConsultorioPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
       <Paper
         sx={{
           padding: 3,
@@ -104,12 +86,11 @@ export const ConsultorioPage = () => {
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
-          mt: 1,
-          ml: -2, // Ajusta el margen izquierdo para mover el Paper más a la izquierda
+          margin: '0 auto', 
         }}
       >
         <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
             <Breadcrumbs aria-label="breadcrumb">
               <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                 <HomeIcon sx={{ mr: 0.5 }} />
@@ -163,3 +144,5 @@ export const ConsultorioPage = () => {
     </Box>
   );
 };
+
+export default ConsultorioPage;

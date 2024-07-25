@@ -105,19 +105,19 @@ const AgregarPacientes: React.FC = () => {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ mt: 4, mb: 2 }}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" href="/" sx={{ display: 'flex', alignItems: 'center' }}>
-            <HomeIcon sx={{ mr: 0.5 }} />
-            Inicio
-          </Link>
-          <Link color="inherit" href="/admin-ListPacientes">
-            Pacientes
-          </Link>
-          <Typography color="textPrimary">Añadir paciente</Typography>
-        </Breadcrumbs>
-      </Box>
       <Paper sx={{ p: 3, mt: 2, boxShadow: 3 }}>
+        <Box sx={{ mb: 2 }}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" href="/" sx={{ display: 'flex', alignItems: 'center' }}>
+              <HomeIcon sx={{ mr: 0.5 }} />
+              Inicio
+            </Link>
+            <Link color="inherit" href="/admin-ListPacientes">
+              Pacientes
+            </Link>
+            <Typography color="textPrimary">Añadir paciente</Typography>
+          </Breadcrumbs>
+        </Box>
         <Typography variant="h5" component="h2" gutterBottom sx={{ textAlign: 'center' }}>
           Añadir paciente
         </Typography>

@@ -20,7 +20,6 @@ const AuthLayout = () => {
             <Drawer
                 variant="permanent"
                 sx={{
-                    width: { sm: drawerWidth },
                     flexShrink: { sm: 0 },
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,

@@ -19,7 +19,7 @@ import {
   Radio,
   FormLabel,
   FormHelperText,
-  Paper // Importa Paper
+  Paper
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 
@@ -122,7 +122,9 @@ const HistorialClinico: React.FC = () => {
   return (
     <Container maxWidth="md">
       <Box sx={{ mt: 2, mb: 2 }}>
-        <Breadcrumbs aria-label="breadcrumb">
+      </Box>
+      <Paper elevation={3} sx={{ p: 2 }}>
+      <Breadcrumbs aria-label="breadcrumb">
           <Link color="inherit" href="/" sx={{ display: 'flex', alignItems: 'center' }}>
             <HomeIcon sx={{ mr: 0.5 }} />
             Inicio
@@ -132,11 +134,9 @@ const HistorialClinico: React.FC = () => {
           </Link>
           <Typography color="textPrimary">Historial Clínico</Typography>
         </Breadcrumbs>
-      </Box>
-      <Typography variant="h5" component="h2" gutterBottom sx={{ textAlign: 'center', mb: 2 }}>
+        <Typography variant="h5" component="h2" gutterBottom sx={{ textAlign: 'center', mb: 2 }}>
         HISTORIA CLÍNICA
       </Typography>
-      <Paper elevation={3} sx={{ p: 2 }}>
         <Tabs value={tab} onChange={handleTabChange} centered>
           <Tab label="Información General" />
           <Tab label="Hábitos / Alergias" />
@@ -307,14 +307,15 @@ const HistorialClinico: React.FC = () => {
                   </Grid>
                 </Grid>
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-              <Button variant="contained" sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }} type="submit" onClick={() => console.log(formData)}>
-                ATRÁS
-              </Button>
-              <Button variant="contained" sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }} type="submit">
-                CONTINUAR
-              </Button>
-            </Box>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
+                <Button
+                  variant="contained"
+                  sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }}
+                  type="submit"
+                >
+                  CONTINUAR
+                </Button>
+              </Box>
             </Box>
           )}
           {tab === 1 && (
@@ -406,13 +407,13 @@ const HistorialClinico: React.FC = () => {
               </Grid>
             </Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
-              {/* <Button
+              <Button
                 variant="contained"
                 sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkgrey' } }}
                 onClick={() => setTab(0)}
               >
                 ATRÁS
-              </Button> */}
+              </Button>
               <Button
                 variant="contained"
                 sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }}

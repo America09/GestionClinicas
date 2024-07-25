@@ -4,8 +4,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import GoogleIcon from '@mui/icons-material/Google';
 import CrearCuentaModal from './CrearCuentaPage';
 import RecuperarContrasenaModal from './RecupContraPage';
 import { AuthContext } from '../../Context/AuthContext';
@@ -26,7 +24,6 @@ const HeaderPublic = () => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
-
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -192,16 +189,9 @@ const HeaderPublic = () => {
                     <IconButton onClick={handleCloseLogin} sx={{ position: 'absolute', top: 10, right: 10 }}>
                         <CloseIcon />
                     </IconButton>
-                    <Button onClick={handleCloseLogin} variant="outlined"
-                        sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
-                        <FacebookIcon sx={{ mr: 1, color: '#3b5998' }} />
-                        Continuar con Facebook
-                    </Button>
-                    <Button onClick={handleCloseLogin} variant="outlined"
-                        sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
-                        <GoogleIcon sx={{ mr: 1, color: '#db4437' }} />
-                        Continuar con Google
-                    </Button>
+                    <Typography sx={{fontSize: 30, color:"#263339", fontWeight: "semibold"}}>
+                        Inicio de sesión
+                    </Typography>
                     <Divider sx={{ width: '100%', my: 2 }} />
                     <TextField
                         label="Correo"
@@ -223,7 +213,9 @@ const HeaderPublic = () => {
                         margin="normal"
                         value={password}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                    />
+                        error={!!passwordError} 
+                        helperText={passwordError} 
+/>
                     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
                         Al menos 8 caracteres*
                     </Typography>

@@ -43,25 +43,34 @@ const EditarConsultorio: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-     
-      try {
-        
-        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+      Swal.fire({
+        title: "¿Estás seguro de que deseas editar este consultorio?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Sí, editar',
+        cancelButtonText: 'No, cancelar',
+        dangerMode: true,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await new Promise((resolve) => setTimeout(resolve, 1000)); 
 
-        Swal.fire({
-          title: 'Editado',
-          text: 'El consultorio ha sido editado correctamente.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-        });
-      } catch (error) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Hubo un problema al guardar el consultorio. Inténtalo de nuevo.',
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-        });
-      }
+            Swal.fire({
+              title: 'Editado',
+              text: 'El consultorio ha sido editado correctamente.',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            });
+          } catch (error) {
+            Swal.fire({
+              title: 'Error',
+              text: 'Hubo un problema al guardar el consultorio. Inténtalo de nuevo.',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        }
+      });
     } else {
       Swal.fire({
         title: 'Error',
@@ -76,35 +85,28 @@ const EditarConsultorio: React.FC = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <Paper
-      sx={{
-        padding: 3,
-        maxWidth: 600,
-        margin: isLargeScreen ? '0' : '0 auto', 
-        display: 'block',
-        width: isLargeScreen ? 'calc(100% - 32px)' : '100%', 
-        boxShadow: 3, 
-        borderRadius: 2, 
-        mt: 4 
-      }}
-    >
-      <Box sx={{ display: 'flex', ml: 2, mb: 2 }}> 
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
-            <HomeIcon sx={{ mr: 0.5 }} />
-            Inicio
-          </Link>
-          <Link color="inherit" component={RouterLink} to="/admin-consultorios">
-            Consultorios
-          </Link>
-          <Typography color="textPrimary">Editar consultorio</Typography>
-        </Breadcrumbs>
-      </Box>
-      <div style={{
-        width: '100%',
-        maxWidth: 800,
-        margin: isLargeScreen ? '0' : '0 auto', 
-      }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+      <Paper
+        sx={{
+          padding: 3,
+          maxWidth: 600,
+          width: '100%',
+          boxShadow: 3,
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+              <HomeIcon sx={{ mr: 0.5 }} />
+              Inicio
+            </Link>
+            <Link color="inherit" component={RouterLink} to="/admin-consultorios">
+              Consultorios
+            </Link>
+            <Typography color="textPrimary">Editar consultorio</Typography>
+          </Breadcrumbs>
+        </Box>
         <Typography variant="h6" gutterBottom align="center">
           Editar Consultorio
         </Typography>
@@ -149,17 +151,16 @@ const EditarConsultorio: React.FC = () => {
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto', px: 4 }}
               >
                 Guardar
               </Button>
             </Grid>
           </Grid>
         </form>
-      </div>
-    </Paper>
+      </Paper>
+    </Box>
   );
 };
 

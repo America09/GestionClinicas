@@ -1,6 +1,5 @@
-import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -20,12 +19,14 @@ const columns: GridColDef[] = [
     headerName: 'Editar',
     width: 100,
     sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        onClick={() => handleEdit(params.id)}
-      />
+    renderCell: () => (
+      <IconButton
+        component={RouterLink}
+        to="/editar-citas"
+        sx={{ color: 'action.active' }}
+      >
+        <EditIcon />
+      </IconButton>
     ),
   },
   {
@@ -55,25 +56,6 @@ const rows = [
   { id: 9, Paciente: 'Jorge Pérez', Medico: 'Dr. Castro', Especialidad: 'Ginecología', Fecha: '2024-07-29', Hora: '16:00', Descripcion: 'Consulta ginecológica' },
 ];
 
-const handleEdit = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas editar esta cita?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, editar',
-    cancelButtonText: 'No, cancelar',
-    dangerMode: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar la cita. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
-
 const handleDelete = (id: number) => {
   Swal.fire({
     title: "¿Estás seguro de que deseas eliminar esta cita?",
@@ -98,7 +80,7 @@ export const CitasPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
       <Paper
         sx={{
           padding: 3,
@@ -106,12 +88,11 @@ export const CitasPage = () => {
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
-          mt: 1,
-          ml: -2, 
+          margin: '0 auto', 
         }}
       >
         <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
             <Breadcrumbs aria-label="breadcrumb">
               <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                 <HomeIcon sx={{ mr: 0.5 }} />
@@ -165,3 +146,5 @@ export const CitasPage = () => {
     </Box>
   );
 };
+
+export default CitasPage;
