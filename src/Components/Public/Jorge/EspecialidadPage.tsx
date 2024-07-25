@@ -97,7 +97,7 @@ export const EspecialidadPage: React.FC = () => {
           boxShadow: 3,
           borderRadius: 2,
           mt: 1,
-          margin: '0 auto', // Centra el Paper horizontalmente
+          margin: '0 auto', 
         }}
       >
         <Box sx={{ width: '100%' }}>
