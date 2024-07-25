@@ -43,10 +43,10 @@ const EditarConsultorio: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      // Simulamos una llamada a una API
+     
       try {
-        // Aquí puedes hacer la llamada a la API para guardar los datos
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+        
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
 
         Swal.fire({
           title: 'Editado',
@@ -73,22 +73,22 @@ const EditarConsultorio: React.FC = () => {
   };
 
   const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md')); // Pantallas grandes
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
     <Paper
       sx={{
         padding: 3,
         maxWidth: 600,
-        margin: isLargeScreen ? '0' : '0 auto', // Quita el margen horizontal en pantallas grandes
+        margin: isLargeScreen ? '0' : '0 auto', 
         display: 'block',
-        width: isLargeScreen ? 'calc(100% - 32px)' : '100%', // Ajusta el ancho en pantallas grandes
-        boxShadow: 3, // Agrega el efecto de sombra
-        borderRadius: 2, // Ajusta el radio del borde
-        mt: 4 // Ajusta el margen superior para bajar el formulario
+        width: isLargeScreen ? 'calc(100% - 32px)' : '100%', 
+        boxShadow: 3, 
+        borderRadius: 2, 
+        mt: 4 
       }}
     >
-      <Box sx={{ display: 'flex', ml: 2, mb: 2 }}> {/* Ajustar ml para mover a la derecha */}
+      <Box sx={{ display: 'flex', ml: 2, mb: 2 }}> 
         <Breadcrumbs aria-label="breadcrumb">
           <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
             <HomeIcon sx={{ mr: 0.5 }} />
@@ -103,7 +103,7 @@ const EditarConsultorio: React.FC = () => {
       <div style={{
         width: '100%',
         maxWidth: 800,
-        margin: isLargeScreen ? '0' : '0 auto', // Mantén el margen en pantallas pequeñas
+        margin: isLargeScreen ? '0' : '0 auto', 
       }}>
         <Typography variant="h6" gutterBottom align="center">
           Editar Consultorio
@@ -149,8 +149,9 @@ const EditarConsultorio: React.FC = () => {
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="submit"
+                fullWidth
                 variant="contained"
-                sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
               >
                 Guardar
               </Button>

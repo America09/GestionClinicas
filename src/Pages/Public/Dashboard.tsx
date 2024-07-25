@@ -1,42 +1,86 @@
-import { Box } from "@mui/material";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-const bull = (
-    <Box
-      component="span"
-      sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-    >
-      •
-    </Box>
-  );
+
+import { Card, CardContent, Typography, Grid, Box } from '@mui/material';
+import { Chart } from 'react-google-charts';
+
 const Dashboard = () => {
+    const dailyData = [
+        ['Día', 'Citas'],
+        ['Lunes', 10],
+        ['Martes', 14],
+        ['Miércoles', 8],
+        ['Jueves', 17],
+        ['Viernes', 9],
+        ['Sábado', 6],
+        ['Domingo', 0],
+    ];
+
+    const monthlyData = [
+        ['Mes', 'Citas'],
+        ['Enero', 100],
+        ['Febrero', 120],
+        ['Marzo', 130],
+        ['Abril', 90],
+        ['Mayo', 110],
+        ['Junio', 150],
+        ['Julio', 140],
+    ];
+
+    const dailyOptions = {
+        title: 'Número de Citas por Día',
+        hAxis: { title: 'Día de la Semana' },
+        vAxis: { title: 'Número de Citas' },
+        legend: 'none',
+        colors: ['#408D86'],
+    };
+
+    const monthlyOptions = {
+        title: 'Número de Citas por Mes',
+        hAxis: { title: 'Mes' },
+        vAxis: { title: 'Número de Citas' },
+        legend: 'none',
+        colors: ['#1ABC9C'],
+    };
+
     return (
-        <div>
-            <Typography sx={{marginTop: 5, fontWeight:'bold', color: '#263339', textTransform: 'uppercase', fontSize: 20}}>
+        <Box sx={{ padding: '20px' }}>
+            <Typography sx={{ marginTop: 5, fontWeight: 'bold', color: '#263339', textTransform: 'uppercase', fontSize: 24, textAlign: 'center' }}>
                 Bienvenido a tu plataforma de Administrador
             </Typography>
-            <Box>
-            <Card sx={{ minWidth: 275 }}>
-      <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Pendientes del día
-        </Typography>
-        <Typography variant="h5" component="div">
-          
-        </Typography>
-        <Typography variant="body2">
-          No hay pendientes por ahora.
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Ver Más</Button>
-      </CardActions>
-    </Card>
-            </Box>
-        </div>
+            <Grid container spacing={4} sx={{ marginTop: 3, justifyContent: 'center' }}>
+                <Grid item xs={12} sm={12} md={6} lg={6}>
+                    <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
+                        <CardContent>
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                Número de Citas por Día
+                            </Typography>
+                            <Chart
+                                chartType="BarChart"
+                                width="100%"
+                                height="300px"
+                                data={dailyData}
+                                options={dailyOptions}
+                            />
+                        </CardContent>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6}>
+                    <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
+                        <CardContent>
+                            <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                                Número de Citas por Mes
+                            </Typography>
+                            <Chart
+                                chartType="ColumnChart"
+                                width="100%"
+                                height="300px"
+                                data={monthlyData}
+                                options={monthlyOptions}
+                            />
+                        </CardContent>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Box>
     );
 };
 

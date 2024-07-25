@@ -17,7 +17,23 @@ import { CrudMedico } from '../Pages/Public/Angel/CrudMedico';
 import { CrudHorario } from '../Pages/Public/Jorge/CrudHorarios';
 import { CrudCitas } from '../Pages/Public/America/CrudCitas';
 import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
-import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
+import Confirma from '../Pages/Public/Confirma';
+import { ConfirmarCOntraseña } from '../Pages/Public/ConfirmarCOntraseña';
+import { AGConsultorios } from '../Pages/Public/Angel/AGConsultorios';
+import { EditConsultorios } from '../Pages/Public/Angel/EditConsultorios';
+import { AGMedicos } from '../Pages/Public/Angel/AGMedicos';
+import { AGRoles } from '../Pages/Public/Angel/AGRoles';
+import { CrudRoles } from '../Pages/Public/Angel/CrudRoles';
+import { AsignarPermisos } from '../Pages/Public/Angel/AsignarPermisos';
+import { PacientesList } from '../Pages/Public/Katherine/ListPacientesPage';
+import { AddPacientes } from '../Pages/Public/Katherine/AddPacientesPage';
+import { HistorialClinicoPage } from '../Pages/Public/Katherine/HistorialPage';
+import { EdiMed } from '../Pages/Public/Angel/EdiMed';
+import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
+import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
+import { AGHorario } from '../Pages/Public/Jorge/AGHorario';
+import { AGEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
+
 
 const AppRouter = () => {
     return (
@@ -40,16 +56,27 @@ const AppRouter = () => {
                 <Route element={<ProtectedLayout />}>
                     <Route element={<AuthLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
+                        {/* AngelRutas */}
                         <Route path="/admin-consultorios" element={<CrudConsultorio />} />
                         <Route path="/agregar-consultorios" element={<AGConsultorios/>} />
+                        <Route path="/editar-consultorios" element={<EditConsultorios/>} />
                         <Route path="/admin-medicos" element={<CrudMedico />} />
                         <Route path="/agregar-medicos" element={<AGMedicos/>} />
+                        <Route path="/editar-medicos" element={<EdiMed/>} />
                         <Route path="/agregar-roles" element={<AGRoles/>} />
-                        <Route path="/editar-consultorios" element={<EditConsultorios/>} />
                         <Route path="/admin-roles" element={<CrudRoles/>} />
-                        <Route path="/editar-medicos" element={<EditMedicos/>} />
+                        <Route path="/admin-rolespermisos" element={<AsignarPermisos/>} />
+                        {/* Otras Jorge */}
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
-                        <Route path="/admin-pacientes" element={<CrudPacientes />} />
+                        <Route path="/admin-horario" element={<AGHorario/>} />
+                        <Route path="/admin-crud-especialidad" element={<CrudEspecialidad/>} />
+                        <Route path="/admin-edithoario" element={<EditHorario/>} />
+                        <Route path="/admin-especialidad" element={<AGEspecialidad/>} />
+                        {/* Rutas Katherine */}
+                        <Route path="/admin-Listpacientes" element={<PacientesList/>} />
+                        <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
+                        <Route path="/admin-Historial1" element={<HistorialClinicoPage/>} />
+                        {/* Rutas Ame */}
                         <Route path="/admin-citas" element={<CrudCitas/>} />
                     </Route>
                 </Route>

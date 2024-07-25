@@ -3,14 +3,12 @@ import EditMedicos from "../../../Components/Public/Angel/EditarMedico"
 
 
 
-export const EditConsultorios = () => {
+
+export const EdiMed = () => {
   return (
     <Box>
-        <EditMedicos/>
+      <EditMedicos />
     </Box>
-
-)
+  )
 }
-
-export { EditMedicos }
 
