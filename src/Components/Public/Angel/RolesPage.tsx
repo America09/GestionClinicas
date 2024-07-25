@@ -10,10 +10,9 @@ import Swal from 'sweetalert2';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'Fecha', headerName: 'Fecha', width: 130, editable: true },
-  { field: 'Turno', headerName: 'Turno', width: 90, editable: true },
-  { field: 'Entrada', headerName: 'Entrada', width: 90, editable: true },
-  { field: 'Salida', headerName: 'Salida', width: 90, editable: true },
+  { field: 'Rol', headerName: 'Rol', width: 150, editable: true },
+  { field: 'Usuario', headerName: 'Usuario', width: 180, editable: true },
+  { field: 'Acceso', headerName: 'Acceso', width: 180, editable: true }, // Nueva columna para el nivel de acceso
   {
     field: 'Editar',
     headerName: 'Editar',
@@ -43,20 +42,20 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-  { id: 1, Fecha: '2024-07-25', Turno: 'Mañana', Entrada: '08:00', Salida: '14:00' },
-  { id: 2, Fecha: '2024-07-26', Turno: 'Tarde', Entrada: '14:00', Salida: '20:00' },
-  { id: 3, Fecha: '2024-07-27', Turno: 'Noche', Entrada: '20:00', Salida: '08:00' },
-  { id: 4, Fecha: '2024-07-28', Turno: 'Mañana', Entrada: '08:00', Salida: '14:00' },
-  { id: 5, Fecha: '2024-07-29', Turno: 'Tarde', Entrada: '14:00', Salida: '20:00' },
-  { id: 6, Fecha: '2024-07-30', Turno: 'Noche', Entrada: '20:00', Salida: '08:00' },
-  { id: 7, Fecha: '2024-07-31', Turno: 'Mañana', Entrada: '08:00', Salida: '14:00' },
-  { id: 8, Fecha: '2024-08-01', Turno: 'Tarde', Entrada: '14:00', Salida: '20:00' },
-  { id: 9, Fecha: '2024-08-02', Turno: 'Noche', Entrada: '20:00', Salida: '08:00' },
+  { id: 1, Rol: 'Administrador', Usuario: 'Juan Pérez', Acceso: 'Acceso Total' },
+  { id: 2, Rol: 'Usuario', Usuario: 'María López', Acceso: 'Acceso Moderado' },
+  { id: 3, Rol: 'Médico', Usuario: 'Carlos Sánchez', Acceso: 'Acceso Limitado' },
+  { id: 4, Rol: 'Usuario', Usuario: 'Ana Rodríguez', Acceso: 'Acceso Moderado' },
+  { id: 5, Rol: 'Médico', Usuario: 'Luis Gómez', Acceso: 'Acceso Limitado' },
+  { id: 6, Rol: 'Administrador', Usuario: 'Laura Fernández', Acceso: 'Acceso Total' },
+  { id: 7, Rol: 'Usuario', Usuario: 'David Martínez', Acceso: 'Acceso Moderado' },
+  { id: 8, Rol: 'Médico', Usuario: 'Andrea Morales', Acceso: 'Acceso Limitado' },
+  { id: 9, Rol: 'Usuario', Usuario: 'Sofia Ramírez', Acceso: 'Acceso Moderado' },
 ];
 
 const handleEdit = (id: number) => {
   Swal.fire({
-    title: "¿Estás seguro de que deseas editar este horario?",
+    title: "¿Estás seguro de que deseas editar este rol?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: 'Sí, editar',
@@ -66,8 +65,9 @@ const handleEdit = (id: number) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
+        Swal.fire("Editado", "El rol ha sido editado correctamente.", "success");
       } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar el horario. Inténtalo de nuevo.", "error");
+        Swal.fire("Error", "Hubo un problema al editar el rol. Inténtalo de nuevo.", "error");
       }
     }
   });
@@ -75,7 +75,7 @@ const handleEdit = (id: number) => {
 
 const handleDelete = (id: number) => {
   Swal.fire({
-    title: "¿Estás seguro de que deseas eliminar este horario?",
+    title: "¿Estás seguro de que deseas eliminar este rol?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: 'Sí, eliminar',
@@ -85,28 +85,28 @@ const handleDelete = (id: number) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Eliminado", "El horario ha sido eliminado correctamente.", "success");
+        Swal.fire("Eliminado", "El rol ha sido eliminado correctamente.", "success");
       } catch (error) {
-        Swal.fire("Error", "Hubo un problema al eliminar el horario. Inténtalo de nuevo.", "error");
+        Swal.fire("Error", "Hubo un problema al eliminar el rol. Inténtalo de nuevo.", "error");
       }
     }
   });
 };
 
-export const HorariosPage = () => {
+export const RolesPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, ml: 8 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4 }}>
       <Paper
         sx={{
           padding: 3,
-          maxWidth: 750,
+          maxWidth: 850,
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
           mt: 1,
-          ml: 2,
+          ml: -2, // Ajusta el margen izquierdo para mover el Paper más a la izquierda
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -116,13 +116,13 @@ export const HorariosPage = () => {
                 <HomeIcon sx={{ mr: 0.5 }} />
                 Inicio
               </Link>
-              <Typography color="textPrimary">Horarios</Typography>
+              <Typography color="textPrimary">Roles</Typography>
             </Breadcrumbs>
           </Box>
 
           <Box sx={{ textAlign: 'center', mb: 2 }}>
             <Typography variant="h4" component="h2" gutterBottom>
-              Lista de Horarios
+              Lista de Roles
             </Typography>
           </Box>
 
@@ -143,7 +143,7 @@ export const HorariosPage = () => {
             />
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
             <Button
               variant="contained"
               sx={{
@@ -154,9 +154,23 @@ export const HorariosPage = () => {
                   bgcolor: '#51C5BA',
                 },
               }}
-              onClick={() => navigate("/agregar-horarios")}
+              onClick={() => navigate("/agregar-roles")}
             >
-              + Añadir Horarios
+              + Añadir Rol
+            </Button>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: '#43A49B',
+                color: 'white',
+                textTransform: 'capitalize',
+                '&:hover': {
+                  bgcolor: '#51C5BA',
+                },
+              }}
+              onClick={() => navigate('/admin-rolespermisos')}
+            >
+              + Añadir Permisos
             </Button>
           </Box>
         </Box>
@@ -164,5 +178,3 @@ export const HorariosPage = () => {
     </Box>
   );
 };
-
-export default HorariosPage;

@@ -22,7 +22,7 @@ const cardData = [
   },
   {
     title: 'Hernández Sánchez Jorge Ariel',
-    image: '/icono.png',
+    image: './icono.png',
     alt: 'icono'
   },
   {
@@ -35,21 +35,37 @@ const cardData = [
 export default function Nosotros() {
   return (
     <>
-      <img src="image20.png" alt="Legal" style={{ width: "100%", height: "auto", marginTop: 50 }} />
+      <img src="image20.png" alt="Legal" style={{ width: '100%', height: 'auto', marginTop: 50 }} />
       <Container maxWidth="xl" sx={{ marginTop: 5 }}>
-        <Box display="flex" justifyContent="space-between" flexWrap="wrap" gap={2}>
+        <Box display="flex" justifyContent="space-around" flexWrap="wrap" gap={2}>
           {cardData.map((card, index) => (
             <Card 
               key={index} 
-              sx={{maxWidth: 190, backgroundColor: '#F3F3F3', color: '#263339', boxShadow: 3, borderRadius: 3, 
+              sx={{
+                maxWidth: 190, 
+                backgroundColor: '#F3F3F3', 
+                color: '#263339', 
+                boxShadow: 3, 
+                borderRadius: 3, 
                 transition: 'transform 0.2s, box-shadow 0.2s',
-                '&:hover': { transform: 'scale(1.05)', boxShadow: 6} }}>
+                '&:hover': { transform: 'scale(1.05)', boxShadow: 6 },
+                margin: 1 // Añadido para espaciado uniforme
+              }}
+            >
               <CardActionArea>
                 <CardMedia
-                  component="img" image={card.image}alt={card.alt} sx={{ height: 190, width: 190}}/>
+                  component="img"
+                  image={card.image}
+                  alt={card.alt}
+                  sx={{ height: 190, width: 190 }}
+                />
                 <CardContent>
-                  <Typography gutterBottom variant="h6" component="div" 
-                    sx={{ fontSize: 15, textAlign: 'center', p: 0.5, fontWeight: 'semibold' }}>
+                  <Typography
+                    gutterBottom
+                    variant="h6"
+                    component="div"
+                    sx={{ fontSize: 15, textAlign: 'center', padding: 0.5, fontWeight: 'bold' }}
+                  >
                     {card.title}
                   </Typography>
                 </CardContent>

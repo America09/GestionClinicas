@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { MedicosPage } from "../../../Components/Public/Jorge/MedicosPage";
+import { MedicosPage } from "../../../Components/Public/Angel/MedicosPage";
 
 
 export const CrudMedico = () => {

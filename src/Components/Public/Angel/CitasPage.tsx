@@ -9,11 +9,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'Fecha', headerName: 'Fecha', width: 130, editable: true },
-  { field: 'Turno', headerName: 'Turno', width: 90, editable: true },
-  { field: 'Entrada', headerName: 'Entrada', width: 90, editable: true },
-  { field: 'Salida', headerName: 'Salida', width: 90, editable: true },
+  { field: 'id', headerName: 'ID', width: 80 },
+  { field: 'Paciente', headerName: 'Paciente', width: 100, editable: true },
+  { field: 'Medico', headerName: 'Médico', width: 100, editable: true },
+  { field: 'Especialidad', headerName: 'Especialidad', width: 100, editable: true },
+  { field: 'Fecha', headerName: 'Fecha', width: 100, editable: true },
+  { field: 'Hora', headerName: 'Hora', width: 100, editable: true },
   {
     field: 'Editar',
     headerName: 'Editar',
@@ -43,20 +44,20 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-  { id: 1, Fecha: '2024-07-25', Turno: 'Mañana', Entrada: '08:00', Salida: '14:00' },
-  { id: 2, Fecha: '2024-07-26', Turno: 'Tarde', Entrada: '14:00', Salida: '20:00' },
-  { id: 3, Fecha: '2024-07-27', Turno: 'Noche', Entrada: '20:00', Salida: '08:00' },
-  { id: 4, Fecha: '2024-07-28', Turno: 'Mañana', Entrada: '08:00', Salida: '14:00' },
-  { id: 5, Fecha: '2024-07-29', Turno: 'Tarde', Entrada: '14:00', Salida: '20:00' },
-  { id: 6, Fecha: '2024-07-30', Turno: 'Noche', Entrada: '20:00', Salida: '08:00' },
-  { id: 7, Fecha: '2024-07-31', Turno: 'Mañana', Entrada: '08:00', Salida: '14:00' },
-  { id: 8, Fecha: '2024-08-01', Turno: 'Tarde', Entrada: '14:00', Salida: '20:00' },
-  { id: 9, Fecha: '2024-08-02', Turno: 'Noche', Entrada: '20:00', Salida: '08:00' },
+  { id: 1, Paciente: 'Juan Pérez', Medico: 'Dr. Gómez', Especialidad: 'Cardiología', Fecha: '2024-07-21', Hora: '10:00', Descripcion: 'Chequeo general' },
+  { id: 2, Paciente: 'Ana López', Medico: 'Dra. Martínez', Especialidad: 'Pediatría', Fecha: '2024-07-22', Hora: '11:00', Descripcion: 'Consulta de seguimiento' },
+  { id: 3, Paciente: 'Luis Fernández', Medico: 'Dr. Rodríguez', Especialidad: 'Neurología', Fecha: '2024-07-23', Hora: '12:00', Descripcion: 'Evaluación neurológica' },
+  { id: 4, Paciente: 'María González', Medico: 'Dra. Díaz', Especialidad: 'Ortopedia', Fecha: '2024-07-24', Hora: '09:00', Descripcion: 'Revisión de fractura' },
+  { id: 5, Paciente: 'Carlos Méndez', Medico: 'Dr. García', Especialidad: 'Dermatología', Fecha: '2024-07-25', Hora: '08:00', Descripcion: 'Tratamiento de acné' },
+  { id: 6, Paciente: 'Laura Ruiz', Medico: 'Dra. Sánchez', Especialidad: 'Radiología', Fecha: '2024-07-26', Hora: '13:00', Descripcion: 'Radiografía de tórax' },
+  { id: 7, Paciente: 'Pedro Morales', Medico: 'Dr. Jiménez', Especialidad: 'Oncología', Fecha: '2024-07-27', Hora: '14:00', Descripcion: 'Consulta oncológica' },
+  { id: 8, Paciente: 'Rosa Ortiz', Medico: 'Dra. Herrera', Especialidad: 'Cirugía General', Fecha: '2024-07-28', Hora: '15:00', Descripcion: 'Evaluación preoperatoria' },
+  { id: 9, Paciente: 'Jorge Pérez', Medico: 'Dr. Castro', Especialidad: 'Ginecología', Fecha: '2024-07-29', Hora: '16:00', Descripcion: 'Consulta ginecológica' },
 ];
 
 const handleEdit = (id: number) => {
   Swal.fire({
-    title: "¿Estás seguro de que deseas editar este horario?",
+    title: "¿Estás seguro de que deseas editar esta cita?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: 'Sí, editar',
@@ -67,7 +68,7 @@ const handleEdit = (id: number) => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar el horario. Inténtalo de nuevo.", "error");
+        Swal.fire("Error", "Hubo un problema al editar la cita. Inténtalo de nuevo.", "error");
       }
     }
   });
@@ -75,7 +76,7 @@ const handleEdit = (id: number) => {
 
 const handleDelete = (id: number) => {
   Swal.fire({
-    title: "¿Estás seguro de que deseas eliminar este horario?",
+    title: "¿Estás seguro de que deseas eliminar esta cita?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: 'Sí, eliminar',
@@ -85,28 +86,28 @@ const handleDelete = (id: number) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Eliminado", "El horario ha sido eliminado correctamente.", "success");
+        Swal.fire("Eliminado", "La cita ha sido eliminada correctamente.", "success");
       } catch (error) {
-        Swal.fire("Error", "Hubo un problema al eliminar el horario. Inténtalo de nuevo.", "error");
+        Swal.fire("Error", "Hubo un problema al eliminar la cita. Inténtalo de nuevo.", "error");
       }
     }
   });
 };
 
-export const HorariosPage = () => {
+export const CitasPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, ml: 8 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4 }}>
       <Paper
         sx={{
           padding: 3,
-          maxWidth: 750,
+          maxWidth: 850,
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
           mt: 1,
-          ml: 2,
+          ml: -2, 
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -116,13 +117,13 @@ export const HorariosPage = () => {
                 <HomeIcon sx={{ mr: 0.5 }} />
                 Inicio
               </Link>
-              <Typography color="textPrimary">Horarios</Typography>
+              <Typography color="textPrimary">Citas</Typography>
             </Breadcrumbs>
           </Box>
 
           <Box sx={{ textAlign: 'center', mb: 2 }}>
             <Typography variant="h4" component="h2" gutterBottom>
-              Lista de Horarios
+              Lista de Citas
             </Typography>
           </Box>
 
@@ -154,9 +155,9 @@ export const HorariosPage = () => {
                   bgcolor: '#51C5BA',
                 },
               }}
-              onClick={() => navigate("/agregar-horarios")}
+              onClick={() => navigate("/agregar-citas")}
             >
-              + Añadir Horarios
+              + Añadir Cita
             </Button>
           </Box>
         </Box>
@@ -164,5 +165,3 @@ export const HorariosPage = () => {
     </Box>
   );
 };
-
-export default HorariosPage;

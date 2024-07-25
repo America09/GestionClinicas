@@ -1,7 +1,7 @@
 // Handlers/AuthHandler.ts
-import { login } from '../Services/AuthService';
+import { login, createUser } from '../Services/AuthService';
 import { AuthContextType } from '../Types/Auth';
-import { LoginRequest, ApiResponse, LoginResponse } from '../Types/Api';
+import { LoginRequest, ApiResponse, LoginResponse, CreateUserRequest } from '../Types/Api';
 
 export const handleLogin = async (
     loginRequest: LoginRequest,
@@ -28,6 +28,31 @@ export const handleLogin = async (
             request: error.request,
             config: error.config,
         });
-        return false; // Indica fallo
+        return false;
+    }
+};
+
+
+export const handleCreateUser = async (
+    createUserRequest: CreateUserRequest
+): Promise<boolean> => {
+    try {
+        const response: ApiResponse<any> = await createUser(createUserRequest);
+        
+        if (response.success) {
+            console.log('Usuario creado exitosamente');
+            return true;
+        } else {
+            console.error('Error al crear usuario:', response.message);
+            return false;
+        }
+    } catch (error: any) {
+        console.error('Error al crear usuario:', {
+            message: error.message,
+            response: error.response,
+            request: error.request,
+            config: error.config,
+        });
+        return false;
     }
 };
