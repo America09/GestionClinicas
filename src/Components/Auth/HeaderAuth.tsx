@@ -32,8 +32,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`, 
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -57,17 +56,13 @@ const HeaderAuth: React.FC<HeaderAuthProps> = ({ handleDrawerToggle }) => {
         setAnchorEl(null);
     };
 
-
-
     const handleLogout = () => {
-
-        localStorage.removeItem('authToken'); 
-        sessionStorage.removeItem('authToken'); 
+        localStorage.removeItem('token'); 
+        sessionStorage.removeItem('token'); 
         navigate('/');
         handleClose();
     };
     
-
     const isMenuOpen = Boolean(anchorEl);
 
     return (

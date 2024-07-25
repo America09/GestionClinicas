@@ -43,7 +43,7 @@ const Dashboard = () => {
         hAxis: { title: 'Mes' },
         vAxis: { title: 'Número de Citas' },
         legend: 'none',
-        colors: ['#1ABC9C'],
+        colors: ['#408D86'],
     };
 
     const kpiStyle = {
@@ -52,7 +52,7 @@ const Dashboard = () => {
         justifyContent: 'space-between',
         p: 2,
         borderRadius: 1,
-        bgcolor: 'primary.light',
+        backgroundColor: '#408D86',
         color: 'primary.contrastText',
     };
 
@@ -86,7 +86,7 @@ const Dashboard = () => {
                     <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
                         <CardContent>
                             <Box display="flex" alignItems="center" mb={2}>
-                                <EventNoteIcon color="primary" sx={{ mr: 1 }} />
+                                <EventNoteIcon sx={{ mr: 1, color: '#408D86' }} />
                                 <Typography sx={{ fontSize: 16, fontWeight: 'bold' }} color="text.primary">
                                     Número de Citas por Día
                                 </Typography>
@@ -106,7 +106,7 @@ const Dashboard = () => {
                     <Card sx={{ boxShadow: 3, borderRadius: 2 }}>
                         <CardContent>
                             <Box display="flex" alignItems="center" mb={2}>
-                                <EventNoteIcon color="secondary" sx={{ mr: 1 }} />
+                                <EventNoteIcon sx={{ mr: 1, color: '#408D86' }} />
                                 <Typography sx={{ fontSize: 16, fontWeight: 'bold' }} color="text.primary">
                                     Número de Citas por Mes
                                 </Typography>
@@ -142,21 +142,6 @@ const Dashboard = () => {
                     >
                         Gestionar permisos
                     </Button>
-                </Grid>
-
-                <Grid item xs={12}>
-                    <Paper sx={{ p: 2, mt: 2 }}>
-                        <Typography variant="h6" gutterBottom>Notificaciones</Typography>
-                        <Box display="flex" alignItems="center">
-                            <NotificationsActiveIcon color="warning" sx={{ mr: 1 }} />
-                            <Typography variant="body1">Tienes 3 citas sin confirmar para hoy.</Typography>
-                        </Box>
-                        <Divider sx={{ my: 1 }} />
-                        <Box display="flex" alignItems="center">
-                            <NotificationsActiveIcon color="error" sx={{ mr: 1 }} />
-                            <Typography variant="body1">Un usuario ha solicitado cambiar su rol.</Typography>
-                        </Box>
-                    </Paper>
                 </Grid>
             </Grid>
         </Box>
