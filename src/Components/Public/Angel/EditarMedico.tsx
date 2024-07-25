@@ -60,23 +60,34 @@ const EditMedicos: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+      Swal.fire({
+        title: "¿Estás seguro de que deseas editar este médico?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Sí, editar',
+        cancelButtonText: 'No, cancelar',
+        dangerMode: true,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await new Promise((resolve) => setTimeout(resolve, 1000));
 
-        Swal.fire({
-          title: 'Editado',
-          text: 'El médico ha sido editado correctamente.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-        });
-      } catch (error) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Hubo un problema al editar el médico. Inténtalo de nuevo.',
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-        });
-      }
+            Swal.fire({
+              title: 'Editado',
+              text: 'El médico ha sido editado correctamente.',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            });
+          } catch (error) {
+            Swal.fire({
+              title: 'Error',
+              text: 'Hubo un problema al editar el médico. Inténtalo de nuevo.',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        }
+      });
     } else {
       Swal.fire({
         title: 'Error',
@@ -277,9 +288,8 @@ const EditMedicos: React.FC = () => {
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto', px: 4 }} // Ajuste de tamaño del botón
               >
                 Guardar 
               </Button>

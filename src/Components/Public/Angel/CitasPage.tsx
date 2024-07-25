@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -19,12 +19,14 @@ const columns: GridColDef[] = [
     headerName: 'Editar',
     width: 100,
     sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        onClick={() => handleEdit(params.id)}
-      />
+    renderCell: () => (
+      <IconButton
+        component={RouterLink}
+        to="/editar-citas"
+        sx={{ color: 'action.active' }}
+      >
+        <EditIcon />
+      </IconButton>
     ),
   },
   {
@@ -53,25 +55,6 @@ const rows = [
   { id: 8, Paciente: 'Rosa Ortiz', Medico: 'Dra. Herrera', Especialidad: 'Cirugía General', Fecha: '2024-07-28', Hora: '15:00', Descripcion: 'Evaluación preoperatoria' },
   { id: 9, Paciente: 'Jorge Pérez', Medico: 'Dr. Castro', Especialidad: 'Ginecología', Fecha: '2024-07-29', Hora: '16:00', Descripcion: 'Consulta ginecológica' },
 ];
-
-const handleEdit = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas editar esta cita?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, editar',
-    cancelButtonText: 'No, cancelar',
-    dangerMode: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar la cita. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
 
 const handleDelete = (id: number) => {
   Swal.fire({

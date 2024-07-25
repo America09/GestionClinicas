@@ -43,25 +43,34 @@ const EditarConsultorio: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-     
-      try {
-        
-        await new Promise((resolve) => setTimeout(resolve, 1000)); 
+      Swal.fire({
+        title: "¿Estás seguro de que deseas editar este consultorio?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Sí, editar',
+        cancelButtonText: 'No, cancelar',
+        dangerMode: true,
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await new Promise((resolve) => setTimeout(resolve, 1000)); 
 
-        Swal.fire({
-          title: 'Editado',
-          text: 'El consultorio ha sido editado correctamente.',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-        });
-      } catch (error) {
-        Swal.fire({
-          title: 'Error',
-          text: 'Hubo un problema al guardar el consultorio. Inténtalo de nuevo.',
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-        });
-      }
+            Swal.fire({
+              title: 'Editado',
+              text: 'El consultorio ha sido editado correctamente.',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            });
+          } catch (error) {
+            Swal.fire({
+              title: 'Error',
+              text: 'Hubo un problema al guardar el consultorio. Inténtalo de nuevo.',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+          }
+        }
+      });
     } else {
       Swal.fire({
         title: 'Error',
@@ -85,7 +94,8 @@ const EditarConsultorio: React.FC = () => {
         width: isLargeScreen ? 'calc(100% - 32px)' : '100%', 
         boxShadow: 3, 
         borderRadius: 2, 
-        mt: 4 
+        mt: 4,
+        ml: 20 // Ajuste de margen izquierdo para mover más a la derecha
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}> 
@@ -149,9 +159,8 @@ const EditarConsultorio: React.FC = () => {
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto', px: 4 }} // Ajuste de tamaño del botón
               >
                 Guardar
               </Button>
