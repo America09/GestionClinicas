@@ -1,28 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
-  TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Breadcrumbs, Link, Container, Paper
+  Grid,
+  TextField,
+  Button,
+  Typography,
+  Paper,
+  Box,
+  Breadcrumbs,
+  Link,
+  useMediaQuery,
+  useTheme,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
 } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
-interface FormData {
-  clinicaConsultorio: string;
-  medico: string;
-  fecha: string;
-  turno: string;
-  entrada: string;
-  salida: string;
-}
-
-interface CreateHorarioProps {
-  initialData?: FormData;
-  onSave: (data: FormData) => void;
-}
-
-const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) => {
-  const [formData, setFormData] = useState<FormData>({
+const AgregarHorario: React.FC = () => {
+  const [formData, setFormData] = useState({
     clinicaConsultorio: '',
     medico: '',
     fecha: '',
@@ -31,52 +29,47 @@ const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) =>
     salida: '',
   });
 
-  const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
+  const [formErrors, setFormErrors] = useState<any>({});
 
-  useEffect(() => {
-    if (initialData) {
-      setFormData(initialData);
-    }
-  }, [initialData]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const errors: Partial<FormData> = {};
-    if (!formData.clinicaConsultorio) {
-      errors.clinicaConsultorio = 'La clínica o consultorio es requerido';
-    }
-    if (!formData.medico) {
-      errors.medico = 'El médico es requerido';
-    }
-    if (!formData.fecha) {
-      errors.fecha = 'La fecha es requerida';
-    }
-    if (!formData.turno) {
-      errors.turno = 'El turno es requerido';
-    }
-    if (!formData.entrada) {
-      errors.entrada = 'La entrada es requerida';
-    }
-    if (!formData.salida) {
-      errors.salida = 'La salida es requerida';
-    }
+    const errors: any = {};
+    if (!formData.clinicaConsultorio) errors.clinicaConsultorio = 'La clínica o consultorio es requerido';
+    if (!formData.medico) errors.medico = 'El nombre del médico es requerido';
+    if (!formData.fecha) errors.fecha = 'La fecha es requerida';
+    if (!formData.turno) errors.turno = 'El turno es requerido';
+    if (!formData.entrada) errors.entrada = 'La entrada es requerida';
+    if (!formData.salida) errors.salida = 'La salida es requerida';
 
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      onSave(formData);
-      Swal.fire({
-        title: 'Guardado exitosamente',
-        text: 'El horario ha sido guardado correctamente.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-      });
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+
+        Swal.fire({
+          title: 'Guardado exitosamente',
+          text: 'El horario ha sido guardado correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+      } catch (error) {
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al guardar el horario. Inténtalo de nuevo.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
     } else {
       Swal.fire({
         title: 'Error',
@@ -87,182 +80,151 @@ const CreateHorario: React.FC<CreateHorarioProps> = ({ initialData, onSave }) =>
     }
   };
 
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
-    <Container
-      maxWidth="md"
-      sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', minHeight: '100vh', py: 4, ml: 4 }}
-    >
+    <Box sx={{ mt: 10, ml: 2 }}> {/* Ajusta el margen izquierdo según sea necesario */}
       <Paper
         sx={{
-          padding: 4,
-          textAlign: 'center',
-          width: '100%',
-          maxWidth: '800px',
+          padding: 3,
+          maxWidth: 800,
+          margin: isLargeScreen ? '0' : '0 auto',
+          display: 'block',
+          width: isLargeScreen ? 'calc(100% - 32px)' : '100%',
           boxShadow: 3,
           borderRadius: 2,
-          ml: 4,
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+        <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
+            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />
               Inicio
             </Link>
-            <Link color="inherit" component={RouterLink} to="/lista-de-horarios">
+            <Link color="inherit" component={RouterLink} to="/admin-horarios">
               Horarios
             </Link>
             <Typography color="textPrimary">Añadir Horario</Typography>
           </Breadcrumbs>
         </Box>
-        <Box sx={{ textAlign: 'center', mb: 3 }}>
-          <Typography variant="h5" component="h2" gutterBottom>
+        <div style={{
+          width: '100%',
+          maxWidth: 800,
+          margin: isLargeScreen ? '0' : '0 auto',
+        }}>
+          <Typography variant="h6" gutterBottom align="center">
             Añadir Horario
           </Typography>
-        </Box>
-        <Box component="form" onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth error={!!formErrors.clinicaConsultorio}>
-                <InputLabel>Clínica o consultorio</InputLabel>
-                <Select
-                  name="clinicaConsultorio"
-                  value={formData.clinicaConsultorio}
-                  onChange={handleChange}
-                  required
-                  label="Clínica o consultorio"
-                >
-                  <MenuItem value="Clínica 1">Clínica 1</MenuItem>
-                  <MenuItem value="Clínica 2">Clínica 2</MenuItem>
-                  <MenuItem value="Consultorio 1">Consultorio 1</MenuItem>
-                  <MenuItem value="Consultorio 2">Consultorio 2</MenuItem>
-                </Select>
-                {formErrors.clinicaConsultorio && (
-                  <Typography variant="body2" color="error">
-                    {formErrors.clinicaConsultorio}
-                  </Typography>
-                )}
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth error={!!formErrors.medico}>
-                <InputLabel>Médico</InputLabel>
-                <Select
-                  name="medico"
-                  value={formData.medico}
-                  onChange={handleChange}
-                  required
-                  label="Médico"
-                >
-                  <MenuItem value="Dr. Juan Pérez">Dr. Juan Pérez</MenuItem>
-                  <MenuItem value="Dr. María López">Dr. María López</MenuItem>
-                </Select>
-                {formErrors.medico && (
-                  <Typography variant="body2" color="error">
-                    {formErrors.medico}
-                  </Typography>
-                )}
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth required error={!!formErrors.clinicaConsultorio}>
+                  <InputLabel>Clínica o Consultorio</InputLabel>
+                  <Select
+                    name="clinicaConsultorio"
+                    value={formData.clinicaConsultorio}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="Clínica 1">Clínica 1</MenuItem>
+                    <MenuItem value="Clínica 2">Clínica 2</MenuItem>
+                    <MenuItem value="Consultorio 1">Consultorio 1</MenuItem>
+                    <MenuItem value="Consultorio 2">Consultorio 2</MenuItem>
+                  </Select>
+                  {formErrors.clinicaConsultorio && (
+                    <Typography variant="caption" color="error">{formErrors.clinicaConsultorio}</Typography>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth required error={!!formErrors.medico}>
+                  <InputLabel>Médico</InputLabel>
+                  <Select
+                    name="medico"
+                    value={formData.medico}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="Dr. Juan Pérez">Dr. Juan Pérez</MenuItem>
+                    <MenuItem value="Dr. María López">Dr. María López</MenuItem>
+                  </Select>
+                  {formErrors.medico && (
+                    <Typography variant="caption" color="error">{formErrors.medico}</Typography>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <TextField
+                  fullWidth
                   label="Fecha"
-                  variant="outlined"
                   name="fecha"
+                  type="date"
+                  InputLabelProps={{ shrink: true }}
                   value={formData.fecha}
                   onChange={handleChange}
-                  type="date"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  fullWidth
+                  required
                   error={!!formErrors.fecha}
                   helperText={formErrors.fecha}
-                  required
                 />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth error={!!formErrors.turno}>
-                <InputLabel>Turno</InputLabel>
-                <Select
-                  name="turno"
-                  value={formData.turno}
-                  onChange={handleChange}
-                  required
-                  label="Turno"
-                >
-                  <MenuItem value="Mañana">Mañana</MenuItem>
-                  <MenuItem value="Tarde">Tarde</MenuItem>
-                </Select>
-              </FormControl>
-              {formErrors.turno && (
-                <Typography variant="body2" color="error">
-                  {formErrors.turno}
-                </Typography>
-              )}
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth required error={!!formErrors.turno}>
+                  <InputLabel>Turno</InputLabel>
+                  <Select
+                    name="turno"
+                    value={formData.turno}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="Mañana">Mañana</MenuItem>
+                    <MenuItem value="Tarde">Tarde</MenuItem>
+                  </Select>
+                  {formErrors.turno && (
+                    <Typography variant="caption" color="error">{formErrors.turno}</Typography>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <TextField
+                  fullWidth
                   label="Entrada"
-                  variant="outlined"
                   name="entrada"
+                  type="time"
+                  InputLabelProps={{ shrink: true }}
                   value={formData.entrada}
                   onChange={handleChange}
-                  type="time"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  fullWidth
+                  required
                   error={!!formErrors.entrada}
                   helperText={formErrors.entrada}
-                  required
                 />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
+              </Grid>
+              <Grid item xs={12} sm={6}>
                 <TextField
+                  fullWidth
                   label="Salida"
-                  variant="outlined"
                   name="salida"
+                  type="time"
+                  InputLabelProps={{ shrink: true }}
                   value={formData.salida}
                   onChange={handleChange}
-                  type="time"
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  fullWidth
+                  required
                   error={!!formErrors.salida}
                   helperText={formErrors.salida}
-                  required
                 />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+              </Grid>
+              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: '#43A49B',
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: '#51C5BA',
-                    },
-                  }}
                   type="submit"
+                  variant="contained"
+                  sx={{ backgroundColor: '#43A49B', '&:hover': { backgroundColor: '#369083' } }}
                 >
-                  {initialData ? 'Guardar cambios' : 'Agregar'}
+                  Guardar
                 </Button>
-              </Box>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </form>
+        </div>
       </Paper>
-    </Container>
+    </Box>
   );
 };
 
-export default CreateHorario;
+export default AgregarHorario;

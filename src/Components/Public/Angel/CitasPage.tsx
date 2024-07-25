@@ -9,10 +9,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'Rol', headerName: 'Rol', width: 150, editable: true },
-  { field: 'Usuario', headerName: 'Usuario', width: 180, editable: true },
-  { field: 'Acceso', headerName: 'Acceso', width: 180, editable: true }, // Nueva columna para el nivel de acceso
+  { field: 'id', headerName: 'ID', width: 80 },
+  { field: 'Paciente', headerName: 'Paciente', width: 100, editable: true },
+  { field: 'Medico', headerName: 'Médico', width: 100, editable: true },
+  { field: 'Especialidad', headerName: 'Especialidad', width: 100, editable: true },
+  { field: 'Fecha', headerName: 'Fecha', width: 100, editable: true },
+  { field: 'Hora', headerName: 'Hora', width: 100, editable: true },
   {
     field: 'Editar',
     headerName: 'Editar',
@@ -42,20 +44,20 @@ const columns: GridColDef[] = [
 ];
 
 const rows = [
-  { id: 1, Rol: 'Administrador', Usuario: 'Juan Pérez', Acceso: 'Acceso Total' },
-  { id: 2, Rol: 'Usuario', Usuario: 'María López', Acceso: 'Acceso Moderado' },
-  { id: 3, Rol: 'Médico', Usuario: 'Carlos Sánchez', Acceso: 'Acceso Limitado' },
-  { id: 4, Rol: 'Usuario', Usuario: 'Ana Rodríguez', Acceso: 'Acceso Moderado' },
-  { id: 5, Rol: 'Médico', Usuario: 'Luis Gómez', Acceso: 'Acceso Limitado' },
-  { id: 6, Rol: 'Administrador', Usuario: 'Laura Fernández', Acceso: 'Acceso Total' },
-  { id: 7, Rol: 'Usuario', Usuario: 'David Martínez', Acceso: 'Acceso Moderado' },
-  { id: 8, Rol: 'Médico', Usuario: 'Andrea Morales', Acceso: 'Acceso Limitado' },
-  { id: 9, Rol: 'Usuario', Usuario: 'Sofia Ramírez', Acceso: 'Acceso Moderado' },
+  { id: 1, Paciente: 'Juan Pérez', Medico: 'Dr. Gómez', Especialidad: 'Cardiología', Fecha: '2024-07-21', Hora: '10:00', Descripcion: 'Chequeo general' },
+  { id: 2, Paciente: 'Ana López', Medico: 'Dra. Martínez', Especialidad: 'Pediatría', Fecha: '2024-07-22', Hora: '11:00', Descripcion: 'Consulta de seguimiento' },
+  { id: 3, Paciente: 'Luis Fernández', Medico: 'Dr. Rodríguez', Especialidad: 'Neurología', Fecha: '2024-07-23', Hora: '12:00', Descripcion: 'Evaluación neurológica' },
+  { id: 4, Paciente: 'María González', Medico: 'Dra. Díaz', Especialidad: 'Ortopedia', Fecha: '2024-07-24', Hora: '09:00', Descripcion: 'Revisión de fractura' },
+  { id: 5, Paciente: 'Carlos Méndez', Medico: 'Dr. García', Especialidad: 'Dermatología', Fecha: '2024-07-25', Hora: '08:00', Descripcion: 'Tratamiento de acné' },
+  { id: 6, Paciente: 'Laura Ruiz', Medico: 'Dra. Sánchez', Especialidad: 'Radiología', Fecha: '2024-07-26', Hora: '13:00', Descripcion: 'Radiografía de tórax' },
+  { id: 7, Paciente: 'Pedro Morales', Medico: 'Dr. Jiménez', Especialidad: 'Oncología', Fecha: '2024-07-27', Hora: '14:00', Descripcion: 'Consulta oncológica' },
+  { id: 8, Paciente: 'Rosa Ortiz', Medico: 'Dra. Herrera', Especialidad: 'Cirugía General', Fecha: '2024-07-28', Hora: '15:00', Descripcion: 'Evaluación preoperatoria' },
+  { id: 9, Paciente: 'Jorge Pérez', Medico: 'Dr. Castro', Especialidad: 'Ginecología', Fecha: '2024-07-29', Hora: '16:00', Descripcion: 'Consulta ginecológica' },
 ];
 
 const handleEdit = (id: number) => {
   Swal.fire({
-    title: "¿Estás seguro de que deseas editar este rol?",
+    title: "¿Estás seguro de que deseas editar esta cita?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: 'Sí, editar',
@@ -65,9 +67,8 @@ const handleEdit = (id: number) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Editado", "El rol ha sido editado correctamente.", "success");
       } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar el rol. Inténtalo de nuevo.", "error");
+        Swal.fire("Error", "Hubo un problema al editar la cita. Inténtalo de nuevo.", "error");
       }
     }
   });
@@ -75,7 +76,7 @@ const handleEdit = (id: number) => {
 
 const handleDelete = (id: number) => {
   Swal.fire({
-    title: "¿Estás seguro de que deseas eliminar este rol?",
+    title: "¿Estás seguro de que deseas eliminar esta cita?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: 'Sí, eliminar',
@@ -85,15 +86,15 @@ const handleDelete = (id: number) => {
     if (result.isConfirmed) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Eliminado", "El rol ha sido eliminado correctamente.", "success");
+        Swal.fire("Eliminado", "La cita ha sido eliminada correctamente.", "success");
       } catch (error) {
-        Swal.fire("Error", "Hubo un problema al eliminar el rol. Inténtalo de nuevo.", "error");
+        Swal.fire("Error", "Hubo un problema al eliminar la cita. Inténtalo de nuevo.", "error");
       }
     }
   });
 };
 
-export const RolesPage = () => {
+export const CitasPage = () => {
   const navigate = useNavigate();
 
   return (
@@ -106,7 +107,7 @@ export const RolesPage = () => {
           boxShadow: 3,
           borderRadius: 2,
           mt: 1,
-          ml: -2, // Ajusta el margen izquierdo para mover el Paper más a la izquierda
+          ml: -2, 
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -116,13 +117,13 @@ export const RolesPage = () => {
                 <HomeIcon sx={{ mr: 0.5 }} />
                 Inicio
               </Link>
-              <Typography color="textPrimary">Roles</Typography>
+              <Typography color="textPrimary">Citas</Typography>
             </Breadcrumbs>
           </Box>
 
           <Box sx={{ textAlign: 'center', mb: 2 }}>
             <Typography variant="h4" component="h2" gutterBottom>
-              Lista de Roles
+              Lista de Citas
             </Typography>
           </Box>
 
@@ -143,7 +144,7 @@ export const RolesPage = () => {
             />
           </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Button
               variant="contained"
               sx={{
@@ -154,23 +155,9 @@ export const RolesPage = () => {
                   bgcolor: '#51C5BA',
                 },
               }}
-              onClick={() => navigate("/agregar-roles")}
+              onClick={() => navigate("/agregar-citas")}
             >
-              + Añadir Rol
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                bgcolor: '#43A49B',
-                color: 'white',
-                textTransform: 'capitalize',
-                '&:hover': {
-                  bgcolor: '#51C5BA',
-                },
-              }}
-              onClick={() => navigate('/admin-rolespermisos')}
-            >
-              + Añadir Permisos
+              + Añadir Cita
             </Button>
           </Box>
         </Box>

@@ -88,7 +88,7 @@ const AgregarRol: React.FC = () => {
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
         <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
+          <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
             <HomeIcon sx={{ mr: 0.5 }} />
             Inicio
           </Link>

@@ -108,7 +108,7 @@ export const MedicosPage = () => {
             <Paper elevation={3} sx={{ width: '100%', maxWidth: 900, p: 3 }}>
                 {/* Breadcrumbs */}
                 <Breadcrumbs aria-label="breadcrumb">
-                    <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                         <HomeIcon sx={{ mr: 0.5 }} />
                         Inicio
                     </Link>

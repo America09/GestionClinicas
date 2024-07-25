@@ -15,7 +15,6 @@ import Nosotross from '../Pages/Public/Nosotros';
 import Contacto from '../Pages/Public/Contacto';
 import { CrudMedico } from '../Pages/Public/Angel/CrudMedico';
 import { CrudHorario } from '../Pages/Public/Jorge/CrudHorarios';
-import { CrudCitas } from '../Pages/Public/America/CrudCitas';
 import { CrudConsultorio } from '../Pages/Public/Angel/CrudConsultorio';
 import Confirma from '../Pages/Public/Confirma';
 import { ConfirmarCOntraseña } from '../Pages/Public/ConfirmarCOntraseña';
@@ -23,6 +22,8 @@ import { AGConsultorios } from '../Pages/Public/Angel/AGConsultorios';
 import { EditConsultorios } from '../Pages/Public/Angel/EditConsultorios';
 import { AGMedicos } from '../Pages/Public/Angel/AGMedicos';
 import { AGRoles } from '../Pages/Public/Angel/AGRoles';
+import { AGCitas } from '../Pages/Public/Angel/AGCitas';
+import { CrudCitas } from '../Pages/Public/Angel/CrudCitas';
 import { CrudRoles } from '../Pages/Public/Angel/CrudRoles';
 import { AsignarPermisos } from '../Pages/Public/Angel/AsignarPermisos';
 import { PacientesList } from '../Pages/Public/Katherine/ListPacientesPage';
@@ -61,17 +62,19 @@ const AppRouter = () => {
                         <Route path="/agregar-consultorios" element={<AGConsultorios/>} />
                         <Route path="/editar-consultorios" element={<EditConsultorios/>} />
                         <Route path="/admin-medicos" element={<CrudMedico />} />
+                        <Route path="/admin-citas" element={<CrudCitas />} />
                         <Route path="/agregar-medicos" element={<AGMedicos/>} />
                         <Route path="/editar-medicos" element={<EdiMed/>} />
                         <Route path="/agregar-roles" element={<AGRoles/>} />
+                        <Route path="/agregar-citas" element={<AGCitas/>} />
                         <Route path="/admin-roles" element={<CrudRoles/>} />
                         <Route path="/admin-rolespermisos" element={<AsignarPermisos/>} />
                         {/* Otras Jorge */}
                         <Route path="/admin-horarios" element={<CrudHorario/>} />
-                        <Route path="/admin-horario" element={<AGHorario/>} />
-                        <Route path="/admin-crud-especialidad" element={<CrudEspecialidad/>} />
+                        <Route path="/agregar-horarios" element={<AGHorario/>} />
+                        <Route path="/admin-especialidad" element={<CrudEspecialidad/>} />
                         <Route path="/admin-edithoario" element={<EditHorario/>} />
-                        <Route path="/admin-especialidad" element={<AGEspecialidad/>} />
+                        <Route path="/agregar-especialidad" element={<AGEspecialidad/>} />
                         {/* Rutas Katherine */}
                         <Route path="/admin-Listpacientes" element={<PacientesList/>} />
                         <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
