@@ -85,36 +85,28 @@ const EditarConsultorio: React.FC = () => {
   const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <Paper
-      sx={{
-        padding: 3,
-        maxWidth: 600,
-        margin: isLargeScreen ? '0' : '0 auto', 
-        display: 'block',
-        width: isLargeScreen ? 'calc(100% - 32px)' : '100%', 
-        boxShadow: 3, 
-        borderRadius: 2, 
-        mt: 4,
-        ml: 20 // Ajuste de margen izquierdo para mover más a la derecha
-      }}
-    >
-      <Box sx={{ display: 'flex', ml: 2, mb: 2 }}> 
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
-            <HomeIcon sx={{ mr: 0.5 }} />
-            Inicio
-          </Link>
-          <Link color="inherit" component={RouterLink} to="/admin-consultorios">
-            Consultorios
-          </Link>
-          <Typography color="textPrimary">Editar consultorio</Typography>
-        </Breadcrumbs>
-      </Box>
-      <div style={{
-        width: '100%',
-        maxWidth: 800,
-        margin: isLargeScreen ? '0' : '0 auto', 
-      }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+      <Paper
+        sx={{
+          padding: 3,
+          maxWidth: 600,
+          width: '100%',
+          boxShadow: 3,
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+              <HomeIcon sx={{ mr: 0.5 }} />
+              Inicio
+            </Link>
+            <Link color="inherit" component={RouterLink} to="/admin-consultorios">
+              Consultorios
+            </Link>
+            <Typography color="textPrimary">Editar consultorio</Typography>
+          </Breadcrumbs>
+        </Box>
         <Typography variant="h6" gutterBottom align="center">
           Editar Consultorio
         </Typography>
@@ -160,15 +152,15 @@ const EditarConsultorio: React.FC = () => {
               <Button
                 type="submit"
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto', px: 4 }} // Ajuste de tamaño del botón
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto', px: 4 }}
               >
                 Guardar
               </Button>
             </Grid>
           </Grid>
         </form>
-      </div>
-    </Paper>
+      </Paper>
+    </Box>
   );
 };
 
