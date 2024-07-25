@@ -89,13 +89,12 @@ const EditarConsultorio: React.FC = () => {
       sx={{
         padding: 3,
         maxWidth: 600,
-        margin: isLargeScreen ? '0' : '0 auto', 
+        margin: isLargeScreen ? '0 auto' : '0 auto', 
         display: 'block',
         width: isLargeScreen ? 'calc(100% - 32px)' : '100%', 
         boxShadow: 3, 
         borderRadius: 2, 
-        mt: 4,
-        ml: 20 // Ajuste de margen izquierdo para mover más a la derecha
+        mt: 4
       }}
     >
       <Box sx={{ display: 'flex', ml: 2, mb: 2 }}> 
@@ -113,7 +112,7 @@ const EditarConsultorio: React.FC = () => {
       <div style={{
         width: '100%',
         maxWidth: 800,
-        margin: isLargeScreen ? '0' : '0 auto', 
+        margin: isLargeScreen ? '0 auto' : '0 auto', 
       }}>
         <Typography variant="h6" gutterBottom align="center">
           Editar Consultorio

@@ -84,7 +84,7 @@ export const MedicosPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4, pl: 1 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
       <Paper elevation={3} sx={{ width: '100%', maxWidth: 900, p: 3 }}>
         {/* Breadcrumbs */}
         <Breadcrumbs aria-label="breadcrumb">
