@@ -24,10 +24,10 @@ export const Sidebar = () => {
     <HomeOutlinedIcon fontSize="large" onClick={() => navigate('/Inicio')} />,
     <MedicalServicesOutlinedIcon fontSize="large" />,
     <PermContactCalendarOutlinedIcon fontSize="large" />,
-    <PendingActionsOutlinedIcon fontSize="large" />,
+    <PendingActionsOutlinedIcon fontSize="large" onClick={() => navigate('/admin-horarios')}/>,
     <PermIdentityOutlinedIcon fontSize="large" onClick={() => navigate('/lista-de-pacientes')} />,
     <Person3OutlinedIcon fontSize="large" onClick={() => navigate('/Doctor')} />,
-    <EventAvailableOutlinedIcon fontSize="large" />,
+    <EventAvailableOutlinedIcon fontSize="large" onClick={() => navigate('/admin-especialidades')} />,
   ];
 
   const getLogoStyle = () => ({
