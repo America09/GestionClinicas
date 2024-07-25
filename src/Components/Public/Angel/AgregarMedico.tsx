@@ -15,7 +15,8 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  FormControl
+  FormControl,
+  Container
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
@@ -39,11 +40,11 @@ const AgregarMedico: React.FC = () => {
 
   const [formErrors, setFormErrors] = useState<any>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown; }>) => {
+    const { name, value, type } = e.target as HTMLInputElement;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value,
+      [name!]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     });
   };
 
@@ -61,7 +62,7 @@ const AgregarMedico: React.FC = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         Swal.fire({
           title: 'Guardado exitosamente',
@@ -87,38 +88,30 @@ const AgregarMedico: React.FC = () => {
     }
   };
 
-  const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
-
   return (
-    <Paper
-      sx={{
-        padding: 3,
-        maxWidth: 800,
-        margin: isLargeScreen ? '0' : '0 auto',
-        display: 'block',
-        width: isLargeScreen ? 'calc(100% - 32px)' : '100%',
-        boxShadow: 3,
-        borderRadius: 2,
-      }}
-    >
-      <Box sx={{ display: 'flex', ml: 2, mb: 2 }}>
-        <Breadcrumbs aria-label="breadcrumb">
-          <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
-            <HomeIcon sx={{ mr: 0.5 }} />
-            Inicio
-          </Link>
-          <Link color="inherit" component={RouterLink} to="/admin-medicos">
-            Médicos
-          </Link>
-          <Typography color="textPrimary">Agregar médico</Typography>
-        </Breadcrumbs>
-      </Box>
-      <div style={{
-        width: '100%',
-        maxWidth: 800,
-        margin: isLargeScreen ? '0' : '0 auto',
-      }}>
+    <Container maxWidth="md">
+      <Paper
+        sx={{
+          padding: 3,
+          margin: '0 auto',
+          display: 'block',
+          width: '100%',
+          boxShadow: 3,
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ display: 'flex', mb: 2 }}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+              <HomeIcon sx={{ mr: 0.5 }} />
+              Inicio
+            </Link>
+            <Link color="inherit" component={RouterLink} to="/admin-medicos">
+              Médicos
+            </Link>
+            <Typography color="textPrimary">Agregar médico</Typography>
+          </Breadcrumbs>
+        </Box>
         <Typography variant="h6" gutterBottom align="center">
           Agregar Médico
         </Typography>
@@ -166,10 +159,9 @@ const AgregarMedico: React.FC = () => {
                 fullWidth
                 label="Teléfono"
                 name="telefono"
-                type="number"
+                type="tel"
                 value={formData.telefono}
                 onChange={handleChange}
-                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
                 error={!!formErrors.telefono}
                 helperText={formErrors.telefono}
               />
@@ -188,7 +180,7 @@ const AgregarMedico: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
+              <FormControl fullWidth error={!!formErrors.genero}>
                 <InputLabel id="genero-label">Género</InputLabel>
                 <Select
                   labelId="genero-label"
@@ -196,7 +188,6 @@ const AgregarMedico: React.FC = () => {
                   value={formData.genero}
                   onChange={handleChange}
                   required
-                  error={!!formErrors.genero}
                 >
                   <MenuItem value="masculino">Masculino</MenuItem>
                   <MenuItem value="femenino">Femenino</MenuItem>
@@ -211,10 +202,9 @@ const AgregarMedico: React.FC = () => {
                 fullWidth
                 label="Cédula Profesional"
                 name="cedula"
-                type="number"
+                type="text"
                 value={formData.cedula}
                 onChange={handleChange}
-                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
                 error={!!formErrors.cedula}
                 helperText={formErrors.cedula}
               />
@@ -236,7 +226,7 @@ const AgregarMedico: React.FC = () => {
                 type="number"
                 value={formData.anosExperiencia}
                 onChange={handleChange}
-                InputProps={{ inputProps: { min: 0 } }} // Solo valores positivos
+                InputProps={{ inputProps: { min: 0 } }}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -285,8 +275,8 @@ const AgregarMedico: React.FC = () => {
             </Grid>
           </Grid>
         </form>
-      </div>
-    </Paper>
+      </Paper>
+    </Container>
   );
 };
 
