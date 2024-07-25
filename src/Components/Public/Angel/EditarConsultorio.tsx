@@ -166,8 +166,8 @@ const EditarConsultorio: React.FC = () => {
             </Grid>
           </Grid>
         </form>
-      </div>
-    </Paper>
+      </Paper>
+    </Box>
   );
 };
 

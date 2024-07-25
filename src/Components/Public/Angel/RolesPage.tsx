@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
+import { Typography, Button, Box, Paper, Breadcrumbs, Link } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -12,7 +12,7 @@ const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 90 },
   { field: 'Rol', headerName: 'Rol', width: 150, editable: true },
   { field: 'Usuario', headerName: 'Usuario', width: 180, editable: true },
-  { field: 'Acceso', headerName: 'Acceso', width: 180, editable: true }, // Nueva columna para el nivel de acceso
+  { field: 'Acceso', headerName: 'Acceso', width: 180, editable: true },
   {
     field: 'Editar',
     headerName: 'Editar',
@@ -60,7 +60,6 @@ const handleEdit = (id: number) => {
     showCancelButton: true,
     confirmButtonText: 'Sí, editar',
     cancelButtonText: 'No, cancelar',
-    dangerMode: true,
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
@@ -80,7 +79,6 @@ const handleDelete = (id: number) => {
     showCancelButton: true,
     confirmButtonText: 'Sí, eliminar',
     cancelButtonText: 'No, cancelar',
-    dangerMode: true,
   }).then(async (result) => {
     if (result.isConfirmed) {
       try {
@@ -97,7 +95,7 @@ export const RolesPage = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mt: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
       <Paper
         sx={{
           padding: 3,
@@ -105,74 +103,71 @@ export const RolesPage = () => {
           width: '100%',
           boxShadow: 3,
           borderRadius: 2,
-          mt: 1,
-          ml: -2, // Ajusta el margen izquierdo para mover el Paper más a la izquierda
+          margin: '0 auto',
         }}
       >
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', mb: 2 }}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
-                <HomeIcon sx={{ mr: 0.5 }} />
-                Inicio
-              </Link>
-              <Typography color="textPrimary">Roles</Typography>
-            </Breadcrumbs>
-          </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+          <Breadcrumbs aria-label="breadcrumb">
+            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+              <HomeIcon sx={{ mr: 0.5 }} />
+              Inicio
+            </Link>
+            <Typography color="textPrimary">Roles</Typography>
+          </Breadcrumbs>
+        </Box>
 
-          <Box sx={{ textAlign: 'center', mb: 2 }}>
-            <Typography variant="h4" component="h2" gutterBottom>
-              Lista de Roles
-            </Typography>
-          </Box>
+        <Box sx={{ textAlign: 'center', mb: 2 }}>
+          <Typography variant="h4" component="h2" gutterBottom>
+            Lista de Roles
+          </Typography>
+        </Box>
 
-          <Box sx={{ mt: 2 }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 5,
-                  },
+        <Box sx={{ mt: 2 }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 5,
                 },
-              }}
-              pageSizeOptions={[5]}
-              disableSelectionOnClick
-              autoHeight
-            />
-          </Box>
+              },
+            }}
+            pageSizeOptions={[5]}
+            disableSelectionOnClick
+            autoHeight
+          />
+        </Box>
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
-            <Button
-              variant="contained"
-              sx={{
-                bgcolor: '#43A49B',
-                color: 'white',
-                textTransform: 'capitalize',
-                '&:hover': {
-                  bgcolor: '#51C5BA',
-                },
-              }}
-              onClick={() => navigate("/agregar-roles")}
-            >
-              + Añadir Rol
-            </Button>
-            <Button
-              variant="contained"
-              sx={{
-                bgcolor: '#43A49B',
-                color: 'white',
-                textTransform: 'capitalize',
-                '&:hover': {
-                  bgcolor: '#51C5BA',
-                },
-              }}
-              onClick={() => navigate('/admin-rolespermisos')}
-            >
-              + Añadir Permisos
-            </Button>
-          </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: '#43A49B',
+              color: 'white',
+              textTransform: 'capitalize',
+              '&:hover': {
+                bgcolor: '#51C5BA',
+              },
+            }}
+            onClick={() => navigate("/agregar-roles")}
+          >
+            + Añadir Rol
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: '#43A49B',
+              color: 'white',
+              textTransform: 'capitalize',
+              '&:hover': {
+                bgcolor: '#51C5BA',
+              },
+            }}
+            onClick={() => navigate('/admin-rolespermisos')}
+          >
+            + Añadir Permisos
+          </Button>
         </Box>
       </Paper>
     </Box>
