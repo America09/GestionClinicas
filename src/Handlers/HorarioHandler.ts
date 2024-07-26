@@ -1,7 +1,6 @@
 import { getHorarios, getHorarioById, createHorario, updateHorario, deleteHorario } from '../Services/HorarioServices';
 import { Horario } from '../Types/Horario';
 
-
 export const handleGetHorarios = async (): Promise<Horario[]> => {
     try {
         const horarios = await getHorarios();

@@ -1,3 +1,4 @@
+// HorarioPage.tsx
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, FormControl, InputLabel, Paper } from '@mui/material';
@@ -5,26 +6,38 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
-const rows = [
-    { id: 1, fecha: '2023-06-19', turno: 'Matutino', entrada: '08:00', salida: '12:00' },
-    { id: 2, fecha: '2023-06-20', turno: 'Vespertino', entrada: '13:00', salida: '17:00' },
-    { id: 3, fecha: '2023-06-25', turno: 'Matutino', entrada: '08:00', salida: '12:00' },
-    { id: 4, fecha: '2023-06-26', turno: 'Vespertino', entrada: '13:00', salida: '17:00' },
-    { id: 5, fecha: '2023-06-27', turno: 'Matutino', entrada: '08:00', salida: '12:00' },
-];
+import { handleDeleteHorario, handleGetHorarios, handleUpdateHorario } from '../../../Handlers/HorarioHandler';
+import { Horario } from '../../../Types/Horario';
 
 const HorariosPage: React.FC = () => {
     console.log('HorariosPage component is being rendered');
-    
+
     const navigate = useNavigate();
+    const [horarios, setHorarios] = React.useState<Horario[]>([]);
     const [openEdit, setOpenEdit] = React.useState(false);
-    const [selectedHorario, setSelectedHorario] = React.useState<any>(null);
+    const [selectedHorario, setSelectedHorario] = React.useState<Horario | null>(null);
+
+    React.useEffect(() => {
+        const fetchHorarios = async () => {
+            try {
+                const fetchedHorarios = await handleGetHorarios();
+                console.log(fetchHorarios)
+                setHorarios(fetchedHorarios);
+            } catch (error) {
+                console.error('Error al obtener los horarios:', error);
+            }
+        };
+
+        fetchHorarios();
+    }, []);
 
     const handleEdit = (id: number) => {
-        const horario = rows.find((row) => row.id === id);
-        setSelectedHorario(horario);
-        setOpenEdit(true);
+        const horario = horarios.find((horario) => horario.id === id);
+        if (horario) {
+            setSelectedHorario(horario);
+            setOpenEdit(true);
+            console.log(horario)
+        }
     };
 
     const handleDelete = (id: number) => {
@@ -36,14 +49,16 @@ const HorariosPage: React.FC = () => {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sí, eliminarlo'
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                console.log('Eliminar fila con ID:', id);
-                Swal.fire(
-                    'Eliminado!',
-                    'El horario ha sido eliminado.',
-                    'success'
-                );
+                try {
+                    await handleDeleteHorario(id);
+                    setHorarios(horarios.filter((horario) => horario.id !== id));
+                    Swal.fire('Eliminado!', 'El horario ha sido eliminado.', 'success');
+                } catch (error) {
+                    console.error('Error al eliminar el horario:', error);
+                    Swal.fire('Error', 'Hubo un problema al eliminar el horario.', 'error');
+                }
             }
         });
     };
@@ -53,15 +68,19 @@ const HorariosPage: React.FC = () => {
         setSelectedHorario(null);
     };
 
-    const handleSaveEdit = () => {
-        console.log('Guardar cambios para el horario:', selectedHorario);
-        setOpenEdit(false);
-        setSelectedHorario(null);
-        Swal.fire(
-            'Guardado!',
-            'El horario ha sido editado exitosamente.',
-            'success'
-        );
+    const handleSaveEdit = async () => {
+        if (selectedHorario) {
+            try {
+                await handleUpdateHorario(selectedHorario.id, selectedHorario);
+                setHorarios(horarios.map((horario) => horario.id === selectedHorario.id ? selectedHorario : horario));
+                setOpenEdit(false);
+                setSelectedHorario(null);
+                Swal.fire('Guardado!', 'El horario ha sido editado exitosamente.', 'success');
+            } catch (error) {
+                console.error('Error al actualizar el horario:', error);
+                Swal.fire('Error', 'Hubo un problema al guardar los cambios.', 'error');
+            }
+        }
     };
 
     const columns: GridColDef[] = [
@@ -125,7 +144,7 @@ const HorariosPage: React.FC = () => {
 
                     <Box sx={{ width: '100%', mt: 2 }}>
                         <DataGrid
-                            rows={rows}
+                            rows={horarios}
                             columns={columns}
                             initialState={{
                                 pagination: {
