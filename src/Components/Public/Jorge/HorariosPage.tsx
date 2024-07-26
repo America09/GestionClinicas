@@ -1,4 +1,3 @@
-// HorarioPage.tsx
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, FormControl, InputLabel, Paper } from '@mui/material';
@@ -6,8 +5,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { handleDeleteHorario, handleGetHorarios, handleUpdateHorario } from '../../../Handlers/HorarioHandler';
 import { Horario } from '../../../Types/Horario';
+import { handleDeleteHorario, handleGetHorarios, handleUpdateHorario } from '../../../Handlers/HorarioHandler';
+
 
 const HorariosPage: React.FC = () => {
     console.log('HorariosPage component is being rendered');
@@ -21,7 +21,7 @@ const HorariosPage: React.FC = () => {
         const fetchHorarios = async () => {
             try {
                 const fetchedHorarios = await handleGetHorarios();
-                console.log(fetchHorarios)
+                console.log(fetchedHorarios)
                 setHorarios(fetchedHorarios);
             } catch (error) {
                 console.error('Error al obtener los horarios:', error);
@@ -154,7 +154,7 @@ const HorariosPage: React.FC = () => {
                                 },
                             }}
                             pageSizeOptions={[5, 10, 20]}
-                            disableSelectionOnClick
+                            disableRowSelectionOnClick
                             autoHeight
                             sx={{
                                 '& .MuiDataGrid-root': {

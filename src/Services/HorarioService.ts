@@ -6,7 +6,7 @@ export const getHorarios = async (): Promise<Horario[]> => {
     return response.data;
 };
 
-export const getHorarioById = async (id: string): Promise<Horario> => {
+export const getHorarioById = async (id: number): Promise<Horario> => {
     const response = await clientAxios.get<Horario>(`/Horario/${id}`);
     return response.data;
 };
@@ -16,11 +16,11 @@ export const createHorario = async (horario: Horario): Promise<Horario> => {
     return response.data;
 };
 
-export const updateHorario = async (id: string, horario: Horario): Promise<Horario> => {
+export const updateHorario = async (id: number, horario: Horario): Promise<Horario> => {
     const response = await clientAxios.put<Horario>(`/Horario/${id}`, horario);
     return response.data;
 };
 
-export const deleteHorario = async (id: string): Promise<void> => {
+export const deleteHorario = async (id: number): Promise<void> => {
     await clientAxios.delete(`/Horario/${id}`);
 };

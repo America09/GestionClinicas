@@ -23,10 +23,8 @@ import { CrudPacientes } from '../Pages/Public/Katherine/CrudPacientes';
 import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
 import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
 import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
-import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
-/* import EditHorarioPage from '../Components/Public/Jorge/EditHorarioPage'; */
-
-
+/* import EspecialidadPage from '../Components/Public/Jorge/EspecialidadPage';
+import CreateEspecialidad from '../Components/Public/Jorge/CreateEspecialidadPage'; */
 
 const AppRouter = () => {
     return (
@@ -55,8 +53,8 @@ const AppRouter = () => {
                         <Route path="/admin-createhorarios" element={<AddHorario/>} />
                         <Route path="/admin-especialidades" element={<CrudEspecialidad/>} />
                         <Route path="/admin-createespecialidad" element={<AddEspecialidad/>} />
-                        <Route path="/admin-edithorario/${id}" element={<EditHorario/>} />
-                        {/* <Route path="/admin-editHorario/:id" element={<EditHorarioPage />} /> */}
+                        {/* <Route path="/admin-especialidades" element={<EspecialidadPage />} />
+                <Route path="/admin-createEspecialidad" element={<CreateEspecialidad />} /> */}
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />

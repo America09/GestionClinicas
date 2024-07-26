@@ -3,8 +3,10 @@ import {
   TextField, Button, Box, Typography, Breadcrumbs, Link, Container, Grid, FormControl, Paper
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { handleCreateEspecialidad } from '../../../Handlers/EspecialidadHandler';
+import { Especialidad } from '../../../Types/Especialidad';
 
 interface FormData {
   nombre: string;
@@ -12,6 +14,7 @@ interface FormData {
 }
 
 const CreateEspecialidad: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
     descripcion: '',
@@ -24,7 +27,7 @@ const CreateEspecialidad: React.FC = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const errors: Partial<FormData> = {};
@@ -38,12 +41,29 @@ const CreateEspecialidad: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      Swal.fire({
-        title: 'Guardado exitosamente',
-        text: 'La especialidad ha sido guardada correctamente.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-      });
+      try {
+        const nuevaEspecialidad: Especialidad = {
+          id: 0, // Este valor será asignado por el servidor
+          nombre: formData.nombre,
+          descripcion: formData.descripcion,
+        };
+        await handleCreateEspecialidad(nuevaEspecialidad);
+        Swal.fire({
+          title: 'Guardado exitosamente',
+          text: 'La especialidad ha sido guardada correctamente.',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+        navigate('/admin-especialidades');
+      } catch (error) {
+        console.error('Error al crear la especialidad:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al guardar la especialidad.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
     } else {
       Swal.fire({
         title: 'Error',
