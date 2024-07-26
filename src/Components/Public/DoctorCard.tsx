@@ -1,7 +1,22 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Card, CardContent, CardMedia, Chip, Grid, CircularProgress } from '@mui/material';
 
-const DoctorCard = ({ doctor }) => {
+interface Doctor {
+  name: string;
+  specialty: string;
+  languages: string;
+  experience: string;
+  education: string;
+  consultorio: string;
+  horario: string;
+  image: string;
+}
+
+interface DoctorCardProps {
+  doctor: Doctor;
+}
+
+const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
   return (
     <Card
       sx={{
@@ -11,6 +26,10 @@ const DoctorCard = ({ doctor }) => {
         borderRadius: 3,
         overflow: 'hidden',
         backgroundColor: '#f9f9f9',
+        transition: 'transform 0.3s',
+        '&:hover': {
+          transform: 'scale(1.05)',
+        },
       }}
     >
       <CardMedia
@@ -75,13 +94,13 @@ const DoctorCard = ({ doctor }) => {
   );
 };
 
-const DoctorCards = () => {
-  const [doctors, setDoctors] = useState([]);
+const DoctorCards: React.FC = () => {
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTimeout(() => {
-      const fetchedDoctors = [
+      const fetchedDoctors: Doctor[] = [
         {
           name: 'Dr. Estebán Quito',
           specialty: 'Medicina General',
@@ -112,36 +131,7 @@ const DoctorCards = () => {
           horario: 'Lunes a Viernes de 9:00 a 17:00',
           image: 'https://centrodolordecabeza.com/wp-content/uploads/2020/08/perfil-doctor-joe-munoz_2020.jpg',
         },
-        {
-            name: 'Dr. María López',
-            specialty: 'Cardiología',
-            languages: 'Español',
-            experience: 'Experiencia: 10 años',
-            education: 'Egresada de la Unisar',
-            consultorio: '02',
-            horario: 'Lunes a Viernes de 8:00 a 16:00',
-            image: 'https://centrodolordecabeza.com/wp-content/uploads/2020/08/perfil-doctor-joe-munoz_2020.jpg',
-          },
-          {
-            name: 'Dr. María López',
-            specialty: 'Cardiología',
-            languages: 'Español',
-            experience: 'Experiencia: 10 años',
-            education: 'Egresada de la Unisar',
-            consultorio: '02',
-            horario: 'Lunes a Viernes de 8:00 a 16:00',
-            image: 'https://centrodolordecabeza.com/wp-content/uploads/2020/08/perfil-doctor-joe-munoz_2020.jpg',
-          },
-          {
-            name: 'Dr. María López',
-            specialty: 'Cardiología',
-            languages: 'Español',
-            experience: 'Experiencia: 10 años',
-            education: 'Egresada de la Unisar',
-            consultorio: '02',
-            horario: 'Lunes a Viernes de 8:00 a 16:00',
-            image: 'https://centrodolordecabeza.com/wp-content/uploads/2020/08/perfil-doctor-joe-munoz_2020.jpg',
-          },
+        // Más doctores aquí...
       ];
       setDoctors(fetchedDoctors);
       setLoading(false);
@@ -164,9 +154,9 @@ const DoctorCards = () => {
   }
 
   return (
-    <Grid container spacing={4} sx={{ padding: 4 , justifyContent: 'center' }}>
+    <Grid container spacing={4} sx={{ padding: 4, justifyContent: 'center' }}>
       {doctors.map((doctor, index) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={index} sx={{ display: 'flex', justifyContent: 'center', margin: 2 }}>
+        <Grid item xs={12} sm={6} md={4} lg={3} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
           <DoctorCard doctor={doctor} />
         </Grid>
       ))}
