@@ -110,18 +110,6 @@ const AgregarMedico: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={availability}
-                                            onChange={(e) => setAvailability(e.target.checked)}
-                                            name="availability"
-                                        />
-                                    }
-                                    label="Disponibilidad"
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
                                 <TextField
                                     margin="dense"
                                     label="ID de Usuario"
@@ -146,6 +134,18 @@ const AgregarMedico: React.FC = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={availability}
+                                            onChange={(e) => setAvailability(e.target.checked)}
+                                            name="availability"
+                                        />
+                                    }
+                                    label="Disponibilidad"
+                                />
                             </Grid>
                         </Grid>
 

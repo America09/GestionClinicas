@@ -204,7 +204,7 @@ const MedicsPage: React.FC = () => {
                     />
                     <TextField
                         margin="dense"
-                        label="Fechaa de Graduación"
+                        label="Fecha de Graduación"
                         type="date"
                         fullWidth
                         value={selectedMedic?.dateGraduate || ''}
