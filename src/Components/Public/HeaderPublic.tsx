@@ -61,20 +61,20 @@ const HeaderPublic = () => {
     const drawerContent = (
         <Box
             sx={{
-                width: 250,
+                width: 200,
                 padding: 2,
                 height: '100vh',
                 backgroundColor: '#508D86',
                 color: 'white',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'space-between'
+                justifyContent: 'flex-start' 
             }}
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
         >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
                 <Typography variant="h6" sx={{ ml: 2 }}>Menú</Typography>
                 <IconButton onClick={toggleDrawer(false)} sx={{ color: 'white' }}>
                     <CloseIcon />
@@ -145,19 +145,19 @@ const HeaderPublic = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: '5rem', flexGrow: 1, justifyContent: 'center' }}>
-                        <Link component={NavLink} to="/" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        <Link component={NavLink} to="/" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
                             Inicio
                         </Link>
-                        <Link component={NavLink} to="/servicios" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        <Link component={NavLink} to="/servicios" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
                             Servicios
                         </Link>
-                        <Link component={NavLink} to="/citas" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        <Link component={NavLink} to="/citas" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
                             Citas
                         </Link>
-                        <Link component={NavLink} to="/medicos" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        <Link component={NavLink} to="/medicos" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
                             Médicos
                         </Link>
-                        <Link component="button" onClick={handleOpenLogin} sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium', background: 'none', border: 'none', cursor: 'pointer' }}>
+                        <Link component="button" onClick={handleOpenLogin} sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium', background: 'none', border: 'none', cursor: 'pointer' }}>
                             Login
                         </Link>
                     </Box>

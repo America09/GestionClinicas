@@ -26,14 +26,16 @@ import { AGCitas } from '../Pages/Public/Angel/AGCitas';
 import { CrudCitas } from '../Pages/Public/Angel/CrudCitas';
 import { CrudRoles } from '../Pages/Public/Angel/CrudRoles';
 import { AsignarPermisos } from '../Pages/Public/Angel/AsignarPermisos';
+import { EdiMed } from '../Pages/Public/Angel/EdiMed';
+import EditarCitas from "../Pages/Public/Angel/EditCitas";
 import { PacientesList } from '../Pages/Public/Katherine/ListPacientesPage';
 import { AddPacientes } from '../Pages/Public/Katherine/AddPacientesPage';
 import { HistorialClinicoPage } from '../Pages/Public/Katherine/HistorialPage';
-import { EdiMed } from '../Pages/Public/Angel/EdiMed';
 import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
 import { AGHorario } from '../Pages/Public/Jorge/AGHorario';
 import { AGEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
+
 
 
 const AppRouter = () => {
@@ -65,6 +67,7 @@ const AppRouter = () => {
                         <Route path="/admin-citas" element={<CrudCitas />} />
                         <Route path="/agregar-medicos" element={<AGMedicos/>} />
                         <Route path="/editar-medicos" element={<EdiMed/>} />
+                        <Route path="/editar-citas" element={<EditarCitas/>} />
                         <Route path="/agregar-roles" element={<AGRoles/>} />
                         <Route path="/agregar-citas" element={<AGCitas/>} />
                         <Route path="/admin-roles" element={<CrudRoles/>} />

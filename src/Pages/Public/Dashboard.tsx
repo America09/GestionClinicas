@@ -1,8 +1,6 @@
-import * as React from 'react';
-import { Card, CardContent, Typography, Grid, Box, Button, Paper, Divider } from '@mui/material';
+import { Card, CardContent, Typography, Grid, Box, Button, Paper } from '@mui/material';
 import { Chart } from 'react-google-charts';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {

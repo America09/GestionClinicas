@@ -33,12 +33,12 @@ const Sidebar: React.FC = () => {
                     key={index}
                     onClick={() => navigate(item.route)}
                     selected={location.pathname === item.route}
-                    sx={{ color: '#fff', marginBottom: 2 }} // Adding marginBottom for spacing
+                    sx={{ color: '#fff', marginBottom: 2 }} 
                 >
                     <ListItemIcon sx={{ color: '#fff', minWidth: '40px' }}>
                         {item.icon}
                     </ListItemIcon>
-                    <ListItemText primary={item.label} sx={{ '& .MuiTypography-root': { fontWeight: 300 } }} />
+                    <ListItemText primary={item.label} sx={{ '& .MuiTypography-root': { fontWeight: 400 } }} />
                 </ListItem>
             ))}
         </List>

@@ -9,7 +9,6 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 const ContactForm = () => {
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [errors, setErrors] = useState<{ name: string; email: string; phone: string; message: string }>({
     name: '',
@@ -43,18 +42,6 @@ const ContactForm = () => {
       valid = false;
       errors.email = 'Correo no válido. Debe contener un "@" y un "."';
     }
-
-    if (!phone) {
-      valid = false;
-      errors.phone = 'Teléfono es requerido';
-    } else if (isNaN(Number(phone))) {
-      valid = false;
-      errors.phone = 'Teléfono no debe contener letras';
-    } else if (phone.length !== 10) {
-      valid = false;
-      errors.phone = 'Teléfono debe tener 10 dígitos';
-    }
-
     if (!message) {
       valid = false;
       errors.message = 'Mensaje es requerido';
@@ -78,15 +65,6 @@ const ContactForm = () => {
     }
   };
 
-  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    if (!isNaN(Number(value)) && value.length <= 10) {
-      setPhone(value);
-      setErrors((prevErrors) => ({ ...prevErrors, phone: '' }));
-    } else {
-      setErrors((prevErrors) => ({ ...prevErrors, phone: 'Teléfono no debe contener letras y debe tener 10 dígitos' }));
-    }
-  };
 
   return (
     <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 4 }}>
@@ -157,21 +135,6 @@ const ContactForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               error={!!errors.email}
               helperText={errors.email}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="phone"
-              label="Teléfono"
-              name="phone"
-              autoComplete="phone"
-              value={phone}
-              onChange={handlePhoneChange}
-              error={!!errors.phone}
-              helperText={errors.phone}
-              inputProps={{ inputMode: 'numeric', pattern: '[0-9]*', maxLength: 10 }}
             />
             <TextField
               variant="outlined"
