@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, Typography, InputBase, Menu, MenuItem, Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { AppBar, Toolbar, IconButton, Typography, InputBase, Menu, MenuItem, Box, Badge } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router-dom';
 import { styled, alpha } from '@mui/material/styles';
+import { fetchContactRecords } from '../../Services/Contact';
+import { ContactRecibido } from '../../types/Contact';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -32,7 +35,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`, 
+        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
@@ -47,13 +50,34 @@ interface HeaderAuthProps {
 
 const HeaderAuth: React.FC<HeaderAuthProps> = ({ handleDrawerToggle }) => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [notificationAnchorEl, setNotificationAnchorEl] = useState<null | HTMLElement>(null);
+    const [notifications, setNotifications] = useState<ContactRecibido[]>([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const loadNotifications = async () => {
+            try {
+                const data = await fetchContactRecords();
+                setNotifications(data);
+            } catch (error) {
+                console.error('Error al cargar las notificaciones', error);
+            }
+        };
+
+        loadNotifications();
+    }, []);
+
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleNotificationMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setNotificationAnchorEl(event.currentTarget);
+    };
+
     const handleClose = () => {
         setAnchorEl(null);
+        setNotificationAnchorEl(null);
     };
 
     const handleLogout = () => {
@@ -62,8 +86,14 @@ const HeaderAuth: React.FC<HeaderAuthProps> = ({ handleDrawerToggle }) => {
         navigate('/');
         handleClose();
     };
-    
+
+    const handleNotificationClick = () => {
+        navigate('/contact-messages');
+        handleClose();
+    };
+
     const isMenuOpen = Boolean(anchorEl);
+    const isNotificationMenuOpen = Boolean(notificationAnchorEl);
 
     return (
         <AppBar position="fixed" sx={{ backgroundColor: '#263339' }}>
@@ -91,10 +121,22 @@ const HeaderAuth: React.FC<HeaderAuthProps> = ({ handleDrawerToggle }) => {
                         <SearchIcon />
                     </SearchIconWrapper>
                     <StyledInputBase
-                        placeholder="Search…"
+                        placeholder="Buscar…"
                         inputProps={{ 'aria-label': 'search' }}
                     />
                 </Search>
+                <IconButton
+                    size="large"
+                    aria-label="show notifications"
+                    aria-controls={isNotificationMenuOpen ? 'primary-notification-menu' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleNotificationMenu}
+                    color="inherit"
+                >
+                    <Badge badgeContent={notifications.filter(notification => !notification.read).length} color="error">
+                        <NotificationsIcon sx={{ fontSize: 30 }} />
+                    </Badge>
+                </IconButton>
                 <IconButton
                     size="large"
                     edge="end"
@@ -110,7 +152,7 @@ const HeaderAuth: React.FC<HeaderAuthProps> = ({ handleDrawerToggle }) => {
                 <Menu
                     anchorEl={anchorEl}
                     anchorOrigin={{
-                        vertical: 'top',
+                        vertical: 'bottom',
                         horizontal: 'right',
                     }}
                     keepMounted
@@ -122,6 +164,31 @@ const HeaderAuth: React.FC<HeaderAuthProps> = ({ handleDrawerToggle }) => {
                     onClose={handleClose}
                 >
                     <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
+                </Menu>
+                <Menu
+                    anchorEl={notificationAnchorEl}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={isNotificationMenuOpen}
+                    onClose={handleClose}
+                >
+                    {notifications.length === 0 && <MenuItem>No hay notificaciones</MenuItem>}
+                    {notifications.map((notification) => (
+                        <MenuItem 
+                            key={notification.id} 
+                            onClick={handleNotificationClick}
+                            sx={{ backgroundColor: notification.read ? 'inherit' : '#f5f5f5' }}
+                        >
+                            <strong>Mensaje</strong> {notification.read ? '' : 'nuevo'}
+                        </MenuItem>
+                    ))}
                 </Menu>
             </Toolbar>
         </AppBar>
