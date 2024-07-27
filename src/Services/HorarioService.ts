@@ -8,11 +8,13 @@ export const getHorarios = async (): Promise<Horario[]> => {
 
 export const getHorarioById = async (id: number): Promise<Horario> => {
     const response = await clientAxios.get<Horario>(`/Horario/${id}`);
+    console.log(response)
     return response.data;
 };
 
 export const createHorario = async (horario: Horario): Promise<Horario> => {
     const response = await clientAxios.post<Horario>('/Horario', horario);
+    console.log(response);
     return response.data;
 };
 

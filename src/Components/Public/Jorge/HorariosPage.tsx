@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Horario } from '../../../Types/Horario';
-import { handleDeleteHorario, handleGetHorarios, handleUpdateHorario } from '../../../Handlers/HorarioHandler';
+import { handleDeleteHorario, handleGetHorarios } from '../../../Handlers/HorarioHandler';
 
 
 const HorariosPage: React.FC = () => {

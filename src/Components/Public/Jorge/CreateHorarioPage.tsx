@@ -1,44 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     TextField, Button, Box, Typography,
-    FormControl, Grid, Breadcrumbs, Link, Container, Paper, Select, MenuItem, InputLabel
+    FormControl, Grid, Breadcrumbs, Link, Container, Paper
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { handleCreateHorario } from '../../../Handlers/HorarioHandler';
+import { CreateHorarioDto } from '../../../Types/Horario';
 
-
-interface FormData {
-    name: string;
-    fecha: string;
-    turno: string;
-    entrada: string;
-    salida: string;
-    medicId: string; // Agregar campo de medicId
-}
 
 const CreateHorario: React.FC = () => {
-    const [formData, setFormData] = useState<FormData>({
+    const [formData, setFormData] = useState<CreateHorarioDto>({
         name: '',
         fecha: '',
         turno: '',
         entrada: '',
-        salida: '',
-        medicId: '' // Inicializar medicId
+        salida: ''
     });
 
-    const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
-    const [medics, setMedics] = useState([]); // Estado para almacenar los medics
-
-    useEffect(() => {
-        const fetchMedics = async () => {
-            const medics = await getMedics();
-            setMedics(medics);
-        };
-
-        fetchMedics();
-    }, []);
+    const [formErrors, setFormErrors] = useState<Partial<CreateHorarioDto>>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { value: unknown; name: string }>) => {
         const { name, value } = e.target;
@@ -48,7 +29,7 @@ const CreateHorario: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const errors: Partial<FormData> = {};
+        const errors: Partial<CreateHorarioDto> = {};
         if (!formData.name) {
             errors.name = 'El nombre es requerido';
         }
@@ -64,21 +45,17 @@ const CreateHorario: React.FC = () => {
         if (!formData.salida) {
             errors.salida = 'La salida es requerida';
         }
-        if (!formData.medicId) {
-            errors.medicId = 'El médico es requerido';
-        }
 
         setFormErrors(errors);
 
         if (Object.keys(errors).length === 0) {
             try {
-                const payload = {
+                const payload: CreateHorarioDto = {
                     name: formData.name,
                     fecha: formData.fecha,
                     turno: formData.turno,
                     entrada: formData.entrada,
-                    salida: formData.salida,
-                    medicId: formData.medicId
+                    salida: formData.salida
                 };
                 console.log('Payload enviado:', payload); // Verificar el payload
                 await handleCreateHorario(payload);
@@ -229,24 +206,6 @@ const CreateHorario: React.FC = () => {
                                     helperText={formErrors.salida}
                                     required
                                 />
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth error={!!formErrors.medicId}>
-                                <InputLabel>Médico</InputLabel>
-                                <Select
-                                    name="medicId"
-                                    value={formData.medicId}
-                                    onChange={handleChange}
-                                    fullWidth
-                                    required
-                                >
-                                    {medics.map((medic) => (
-                                        <MenuItem key={medic.id} value={medic.id}>
-                                            {medic.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12}>
