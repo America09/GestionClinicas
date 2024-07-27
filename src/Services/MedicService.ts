@@ -25,7 +25,6 @@ export const deleteMedic = async (id: string): Promise<void> => {
     await clientAxios.delete(`/Medics/${id}`);
 };
 
-
 export const getUsers = async (): Promise<{ id: number; name: string }[]> => {
     const response = await clientAxios.get<{ id: number; name: string }[]>('/Users');
     console.log('Usuarios obtenidos:', response.data);

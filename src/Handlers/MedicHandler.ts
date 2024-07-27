@@ -1,51 +1,44 @@
-import { getMedics, getMedicById, createMedic, updateMedic, deleteMedic } from '../Services/MedicService';
-import { Medic } from '../Types/Medic';
+import clientAxios from '../Config/Axios';
+import { Medic } from '../Types/Medics';
 
 export const handleGetMedics = async (): Promise<Medic[]> => {
-    try {
-        const medics = await getMedics();
-        return medics;
-    } catch (error) {
-        console.error('Error al obtener los médicos:', error);
-        throw error;
-    }
+    const response = await clientAxios.get<Medic[]>('/Medics');
+    return response.data;
 };
 
-export const handleGetMedicById = async (id: string): Promise<Medic> => {
-    try {
-        const medic = await getMedicById(id);
-        return medic;
-    } catch (error) {
-        console.error(`Error al obtener el médico con ID ${id}:`, error);
-        throw error;
-    }
+export const getMedicById = async (id: string): Promise<Medic> => {
+    const response = await clientAxios.get<Medic>(`/Medics/${id}`);
+    return response.data;
 };
 
 export const handleCreateMedic = async (medic: Medic): Promise<Medic> => {
-    try {
-        const newMedic = await createMedic(medic);
-        return newMedic;
-    } catch (error) {
-        console.error('Error al crear el médico:', error);
-        throw error;
-    }
+    const response = await clientAxios.post<Medic>('/Medics', medic);
+    return response.data;
 };
 
 export const handleUpdateMedic = async (id: string, medic: Medic): Promise<Medic> => {
-    try {
-        const updatedMedic = await updateMedic(id, medic);
-        return updatedMedic;
-    } catch (error) {
-        console.error(`Error al actualizar el médico con ID ${id}:`, error);
-        throw error;
-    }
+    const response = await clientAxios.put<Medic>(`/Medics/${id}`, medic);
+    return response.data;
 };
 
 export const handleDeleteMedic = async (id: string): Promise<void> => {
-    try {
-        await deleteMedic(id);
-    } catch (error) {
-        console.error(`Error al eliminar el médico con ID ${id}:`, error);
-        throw error;
-    }
+    await clientAxios.delete(`/Medics/${id}`);
+};
+
+export const getUsers = async (): Promise<{ id: number; name: string }[]> => {
+    const response = await clientAxios.get<{ id: number; name: string }[]>('/Users');
+    console.log('Usuarios obtenidos:', response.data);
+    return response.data;
+};
+
+export const getHorarios = async (): Promise<{ id: number; name: string }[]> => {
+    const response = await clientAxios.get<{ id: number; name: string }[]>('/Horarios');
+    console.log('Horarios obtenidos:', response.data);
+    return response.data;
+};
+
+export const getConsultorios = async (): Promise<{ id: number; name: string }[]> => {
+    const response = await clientAxios.get<{ id: number; name: string }[]>('/Consultorios');
+    console.log('Consultorios obtenidos:', response.data);
+    return response.data;
 };
