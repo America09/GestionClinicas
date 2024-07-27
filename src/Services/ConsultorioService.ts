@@ -2,7 +2,7 @@ import clientAxios from '../Config/Axios';
 import { Consultorio } from '../Types/Consultorio';
 
 export const getConsultorios = async (): Promise<Consultorio[]> => {
-    const response = await clientAxios.get<Consultorios[]>('/Consultorios');
+    const response = await clientAxios.get<Consultorio[]>('/Consultorios');
     return response.data;
 };
 

@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Paper, Switch, FormControlLabel } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, Switch, FormControlLabel, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { handleDeleteMedic, handleGetMedics, handleUpdateMedic } from '../../../Handlers/MedicHandler';
-import { Medic } from '../../../Types/Medic';
+import { Medic } from '../../../Types/Medics';
 
 const MedicsPage: React.FC = () => {
-    console.log('MedicsPage component is being rendered');
-
     const navigate = useNavigate();
     const [medics, setMedics] = React.useState<Medic[]>([]);
     const [openEdit, setOpenEdit] = React.useState(false);
@@ -20,10 +20,9 @@ const MedicsPage: React.FC = () => {
         const fetchMedics = async () => {
             try {
                 const fetchedMedics = await handleGetMedics();
-                console.log(fetchedMedics);
                 setMedics(fetchedMedics);
             } catch (error) {
-                console.error('Error al obtener los medics:', error);
+                console.error('Error al obtener los médicos:', error);
             }
         };
 
@@ -35,7 +34,6 @@ const MedicsPage: React.FC = () => {
         if (medic) {
             setSelectedMedic(medic);
             setOpenEdit(true);
-            console.log(medic);
         }
     };
 
@@ -53,10 +51,10 @@ const MedicsPage: React.FC = () => {
                 try {
                     await handleDeleteMedic(id.toString());
                     setMedics(medics.filter((medic) => medic.id !== id));
-                    Swal.fire('Eliminado!', 'El medico ha sido eliminado.', 'success');
+                    Swal.fire('Eliminado!', 'El médico ha sido eliminado.', 'success');
                 } catch (error) {
-                    console.error('Error al eliminar el medico:', error);
-                    Swal.fire('Error', 'Hubo un problema al eliminar el medico.', 'error');
+                    console.error('Error al eliminar el médico:', error);
+                    Swal.fire('Error', 'Hubo un problema al eliminar el médico.', 'error');
                 }
             }
         });
@@ -74,9 +72,9 @@ const MedicsPage: React.FC = () => {
                 setMedics(medics.map((medic) => medic.id === selectedMedic.id ? selectedMedic : medic));
                 setOpenEdit(false);
                 setSelectedMedic(null);
-                Swal.fire('Guardado!', 'El medico ha sido editado exitosamente.', 'success');
+                Swal.fire('Guardado!', 'El médico ha sido editado exitosamente.', 'success');
             } catch (error) {
-                console.error('Error al actualizar el medico:', error);
+                console.error('Error al actualizar el médico:', error);
                 Swal.fire('Error', 'Hubo un problema al guardar los cambios.', 'error');
             }
         }
@@ -84,9 +82,9 @@ const MedicsPage: React.FC = () => {
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
+        { field: 'professionalId', headerName: 'ID Profesional', flex: 1, minWidth: 150 },
         { field: 'school', headerName: 'Escuela', flex: 1, minWidth: 150 },
         { field: 'yearExperience', headerName: 'Años de Experiencia', flex: 1, minWidth: 150 },
-        { field: 'dateGraduate', headerName: 'Fecha de Graduación', flex: 1, minWidth: 150 },
         { field: 'availability', headerName: 'Disponibilidad', flex: 1, minWidth: 150, renderCell: (params) => (params.value ? 'Disponible' : 'No Disponible') },
         {
             field: 'editar',
@@ -119,29 +117,35 @@ const MedicsPage: React.FC = () => {
     ];
 
     return (
-        <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Paper
                 sx={{
-                    padding: 4,
-                    textAlign: 'center',
+                    padding: 3,
+                    maxWidth: 850,
                     width: '100%',
                     boxShadow: 3,
                     borderRadius: 2,
+                    margin: '0 auto',
                 }}
             >
                 <Box sx={{ width: '100%' }}>
-                    <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'flex-start', display: 'flex', mb: 2 }}>
-                        <Link underline="hover" color="inherit" href="/">
-                            Home
-                        </Link>
-                        <Typography color="text.primary">Medics</Typography>
-                    </Breadcrumbs>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+                                <HomeIcon sx={{ mr: 0.5 }} />
+                                Inicio
+                            </Link>
+                            <Typography color="textPrimary">Médicos</Typography>
+                        </Breadcrumbs>
+                    </Box>
 
-                    <Typography variant="h4" component="h2" gutterBottom>
-                        Lista de Medicos
-                    </Typography>
+                    <Box sx={{ textAlign: 'center', mb: 2 }}>
+                        <Typography variant="h4" component="h2" gutterBottom>
+                            Lista de Médicos
+                        </Typography>
+                    </Box>
 
-                    <Box sx={{ width: '100%', mt: 2 }}>
+                    <Box sx={{ mt: 2 }}>
                         <DataGrid
                             rows={medics}
                             columns={columns}
@@ -152,19 +156,14 @@ const MedicsPage: React.FC = () => {
                                     },
                                 },
                             }}
-                            pageSizeOptions={[5, 10, 20]}
+                            pageSizeOptions={[5]}
                             disableSelectionOnClick
                             autoHeight
-                            sx={{
-                                '& .MuiDataGrid-root': {
-                                    overflowX: 'auto',
-                                },
-                            }}
                         />
                     </Box>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                        <Button 
+                        <Button
                             variant="contained"
                             sx={{
                                 bgcolor: '#43A49B',
@@ -176,16 +175,24 @@ const MedicsPage: React.FC = () => {
                             }}
                             onClick={() => navigate("/agregar-medicos")}
                         >
-                            Añadir Medico
+                            + Añadir Médico
                         </Button>
                     </Box>
                 </Box>
             </Paper>
 
-            {/* Modal para editar medic */}
+            {/* Modal para editar médico */}
             <Dialog open={openEdit} onClose={handleCloseEdit}>
-                <DialogTitle>Editar Medico</DialogTitle>
+                <DialogTitle>Editar Médico</DialogTitle>
                 <DialogContent>
+                    <TextField
+                        margin="dense"
+                        label="ID Profesional"
+                        type="text"
+                        fullWidth
+                        value={selectedMedic?.professionalId || ''}
+                        onChange={(e) => setSelectedMedic({ ...selectedMedic, professionalId: e.target.value })}
+                    />
                     <TextField
                         margin="dense"
                         label="Escuela"
@@ -200,15 +207,7 @@ const MedicsPage: React.FC = () => {
                         type="number"
                         fullWidth
                         value={selectedMedic?.yearExperience || ''}
-                        onChange={(e) => setSelectedMedic({ ...selectedMedic, yearExperience: parseInt(e.target.value) })}
-                    />
-                    <TextField
-                        margin="dense"
-                        label="Fecha de Graduación"
-                        type="date"
-                        fullWidth
-                        value={selectedMedic?.dateGraduate || ''}
-                        onChange={(e) => setSelectedMedic({ ...selectedMedic, dateGraduate: e.target.value })}
+                        onChange={(e) => setSelectedMedic({ ...selectedMedic, yearExperience: Number(e.target.value) })}
                     />
                     <FormControlLabel
                         control={
@@ -226,7 +225,7 @@ const MedicsPage: React.FC = () => {
                     <Button onClick={handleSaveEdit} variant="contained">Guardar</Button>
                 </DialogActions>
             </Dialog>
-        </Container>
+        </Box>
     );
 };
 

@@ -1,20 +1,17 @@
-import { User } from './User';
-import { Horario } from './Horario';
-import { Appointments } from './Appointments';
 import { Consultorio } from './Consultorio';
+import { Horario } from './Horario';
 
 export interface Medic {
     id: number;
-    name: string;
-    status: boolean;
-    availability: boolean;
-    medics: Medics[];
     professionalId: string;
     school: string;
     yearExperience: number;
-    year: number;
-    month: number;
-    day: number;
+    dateGraduate: string; // Consider using a proper date type or formatter
+    availability: boolean;
     userId: number;
+    userName: string;
     consultorioId: number;
+    consultorioName: string;
+    horarioId: number;
+    horarioName: string;
 }
