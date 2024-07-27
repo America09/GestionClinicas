@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Paper, Switch, FormControlLabel, IconButton } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Switch, FormControlLabel, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -43,9 +43,12 @@ const ConsultoriosPage: React.FC = () => {
             text: "No podrás revertir esto",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#43A49B',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Sí, eliminarlo'
+            confirmButtonText: 'Sí, eliminarlo',
+            customClass: {
+                confirmButton: 'confirm-button'
+            }
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
