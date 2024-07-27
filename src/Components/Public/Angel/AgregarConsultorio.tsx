@@ -22,12 +22,12 @@ const AgregarConsultorio: React.FC = () => {
     };
 
     return (
-        <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '100vh', paddingTop: '5vh' }}>
             <Paper sx={{ padding: 4, textAlign: 'center', width: '100%', boxShadow: 3, borderRadius: 2 }}>
                 <Box sx={{ width: '100%' }}>
                     <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'flex-start', display: 'flex', mb: 2 }}>
                         <Link underline="hover" color="inherit" href="/dashboard">
-                            Home
+                            Inicio
                         </Link>
                         <Link underline="hover" color="inherit" href="/admin-consultorios">
                             Consultorios

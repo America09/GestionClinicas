@@ -6,7 +6,7 @@ export interface Medic {
     professionalId: string;
     school: string;
     yearExperience: number;
-    dateGraduate: string; // Consider using a proper date type or formatter
+    dateGraduate: string; 
     availability: boolean;
     userId: number;
     userName: string;

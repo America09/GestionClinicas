@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { handleDeleteMedic, handleGetMedics, handleUpdateMedic } from '../../../Handlers/MedicHandler';
-import { Medic } from '../../../Types/Medics';
+import { Medic } from '../../../Types/Medic';
 
 const MedicsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -43,7 +43,7 @@ const MedicsPage: React.FC = () => {
             text: "No podrás revertir esto",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
+            confirmButtonColor: '#43A49B',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Sí, eliminarlo'
         }).then(async (result) => {
@@ -86,6 +86,9 @@ const MedicsPage: React.FC = () => {
         { field: 'school', headerName: 'Escuela', flex: 1, minWidth: 150 },
         { field: 'yearExperience', headerName: 'Años de Experiencia', flex: 1, minWidth: 150 },
         { field: 'availability', headerName: 'Disponibilidad', flex: 1, minWidth: 150, renderCell: (params) => (params.value ? 'Disponible' : 'No Disponible') },
+        { field: 'userId', headerName: 'Usuario', flex: 1, minWidth: 150 },
+        { field: 'horarioId', headerName: 'Horario', flex: 1, minWidth: 150 },
+        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 150 },
         {
             field: 'editar',
             headerName: 'Editar',
@@ -181,7 +184,6 @@ const MedicsPage: React.FC = () => {
                 </Box>
             </Paper>
 
-            {/* Modal para editar médico */}
             <Dialog open={openEdit} onClose={handleCloseEdit}>
                 <DialogTitle>Editar Médico</DialogTitle>
                 <DialogContent>
