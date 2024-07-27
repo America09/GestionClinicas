@@ -95,13 +95,13 @@ const MedicsPage: React.FC = () => {
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
+        { field: 'userId', headerName: 'Medico', flex: 1, minWidth: 150, renderCell: (params) => (params.row.userName) },
+        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 150, renderCell: (params) => (params.row.consultorioName) },
+        { field: 'horarioId', headerName: 'Horario', flex: 1, minWidth: 150, renderCell: (params) => (params.row.horarioName) },
+        { field: 'availability', headerName: 'Disponibilidad', flex: 1, minWidth: 150, renderCell: (params) => (params.value ? 'Disponible' : 'No Disponible') },
         { field: 'professionalId', headerName: 'ID Profesional', flex: 1, minWidth: 150 },
         { field: 'school', headerName: 'Escuela', flex: 1, minWidth: 150 },
         { field: 'yearExperience', headerName: 'Años de Experiencia', flex: 1, minWidth: 150 },
-        { field: 'availability', headerName: 'Disponibilidad', flex: 1, minWidth: 150, renderCell: (params) => (params.value ? 'Disponible' : 'No Disponible') },
-        { field: 'userId', headerName: 'Usuario', flex: 1, minWidth: 150, renderCell: (params) => (params.row.userName) },
-        { field: 'horarioId', headerName: 'Horario', flex: 1, minWidth: 150, renderCell: (params) => (params.row.horarioName) },
-        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 150, renderCell: (params) => (params.row.consultorioName) },
         {
             field: 'editar',
             headerName: 'Editar',
@@ -173,7 +173,7 @@ const MedicsPage: React.FC = () => {
                                 },
                             }}
                             pageSizeOptions={[5]}
-                            disableSelectionOnClick
+                            disableRowSelectionOnClick
                             autoHeight
                         />
                     </Box>
