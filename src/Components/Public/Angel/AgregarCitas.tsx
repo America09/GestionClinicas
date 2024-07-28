@@ -19,8 +19,17 @@ import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+interface FormData {
+  paciente: string;
+  medico: string;
+  especialidad: string;
+  fecha: string;
+  hora: string;
+  descripcion: string;
+}
+
 const AgregarCita: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     paciente: '',
     medico: '',
     especialidad: '',
@@ -29,9 +38,11 @@ const AgregarCita: React.FC = () => {
     descripcion: '',
   });
 
-  const [formErrors, setFormErrors] = useState<any>({});
+  const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { name?: string | undefined; value: unknown }>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { name?: string; value: unknown }>
+  ) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -42,7 +53,7 @@ const AgregarCita: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const errors: any = {};
+    const errors: Partial<FormData> = {};
     if (!formData.paciente) errors.paciente = 'El nombre del paciente es requerido';
     if (!formData.medico) errors.medico = 'El nombre del médico es requerido';
     if (!formData.especialidad) errors.especialidad = 'La especialidad es requerida';
@@ -54,6 +65,16 @@ const AgregarCita: React.FC = () => {
     if (Object.keys(errors).length === 0) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+
+        // Reinicia el formulario
+        setFormData({
+          paciente: '',
+          medico: '',
+          especialidad: '',
+          fecha: '',
+          hora: '',
+          descripcion: '',
+        });
 
         Swal.fire({
           title: 'Guardado exitosamente',
@@ -80,7 +101,7 @@ const AgregarCita: React.FC = () => {
   };
 
   const theme = useTheme();
-  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box
@@ -88,7 +109,7 @@ const AgregarCita: React.FC = () => {
         display: 'flex',
         justifyContent: 'center',
         mt: 2,
-        px: 2,
+        px: isSmallScreen ? 2 : 0,
       }}
     >
       <Paper

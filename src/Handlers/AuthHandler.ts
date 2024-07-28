@@ -1,4 +1,3 @@
-// Handlers/AuthHandler.ts
 import { login, createUser } from '../Services/AuthService';
 import { AuthContextType } from '../Types/Auth';
 import { LoginRequest, ApiResponse, LoginResponse, CreateUserRequest } from '../Types/Api';

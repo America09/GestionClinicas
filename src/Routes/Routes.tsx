@@ -35,8 +35,7 @@ import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
 import { AGHorario } from '../Pages/Public/Jorge/AGHorario';
 import { AGEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
-
-
+import ContactMessage from '../Components/ContactMessage';
 
 const AppRouter = () => {
     return (
@@ -84,6 +83,7 @@ const AppRouter = () => {
                         <Route path="/admin-Historial1" element={<HistorialClinicoPage/>} />
                         {/* Rutas Ame */}
                         <Route path="/admin-citas" element={<CrudCitas/>} />
+                        <Route path="/contact-messages" element={<ContactMessage />} />
                     </Route>
                 </Route>
                 <Route path="*" element={<Error404 />} />

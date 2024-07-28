@@ -131,7 +131,17 @@ const DoctorCards: React.FC = () => {
           horario: 'Lunes a Viernes de 9:00 a 17:00',
           image: 'https://centrodolordecabeza.com/wp-content/uploads/2020/08/perfil-doctor-joe-munoz_2020.jpg',
         },
-        // Más doctores aquí...
+        {
+          name: 'Dr. Juan Pérez',
+          specialty: 'Dermatología',
+          languages: 'Español/Inglés',
+          experience: 'Experiencia: 7 años',
+          education: 'Egresado de la Unisar',
+          consultorio: '03',
+          horario: 'Lunes a Viernes de 9:00 a 17:00',
+          image: 'https://centrodolordecabeza.com/wp-content/uploads/2020/08/perfil-doctor-joe-munoz_2020.jpg',
+        },
+        
       ];
       setDoctors(fetchedDoctors);
       setLoading(false);

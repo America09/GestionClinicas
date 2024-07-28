@@ -45,6 +45,11 @@ const AgregarRol: React.FC = () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
+        // Reinicia el formulario
+        setFormData({
+          nombreRol: '',
+        });
+
         Swal.fire({
           title: 'Guardado exitosamente',
           text: 'El rol ha sido guardado correctamente.',
