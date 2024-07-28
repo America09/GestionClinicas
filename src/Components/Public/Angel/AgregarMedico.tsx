@@ -1,8 +1,10 @@
 import * as React from 'react';
-import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, FormControlLabel, Switch, Grid } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, FormControlLabel, Switch, MenuItem, Select, InputLabel, FormControl, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { handleCreateMedic } from '../../../Handlers/MedicHandler';
 import Swal from 'sweetalert2';
+import { Consultorio } from '../../../Types/Consultorio'; 
+import { getConsultorios } from '../../../Handlers/ConsultorioHandler'; // Asegúrate de importar esta función correctamente
 
 const AgregarMedico: React.FC = () => {
     const navigate = useNavigate();
@@ -14,6 +16,20 @@ const AgregarMedico: React.FC = () => {
     const [userId, setUserId] = React.useState<number>(0);
     const [horarioId, setHorarioId] = React.useState<number>(0);
     const [consultorioId, setConsultorioId] = React.useState<number>(0);
+    const [consultorios, setConsultorios] = React.useState<Consultorio[]>([]);
+
+    React.useEffect(() => {
+        const fetchConsultorios = async () => {
+            try {
+                const fetchedConsultorios = await getConsultorios();
+                setConsultorios(fetchedConsultorios);
+            } catch (error) {
+                console.error('Error al obtener los consultorios:', error);
+            }
+        };
+
+        fetchConsultorios();
+    }, []);
 
     const handleSave = async () => {
         try {
@@ -128,14 +144,20 @@ const AgregarMedico: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    margin="dense"
-                                    label="Consultorio"
-                                    type="number"
-                                    fullWidth
-                                    value={consultorioId}
-                                    onChange={(e) => setConsultorioId(Number(e.target.value))}
-                                />
+                                <FormControl fullWidth margin="dense">
+                                    <InputLabel>Consultorio</InputLabel>
+                                    <Select
+                                        value={consultorioId}
+                                        onChange={(e) => setConsultorioId(Number(e.target.value))}
+                                        label="Consultorio"
+                                    >
+                                        {consultorios.map((consultorio) => (
+                                            <MenuItem key={consultorio.id} value={consultorio.id}>
+                                                {consultorio.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControlLabel

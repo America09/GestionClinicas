@@ -7,40 +7,40 @@ import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { handleDeleteMedic, handleGetMedics, handleUpdateMedic, getUsers, getHorarios, getConsultorios } from '../../../Handlers/MedicHandler';
+import { handleDeleteMedic, handleGetMedics, handleUpdateMedic } from '../../../Handlers/MedicHandler';
+import { getConsultorios } from '../../../Handlers/ConsultorioHandler';
 import { Medic } from '../../../Types/Medics';
+import { Consultorio } from '../../../Types/Consultorio';
 
 const MedicsPage: React.FC = () => {
     const navigate = useNavigate();
     const [medics, setMedics] = React.useState<Medic[]>([]);
     const [openEdit, setOpenEdit] = React.useState(false);
     const [selectedMedic, setSelectedMedic] = React.useState<Medic | null>(null);
-    const [users, setUsers] = React.useState<{ id: number; name: string }[]>([]);
-    const [horarios, setHorarios] = React.useState<{ id: number; name: string }[]>([]);
-    const [consultorios, setConsultorios] = React.useState<{ id: number; name: string }[]>([]);
+    const [consultorios, setConsultorios] = React.useState<Consultorio[]>([]);
 
     React.useEffect(() => {
-        const fetchMedics = async () => {
-            try {
-                const fetchedMedics = await handleGetMedics();
-                setMedics(fetchedMedics);
-            } catch (error) {
-                console.error('Error al obtener los médicos:', error);
-            }
-        };
-
-        const fetchData = async () => {
-            const usersData = await getUsers();
-            const horariosData = await getHorarios();
-            const consultoriosData = await getConsultorios();
-            setUsers(usersData);
-            setHorarios(horariosData);
-            setConsultorios(consultoriosData);
-        };
-
         fetchMedics();
-        fetchData();
+        fetchConsultorios();
     }, []);
+
+    const fetchMedics = async () => {
+        try {
+            const fetchedMedics = await handleGetMedics();
+            setMedics(fetchedMedics);
+        } catch (error) {
+            console.error('Error al obtener los médicos:', error);
+        }
+    };
+
+    const fetchConsultorios = async () => {
+        try {
+            const fetchedConsultorios = await getConsultorios();
+            setConsultorios(fetchedConsultorios);
+        } catch (error) {
+            console.error('Error al obtener los consultorios:', error);
+        }
+    };
 
     const handleEdit = (id: number) => {
         const medic = medics.find((medic) => medic.id === id);
@@ -82,7 +82,7 @@ const MedicsPage: React.FC = () => {
         if (selectedMedic) {
             try {
                 await handleUpdateMedic(selectedMedic.id.toString(), selectedMedic);
-                setMedics(medics.map((medic) => medic.id === selectedMedic.id ? selectedMedic : medic));
+                fetchMedics(); // Refrescar la lista de médicos después de guardar
                 setOpenEdit(false);
                 setSelectedMedic(null);
                 Swal.fire('Guardado!', 'El médico ha sido editado exitosamente.', 'success');
@@ -96,7 +96,7 @@ const MedicsPage: React.FC = () => {
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
         { field: 'userId', headerName: 'Medico', flex: 1, minWidth: 90, renderCell: (params) => (params.row.userName) },
-        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 110, renderCell: (params) => (params.row.consultorioName) },
+        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 150, renderCell: (params) => (params.row.consultorioName) },
         { field: 'horarioId', headerName: 'Horario', flex: 1, minWidth: 130, renderCell: (params) => (params.row.horarioName) },
         { field: 'availability', headerName: 'Disponibilidad', flex: 1, minWidth: 110, renderCell: (params) => (params.value ? 'Disponible' : 'No Disponible') },
         { field: 'professionalId', headerName: 'ID Profesional', flex: 1, minWidth: 110 },
@@ -224,36 +224,22 @@ const MedicsPage: React.FC = () => {
                         value={selectedMedic?.yearExperience || ''}
                         onChange={(e) => setSelectedMedic({ ...selectedMedic, yearExperience: Number(e.target.value) })}
                     />
-                    <FormControl fullWidth margin="dense">
-                        <InputLabel id="user-label">Usuario</InputLabel>
-                        <Select
-                            labelId="user-label"
-                            value={selectedMedic?.userId || ''}
-                            onChange={(e) => setSelectedMedic({ ...selectedMedic, userId: Number(e.target.value) })}
-                            label="Usuario"
-                        >
-                            {users.map((user) => (
-                                <MenuItem key={user.id} value={user.id}>
-                                    {user.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth margin="dense">
-                        <InputLabel id="horario-label">Horario</InputLabel>
-                        <Select
-                            labelId="horario-label"
-                            value={selectedMedic?.horarioId || ''}
-                            onChange={(e) => setSelectedMedic({ ...selectedMedic, horarioId: Number(e.target.value) })}
-                            label="Horario"
-                        >
-                            {horarios.map((horario) => (
-                                <MenuItem key={horario.id} value={horario.id}>
-                                    {horario.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <TextField
+                        margin="dense"
+                        label="Usuario"
+                        type="number"
+                        fullWidth
+                        value={selectedMedic?.userId || ''}
+                        onChange={(e) => setSelectedMedic({ ...selectedMedic, userId: Number(e.target.value) })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Horario"
+                        type="number"
+                        fullWidth
+                        value={selectedMedic?.horarioId || ''}
+                        onChange={(e) => setSelectedMedic({ ...selectedMedic, horarioId: Number(e.target.value) })}
+                    />
                     <FormControl fullWidth margin="dense">
                         <InputLabel id="consultorio-label">Consultorio</InputLabel>
                         <Select
