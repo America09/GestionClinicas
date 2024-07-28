@@ -145,18 +145,58 @@ const HeaderPublic = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: '5rem', flexGrow: 1, justifyContent: 'center' }}>
-                        <Link component={NavLink} to="/" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        <NavLink
+                            to="/"
+                            style={({ isActive }) => ({
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontSize: '1.5rem',
+                                fontWeight: 'medium',
+                                borderBottom: isActive ? '2px solid white' : 'none',
+                                paddingBottom: '5px',
+                            })}
+                        >
                             Inicio
-                        </Link>
-                        <Link component={NavLink} to="/servicios" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        </NavLink>
+                        <NavLink
+                            to="/servicios"
+                            style={({ isActive }) => ({
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontSize: '1.5rem',
+                                fontWeight: 'medium',
+                                borderBottom: isActive ? '2px solid white' : 'none',
+                                paddingBottom: '5px',
+                            })}
+                        >
                             Servicios
-                        </Link>
-                        <Link component={NavLink} to="/citas" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        </NavLink>
+                        <NavLink
+                            to="/citas"
+                            style={({ isActive }) => ({
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontSize: '1.5rem',
+                                fontWeight: 'medium',
+                                borderBottom: isActive ? '2px solid white' : 'none',
+                                paddingBottom: '5px',
+                            })}
+                        >
                             Citas
-                        </Link>
-                        <Link component={NavLink} to="/medicos" sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        </NavLink>
+                        <NavLink
+                            to="/medicos"
+                            style={({ isActive }) => ({
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontSize: '1.5rem',
+                                fontWeight: 'medium',
+                                borderBottom: isActive ? '2px solid white' : 'none',
+                                paddingBottom: '5px',
+                            })}
+                        >
                             Médicos
-                        </Link>
+                        </NavLink>
                         <Link component="button" onClick={handleOpenLogin} sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium', background: 'none', border: 'none', cursor: 'pointer' }}>
                             Login
                         </Link>

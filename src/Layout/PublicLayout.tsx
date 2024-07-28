@@ -6,9 +6,9 @@ import Footer from '../Components/Public/Footer';
 import '../styles/HeaderPublic.css';
 
 const videoMap: Record<string, string> = {
-    '/': 'video5.mp4',
-    '/servicios': 'video2.mp4',
-    '/citas': 'video6.mp4',
+    '/': 'video2.mp4',
+    '/servicios': 'video5.mp4',
+    '/citas': 'video7.mp4',
     '/medicos': 'video8.mp4',
 };
 

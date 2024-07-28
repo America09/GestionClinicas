@@ -1,19 +1,14 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography, Paper } from '@mui/material';
 
-const PasswordForm: React.FC = () => {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+const TokenForm: React.FC = () => {
+  const [token, setToken] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!password || !confirmPassword) {
+    if (!token) {
       setError('Todos los campos son obligatorios');
-      return;
-    }
-    if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
       return;
     }
     setError('');
@@ -25,29 +20,18 @@ const PasswordForm: React.FC = () => {
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Paper elevation={3} sx={{ padding: 4 }}>
           <Typography variant="h5" gutterBottom align="center" sx={{ color: 'black', fontWeight: 'semibold' }}>
-            Cambiar Contraseña
+            Verificar Token
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
-              label="Nueva Contraseña"
-              type="password"
+              label="Token"
+              type="text"
               fullWidth
               margin="normal"
-              value={password}
+              value={token}
               error={Boolean(error)}
               helperText={error}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <TextField
-              label="Confirmar Contraseña"
-              type="password"
-              fullWidth
-              margin="normal"
-              value={confirmPassword}
-              error={Boolean(error)}
-              helperText={error}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => setToken(e.target.value)}
               required
             />
             {error && (
@@ -81,4 +65,4 @@ const PasswordForm: React.FC = () => {
   );
 };
 
-export default PasswordForm;
+export default TokenForm;

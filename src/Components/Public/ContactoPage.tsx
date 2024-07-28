@@ -5,6 +5,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import { ContactMen } from '../../Services/Contact'; 
 
 const ContactForm = () => {
   const [name, setName] = useState<string>('');
@@ -16,13 +17,15 @@ const ContactForm = () => {
     phone: '',
     message: '',
   });
+  const [success, setSuccess] = useState<string>(''); 
+  const [submitError, setSubmitError] = useState<string>(''); 
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     let valid = true;
     let errors = { name: '', email: '', phone: '', message: '' };
@@ -50,8 +53,17 @@ const ContactForm = () => {
     setErrors(errors);
 
     if (valid) {
-      console.log('Formulario enviado');
-      // Aquí puedes agregar la lógica para enviar el formulario
+      try {
+        await ContactMen(name, email, message);
+        setSuccess('Mensaje enviado con éxito');
+        setName('');
+        setEmail('');
+        setMessage('');
+        setSubmitError('');
+      } catch (error: any) {
+        setSubmitError(error.message);
+        setSuccess('');
+      }
     }
   };
 
@@ -64,7 +76,6 @@ const ContactForm = () => {
       setErrors((prevErrors) => ({ ...prevErrors, name: 'Nombre no debe contener números' }));
     }
   };
-
 
   return (
     <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 4 }}>
@@ -160,6 +171,8 @@ const ContactForm = () => {
             >
               Enviar
             </Button>
+            {submitError && <Typography color="error">{submitError}</Typography>}
+            {success && <Typography color="success">{success}</Typography>}
           </Box>
         </Grid>
       </Grid>

@@ -67,6 +67,13 @@ const AsignarPermisos: React.FC = () => {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
+        // Reseteo del formulario y permisos asignados
+        setFormData({
+          rol: '',
+          permiso: '',
+        });
+        setPermisosAsignados([]);
+
         Swal.fire({
           title: 'Guardado exitosamente',
           text: 'Los permisos han sido guardados correctamente.',
