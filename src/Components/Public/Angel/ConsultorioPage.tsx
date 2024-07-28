@@ -1,148 +1,225 @@
+import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper, IconButton } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Paper, Switch, FormControlLabel, IconButton } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { handleDeleteConsultorio, handleGetConsultorios, handleUpdateConsultorio } from '../../../Handlers/ConsultorioHandler';
+import { Consultorio } from '../../../Types/Consultorio';
 
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'Status', headerName: 'Status', width: 150, editable: true },
-  { field: 'Disponibilidad', headerName: 'Disponibilidad', width: 180, editable: true },
-  { field: 'Consultorio', headerName: 'Consultorio', width: 180, editable: true },
-  {
-    field: 'Editar',
-    headerName: 'Editar',
-    width: 100,
-    sortable: false,
-    renderCell: () => (
-      <IconButton
-        component={RouterLink}
-        to="/editar-consultorios"
-        sx={{ color: 'action.active' }} 
-      >
-        <EditIcon />
-      </IconButton>
-    ),
-  },
-  {
-    field: 'Eliminar',
-    headerName: 'Eliminar',
-    width: 100,
-    sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<DeleteIcon color="action" />}
-        label="Delete"
-        onClick={() => handleDelete(params.id)}
-      />
-    ),
-  },
-];
+const ConsultoriosPage: React.FC = () => {
+    const navigate = useNavigate();
+    const [consultorios, setConsultorios] = React.useState<Consultorio[]>([]);
+    const [openEdit, setOpenEdit] = React.useState(false);
+    const [selectedConsultorio, setSelectedConsultorio] = React.useState<Consultorio | null>(null);
 
-const rows = [
-  { id: 1, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Cardiología' },
-  { id: 2, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Pediatría' },
-  { id: 3, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Neurología' },
-  { id: 4, Status: 'Disponible', Disponibilidad: 'Tarde', Consultorio: 'Ortopedia' },
-  { id: 5, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Dermatología' },
-  { id: 6, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Radiología' },
-  { id: 7, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Oncología' },
-  { id: 8, Status: 'No disponible', Disponibilidad: 'Tarde', Consultorio: 'Cirugía General' },
-  { id: 9, Status: 'Disponible', Disponibilidad: 'Mañana', Consultorio: 'Ginecología' },
-];
+    React.useEffect(() => {
+        const fetchConsultorios = async () => {
+            try {
+                const fetchedConsultorios = await handleGetConsultorios();
+                setConsultorios(fetchedConsultorios);
+            } catch (error) {
+                console.error('Error al obtener los consultorios:', error);
+            }
+        };
 
-const handleDelete = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas eliminar este consultorio?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'No, cancelar',
-    dangerMode: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Eliminado", "El consultorio ha sido eliminado correctamente.", "success");
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al eliminar el consultorio. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
+        fetchConsultorios();
+    }, []);
 
-export const ConsultorioPage = () => {
-  const navigate = useNavigate();
+    const handleEdit = (id: number) => {
+        const consultorio = consultorios.find((consultorio) => consultorio.id === id);
+        if (consultorio) {
+            setSelectedConsultorio(consultorio);
+            setOpenEdit(true);
+        }
+    };
 
-  return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-      <Paper
-        sx={{
-          padding: 3,
-          maxWidth: 850,
-          width: '100%',
-          boxShadow: 3,
-          borderRadius: 2,
-          margin: '0 auto', 
-        }}
-      >
-        <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
-            <Breadcrumbs aria-label="breadcrumb">
-              <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
-                <HomeIcon sx={{ mr: 0.5 }} />
-                Inicio
-              </Link>
-              <Typography color="textPrimary">Consultorios</Typography>
-            </Breadcrumbs>
-          </Box>
+    const handleDelete = (id: number) => {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminarlo'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    await handleDeleteConsultorio(id.toString());
+                    setConsultorios(consultorios.filter((consultorio) => consultorio.id !== id));
+                    Swal.fire('Eliminado!', 'El consultorio ha sido eliminado.', 'success');
+                } catch (error) {
+                    console.error('Error al eliminar el consultorio:', error);
+                    Swal.fire('Error', 'Hubo un problema al eliminar el consultorio.', 'error');
+                }
+            }
+        });
+    };
 
-          <Box sx={{ textAlign: 'center', mb: 2 }}>
-            <Typography variant="h4" component="h2" gutterBottom>
-              Lista de Consultorios
-            </Typography>
-          </Box>
+    const handleCloseEdit = () => {
+        setOpenEdit(false);
+        setSelectedConsultorio(null);
+    };
 
-          <Box sx={{ mt: 2 }}>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 5,
-                  },
-                },
-              }}
-              pageSizeOptions={[5]}
-              disableSelectionOnClick
-              autoHeight
-            />
-          </Box>
+    const handleSaveEdit = async () => {
+        if (selectedConsultorio) {
+            try {
+                await handleUpdateConsultorio(selectedConsultorio.id.toString(), selectedConsultorio);
+                setConsultorios(consultorios.map((consultorio) => consultorio.id === selectedConsultorio.id ? selectedConsultorio : consultorio));
+                setOpenEdit(false);
+                setSelectedConsultorio(null);
+                Swal.fire('Guardado!', 'El consultorio ha sido editado exitosamente.', 'success');
+            } catch (error) {
+                console.error('Error al actualizar el consultorio:', error);
+                Swal.fire('Error', 'Hubo un problema al guardar los cambios.', 'error');
+            }
+        }
+    };
 
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Button
-              variant="contained"
-              sx={{
-                bgcolor: '#43A49B',
-                color: 'white',
-                textTransform: 'capitalize',
-                '&:hover': {
-                  bgcolor: '#51C5BA',
-                },
-              }}
-              onClick={() => navigate("/agregar-consultorios")}
+    const columns: GridColDef[] = [
+        { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
+        { field: 'name', headerName: 'Nombre', flex: 1, minWidth: 150 },
+        { field: 'status', headerName: 'Estado', flex: 1, minWidth: 150, renderCell: (params) => (params.value ? 'Activo' : 'Inactivo') },
+        { field: 'availability', headerName: 'Disponibilidad', flex: 1, minWidth: 150, renderCell: (params) => (params.value ? 'Disponible' : 'No Disponible') },
+        {
+            field: 'editar',
+            headerName: 'Editar',
+            flex: 0.5,
+            minWidth: 100,
+            sortable: false,
+            renderCell: (params) => (
+                <GridActionsCellItem
+                    icon={<EditIcon />}
+                    label="Edit"
+                    onClick={() => handleEdit(params.id)}
+                />
+            ),
+        },
+        {
+            field: 'eliminar',
+            headerName: 'Eliminar',
+            flex: 0.5,
+            minWidth: 100,
+            sortable: false,
+            renderCell: (params) => (
+                <GridActionsCellItem
+                    icon={<DeleteIcon />}
+                    label="Delete"
+                    onClick={() => handleDelete(params.id)}
+                />
+            ),
+        },
+    ];
+
+    return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+            <Paper
+                sx={{
+                    padding: 3,
+                    maxWidth: 850,
+                    width: '100%',
+                    boxShadow: 3,
+                    borderRadius: 2,
+                    margin: '0 auto',
+                }}
             >
-              + Añadir Consultorios
-            </Button>
-          </Box>
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+                                <HomeIcon sx={{ mr: 0.5 }} />
+                                Inicio
+                            </Link>
+                            <Typography color="textPrimary">Consultorios</Typography>
+                        </Breadcrumbs>
+                    </Box>
+
+                    <Box sx={{ textAlign: 'center', mb: 2 }}>
+                        <Typography variant="h4" component="h2" gutterBottom>
+                            Lista de Consultorios
+                        </Typography>
+                    </Box>
+
+                    <Box sx={{ mt: 2 }}>
+                        <DataGrid
+                            rows={consultorios}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 5,
+                                    },
+                                },
+                            }}
+                            pageSizeOptions={[5]}
+                            disableSelectionOnClick
+                            autoHeight
+                        />
+                    </Box>
+
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                bgcolor: '#43A49B',
+                                color: 'white',
+                                textTransform: 'capitalize',
+                                '&:hover': {
+                                    bgcolor: '#51C5BA',
+                                },
+                            }}
+                            onClick={() => navigate("/agregar-consultorios")}
+                        >
+                            + Añadir Consultorio
+                        </Button>
+                    </Box>
+                </Box>
+            </Paper>
+
+            {/* Modal para editar consultorio */}
+            <Dialog open={openEdit} onClose={handleCloseEdit}>
+                <DialogTitle>Editar Consultorio</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin="dense"
+                        label="Nombre"
+                        type="text"
+                        fullWidth
+                        value={selectedConsultorio?.name || ''}
+                        onChange={(e) => setSelectedConsultorio({ ...selectedConsultorio, name: e.target.value })}
+                    />
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={selectedConsultorio?.status || false}
+                                onChange={(e) => setSelectedConsultorio({ ...selectedConsultorio, status: e.target.checked })}
+                                name="status"
+                            />
+                        }
+                        label="Estado"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={selectedConsultorio?.availability || false}
+                                onChange={(e) => setSelectedConsultorio({ ...selectedConsultorio, availability: e.target.checked })}
+                                name="availability"
+                            />
+                        }
+                        label="Disponibilidad"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleCloseEdit}>Cancelar</Button>
+                    <Button onClick={handleSaveEdit} variant="contained">Guardar</Button>
+                </DialogActions>
+            </Dialog>
         </Box>
-      </Paper>
-    </Box>
-  );
+    );
 };
 
-export default ConsultorioPage;
+export default ConsultoriosPage;
