@@ -1,5 +1,5 @@
-import { Box, Grid, Typography, TextField, Autocomplete } from "@mui/material";
-import { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
+import { Box, Grid, Typography, TextField, Autocomplete, useTheme, useMediaQuery } from "@mui/material";
 
 const estadosDeMexico = [
   { name: 'Aguascalientes' },
@@ -36,7 +36,7 @@ const estadosDeMexico = [
   { name: 'Zacatecas' },
 ];
 
-export const DatosSection = () => {
+export const DatosSection: React.FC = () => {
   const [estadoValue, setEstadoValue] = useState<{ name: string } | null>(estadosDeMexico[0]);
   const [estadoInputValue, setEstadoInputValue] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -46,6 +46,9 @@ export const DatosSection = () => {
   const [emailError, setEmailError] = useState<string>('');
   const [telefonoError, setTelefonoError] = useState<string>('');
   const [codigoPostalError, setCodigoPostalError] = useState<string>('');
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -93,14 +96,15 @@ export const DatosSection = () => {
   };
 
   return (
-    <Box component="form"
+    <Box
+      component="form"
       sx={{
         '& .MuiTextField-root': { m: 1, width: '100%' },
       }}
       noValidate
       autoComplete="off"
     >
-      <Typography sx={{ marginTop: 3, textAlign: 'left', marginLeft: 2, fontWeight: 'semibold', fontSize: 24, color: '#263339' }}>
+      <Typography sx={{ marginTop: 3, textAlign: 'left', marginLeft: 2, fontWeight: 'semibold', fontSize: isSmallScreen ? 20 : 24, color: '#263339' }}>
         Datos de Contacto
       </Typography>
       <Grid container spacing={2}>

@@ -10,8 +10,6 @@ import {
   Box,
   Breadcrumbs,
   Link,
-  useMediaQuery,
-  useTheme,
   Select,
   MenuItem,
   InputLabel,
@@ -63,6 +61,22 @@ const AgregarMedico: React.FC = () => {
     if (Object.keys(errors).length === 0) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Reinicia el formulario
+        setFormData({
+          nombre: '',
+          apellido: '',
+          correo: '',
+          telefono: '',
+          fechaNacimiento: '',
+          genero: '',
+          cedula: '',
+          escuela: '',
+          anosExperiencia: '',
+          disponibilidad: false,
+          status: false,
+          habilidades: '',
+        });
 
         Swal.fire({
           title: 'Guardado exitosamente',

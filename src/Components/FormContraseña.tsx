@@ -29,7 +29,7 @@ const PasswordForm: React.FC = () => {
           </Typography>
           <form onSubmit={handleSubmit}>
             <TextField
-              label="Contraseña"
+              label="Nueva Contraseña"
               type="password"
               fullWidth
               margin="normal"

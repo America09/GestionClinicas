@@ -1,6 +1,13 @@
-import Autocomplete from '@mui/material/Autocomplete';
 import React, { useState } from 'react';
-import { Box, Typography, TextField, Grid } from '@mui/material';
+import {
+  Box,
+  Typography,
+  TextField,
+  Grid,
+  Autocomplete,
+  useTheme,
+  useMediaQuery
+} from '@mui/material';
 import { Boton } from './Boton';
 import { DatosSection } from './DatosContSection';
 import { ServMedicoSection } from './ServMedicoSection';
@@ -8,7 +15,7 @@ import { DatoMedicoSection } from './DatoMedicoSection';
 
 const options = ['Femenino', 'Masculino', 'Otro'];
 
-export const CitasPage = () => {
+export const CitasPage: React.FC = () => {
   const [value, setValue] = useState<string | null>(options[0]);
   const [inputValue, setInputValue] = useState('');
   const [nombre, setNombre] = useState('');
@@ -19,13 +26,16 @@ export const CitasPage = () => {
   const [apellidoError, setApellidoError] = useState('');
   const [descripcionError, setDescripcionError] = useState('');
 
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   const handleTextChange = (setter: React.Dispatch<React.SetStateAction<string>>) => (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const filteredValue = value.replace(/[^a-zA-Z\s]/g, '');
     setter(filteredValue);
   };
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     let isValid = true;
 
     if (nombre.trim() === '') {
@@ -61,13 +71,14 @@ export const CitasPage = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: '1000px', mx: 'auto', mt: 5 }}>
-      <Typography sx={{ marginBottom: 3, textAlign: 'center', fontWeight: 'bold', fontSize: 40, color: '#263339' }}>
+    <Box sx={{ maxWidth: '1000px', mx: 'auto', mt: 5, p: isSmallScreen ? 2 : 3 }}>
+      <Typography sx={{ marginBottom: 3, textAlign: 'center', fontWeight: 'bold', fontSize: isSmallScreen ? 28 : 40, color: '#263339' }}>
         ¡Tu salud, nuestra prioridad! 
         <br />
         Agenda tu cita hoy mismo.
       </Typography>
-      <Box component="form"
+      <Box
+        component="form"
         sx={{
           '& .MuiTextField-root': { m: 1, width: '100%' },
         }}
@@ -75,7 +86,7 @@ export const CitasPage = () => {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <Typography sx={{ marginBottom: 3, textAlign: 'left', fontWeight: 'semibold', marginLeft: 2, fontSize: 24, color: '#263339' }}>
+        <Typography sx={{ marginBottom: 3, textAlign: 'left', fontWeight: 'semibold', fontSize: isSmallScreen ? 20 : 24, color: '#263339' }}>
           Información del paciente
         </Typography>
         <Grid container spacing={2}>

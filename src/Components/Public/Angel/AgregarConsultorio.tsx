@@ -15,7 +15,6 @@ const AgregarConsultorios: React.FC = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    
     const isChecked = type === 'checkbox' && e.target instanceof HTMLInputElement ? e.target.checked : undefined;
 
     setFormData({
@@ -35,6 +34,13 @@ const AgregarConsultorios: React.FC = () => {
     if (Object.keys(errors).length === 0) {
       try {
         await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        // Reinicia el formulario
+        setFormData({
+          nombre: '',
+          disponibilidad: false,
+          status: false
+        });
 
         Swal.fire({
           title: 'Guardado exitosamente',
@@ -69,7 +75,7 @@ const AgregarConsultorios: React.FC = () => {
         display: 'flex',
         justifyContent: 'center',
         mt: 2,
-        px: 2, 
+        px: 2,
       }}
     >
       <Paper
