@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import {
-    TextField, Button, Box, Typography,
-    FormControl, Grid, Breadcrumbs, Link, Container, Paper
-} from '@mui/material';
+import { TextField, Button, Box, Typography, FormControl, Grid, Breadcrumbs, Link, Container, Paper } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { handleCreateHorario } from '../../../Handlers/HorarioHandler';
 import { CreateHorarioDto } from '../../../Types/Horario';
+import { handleCreateHorario } from '../../../Handlers/HorarioHandler';
 
 
 const CreateHorario: React.FC = () => {
@@ -21,7 +18,7 @@ const CreateHorario: React.FC = () => {
 
     const [formErrors, setFormErrors] = useState<Partial<CreateHorarioDto>>({});
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | { value: unknown; name: string }>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
@@ -30,21 +27,11 @@ const CreateHorario: React.FC = () => {
         e.preventDefault();
 
         const errors: Partial<CreateHorarioDto> = {};
-        if (!formData.name) {
-            errors.name = 'El nombre es requerido';
-        }
-        if (!formData.fecha) {
-            errors.fecha = 'La fecha es requerida';
-        }
-        if (!formData.turno) {
-            errors.turno = 'El turno es requerido';
-        }
-        if (!formData.entrada) {
-            errors.entrada = 'La entrada es requerida';
-        }
-        if (!formData.salida) {
-            errors.salida = 'La salida es requerida';
-        }
+        if (!formData.name) errors.name = 'El nombre es requerido';
+        if (!formData.fecha) errors.fecha = 'La fecha es requerida';
+        if (!formData.turno) errors.turno = 'El turno es requerido';
+        if (!formData.entrada) errors.entrada = 'La entrada es requerida';
+        if (!formData.salida) errors.salida = 'La salida es requerida';
 
         setFormErrors(errors);
 
@@ -54,10 +41,9 @@ const CreateHorario: React.FC = () => {
                     name: formData.name,
                     fecha: formData.fecha,
                     turno: formData.turno,
-                    entrada: formData.entrada,
-                    salida: formData.salida
+                    entrada: formData.entrada + ':00',
+                    salida: formData.salida + ':00'
                 };
-                console.log('Payload enviado:', payload); // Verificar el payload
                 await handleCreateHorario(payload);
                 Swal.fire({
                     title: 'Guardado exitosamente',
@@ -65,12 +51,7 @@ const CreateHorario: React.FC = () => {
                     icon: 'success',
                     confirmButtonText: 'Aceptar'
                 });
-            } catch (error) {
-                console.error('Error al crear el horario:', error);
-                if (error.response) {
-                    console.error('Respuesta del servidor:', error.response);
-                    console.error('Datos de la respuesta:', error.response.data);
-                }
+            } catch (error: any) {
                 Swal.fire({
                     title: 'Error',
                     text: `Hubo un problema al guardar el horario. ${error.response?.data?.message || error.message}`,
@@ -89,35 +70,20 @@ const CreateHorario: React.FC = () => {
     };
 
     return (
-        <Container
-            maxWidth="md"
-            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', py: 4 }}
-        >
-            <Paper
-                sx={{
-                    padding: 4,
-                    width: '100%',
-                    maxWidth: '800px',
-                    boxShadow: 3,
-                    borderRadius: 2,
-                }}
-            >
+        <Container maxWidth="md" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', py: 4 }}>
+            <Paper sx={{ padding: 4, width: '100%', maxWidth: '800px', boxShadow: 3, borderRadius: 2 }}>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 3 }}>
                     <Breadcrumbs aria-label="breadcrumb">
                         <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
                             <HomeIcon sx={{ mr: 0.5 }} />
                             Inicio
                         </Link>
-                        <Link color="inherit" component={RouterLink} to="/admin-horarios">
-                            Horarios
-                        </Link>
+                        <Link color="inherit" component={RouterLink} to="/admin-horarios">Horarios</Link>
                         <Typography color="textPrimary">Añadir Horario</Typography>
                     </Breadcrumbs>
                 </Box>
                 <Box sx={{ textAlign: 'center', mb: 3 }}>
-                    <Typography variant="h5" component="h2" gutterBottom>
-                        Añadir Horario
-                    </Typography>
+                    <Typography variant="h5" component="h2" gutterBottom>Añadir Horario</Typography>
                 </Box>
                 <Box component="form" onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
@@ -145,9 +111,7 @@ const CreateHorario: React.FC = () => {
                                     value={formData.fecha}
                                     onChange={handleChange}
                                     type="date"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
+                                    InputLabelProps={{ shrink: true }}
                                     fullWidth
                                     error={!!formErrors.fecha}
                                     helperText={formErrors.fecha}
@@ -179,9 +143,7 @@ const CreateHorario: React.FC = () => {
                                     value={formData.entrada}
                                     onChange={handleChange}
                                     type="time"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
+                                    InputLabelProps={{ shrink: true }}
                                     fullWidth
                                     error={!!formErrors.entrada}
                                     helperText={formErrors.entrada}
@@ -198,9 +160,7 @@ const CreateHorario: React.FC = () => {
                                     value={formData.salida}
                                     onChange={handleChange}
                                     type="time"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
+                                    InputLabelProps={{ shrink: true }}
                                     fullWidth
                                     error={!!formErrors.salida}
                                     helperText={formErrors.salida}
@@ -212,13 +172,7 @@ const CreateHorario: React.FC = () => {
                             <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
                                 <Button
                                     variant="contained"
-                                    sx={{
-                                        backgroundColor: '#43A49B',
-                                        color: 'white',
-                                        '&:hover': {
-                                            backgroundColor: '#51C5BA',
-                                        },
-                                    }}
+                                    sx={{ backgroundColor: '#43A49B', color: 'white', '&:hover': { backgroundColor: '#51C5BA' }}}
                                     type="submit"
                                 >
                                     Agregar

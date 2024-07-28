@@ -1,5 +1,3 @@
-// Types/Horario.ts
-
 export interface Horario {
     id?: number; // Opcional ya que se generará automáticamente
     name: string;
