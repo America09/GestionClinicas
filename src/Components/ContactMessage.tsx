@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Paper } from '@mui/material';
+import { Box, Typography, IconButton, useMediaQuery, useTheme, Paper, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchContactRecords, deleteContactMessage } from '../Services/Contact';
 import { ContactRecibido } from '../types/Contact';
@@ -9,6 +9,9 @@ const ContactMessage: React.FC = () => {
   const [messages, setMessages] = useState<ContactRecibido[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   useEffect(() => {
     const loadMessages = async () => {
@@ -58,35 +61,64 @@ const ContactMessage: React.FC = () => {
 
   return (
     <Box sx={{ padding: 3, maxWidth: '900px', margin: '0 auto', backgroundColor: '#fff', borderRadius: 2, boxShadow: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{textAlign:'center', color:'#263339'}}>Mensajes de Contacto</Typography>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-            <TableCell sx={{ fontWeight: 'bold', color: '#333' }}>ID</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: '#333' }}>Nombre</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: '#333' }}>Mensaje</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: '#333' }}>Correo</TableCell>
-            <TableCell align="center" sx={{ fontWeight: 'bold', color: '#333' }}>Eliminar</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {messages.map((message) => (
-              <TableRow key={message.id}>
-                <TableCell>{message.id}</TableCell>
-                <TableCell>{message.name}</TableCell>
-                <TableCell>{message.message}</TableCell>
-                <TableCell>{message.email}</TableCell>
-                <TableCell align="center">
+      <Typography variant="h4" gutterBottom sx={{ textAlign: 'center', color: '#263339' }}>Mensajes de Contacto</Typography>
+      {isSmallScreen ? (
+        <Box>
+          {messages.map((message) => (
+            <Paper key={message.id} sx={{ padding: 2, marginBottom: 2, boxShadow: 1 }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: '#333' }}>ID: {message.id}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: '#333' }}>Nombre: {message.name}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: '#333' }}>Correo: {message.email}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: '#333' }}>Mensaje:</Typography>
+                  <Typography variant="body2">{message.message}</Typography>
+                </Grid>
+                <Grid item xs={12} sx={{ textAlign: 'right' }}>
                   <IconButton onClick={() => handleDelete(message.id)} sx={{ color: '#d32f2f' }}>
                     <DeleteIcon />
                   </IconButton>
-                </TableCell>
+                </Grid>
+              </Grid>
+            </Paper>
+          ))}
+        </Box>
+      ) : (
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{ fontWeight: 'bold', color: '#333' }}>ID</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: '#333' }}>Nombre</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: '#333' }}>Mensaje</TableCell>
+                <TableCell sx={{ fontWeight: 'bold', color: '#333' }}>Correo</TableCell>
+                <TableCell align="center" sx={{ fontWeight: 'bold', color: '#333' }}>Eliminar</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {messages.map((message) => (
+                <TableRow key={message.id}>
+                  <TableCell>{message.id}</TableCell>
+                  <TableCell>{message.name}</TableCell>
+                  <TableCell>{message.message}</TableCell>
+                  <TableCell>{message.email}</TableCell>
+                  <TableCell align="center">
+                    <IconButton onClick={() => handleDelete(message.id)} sx={{ color: '#d32f2f' }}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </Box>
   );
 };
