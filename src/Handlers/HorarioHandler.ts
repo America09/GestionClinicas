@@ -29,7 +29,6 @@ export const handleCreateHorario = async (horario: CreateHorarioDto): Promise<vo
         throw error;
     }
 };
-
 export const handleUpdateHorario = async (id: number, horario: UpdateHorarioDto): Promise<void> => {
     try {
         await updateHorario(id, horario);

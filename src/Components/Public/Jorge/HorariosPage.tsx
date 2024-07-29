@@ -8,12 +8,12 @@ import Swal from 'sweetalert2';
 import { Horario, UpdateHorarioDto } from '../../../Types/Horario';
 import { handleDeleteHorario, handleGetHorarios, handleUpdateHorario } from '../../../Handlers/HorarioHandler';
 
-
 const HorariosPage: React.FC = () => {
     const navigate = useNavigate();
     const [horarios, setHorarios] = useState<Horario[]>([]);
     const [openEdit, setOpenEdit] = useState(false);
     const [selectedHorario, setSelectedHorario] = useState<Horario | null>(null);
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     useEffect(() => {
         const fetchHorarios = async () => {
@@ -31,7 +31,7 @@ const HorariosPage: React.FC = () => {
     const handleEdit = (id: number) => {
         const horario = horarios.find((horario) => horario.id === id);
         if (horario) {
-            setSelectedHorario(horario);
+            setSelectedHorario({ ...horario, fecha: formatDate(horario.fecha) });
             setOpenEdit(true);
         }
     };
@@ -62,10 +62,25 @@ const HorariosPage: React.FC = () => {
     const handleCloseEdit = () => {
         setOpenEdit(false);
         setSelectedHorario(null);
+        setErrors({});
+    };
+
+    const validate = () => {
+        const newErrors: { [key: string]: string } = {};
+
+        if (!selectedHorario?.name) newErrors.name = "El nombre es requerido";
+        if (!selectedHorario?.fecha) newErrors.fecha = "La fecha es requerida";
+        if (!selectedHorario?.turno) newErrors.turno = "El turno es requerido";
+        if (!selectedHorario?.entrada) newErrors.entrada = "La hora de entrada es requerida";
+        if (!selectedHorario?.salida) newErrors.salida = "La hora de salida es requerida";
+
+        setErrors(newErrors);
+
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSaveEdit = async () => {
-        if (selectedHorario) {
+        if (selectedHorario && validate()) {
             try {
                 const updatedHorario: UpdateHorarioDto = {
                     name: selectedHorario.name,
@@ -85,6 +100,14 @@ const HorariosPage: React.FC = () => {
                 Swal.fire('Error', 'Hubo un problema al guardar los cambios.', 'error');
             }
         }
+    };
+
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
 
     const columns: GridColDef[] = [
@@ -174,6 +197,8 @@ const HorariosPage: React.FC = () => {
                         fullWidth
                         value={selectedHorario?.name || ''}
                         onChange={(e) => setSelectedHorario({ ...selectedHorario, name: e.target.value })}
+                        error={!!errors.name}
+                        helperText={errors.name}
                     />
                     <TextField
                         margin="dense"
@@ -182,8 +207,10 @@ const HorariosPage: React.FC = () => {
                         fullWidth
                         value={selectedHorario?.fecha || ''}
                         onChange={(e) => setSelectedHorario({ ...selectedHorario, fecha: e.target.value })}
+                        error={!!errors.fecha}
+                        helperText={errors.fecha}
                     />
-                    <FormControl fullWidth margin="dense">
+                    <FormControl fullWidth margin="dense" error={!!errors.turno}>
                         <InputLabel>Turno</InputLabel>
                         <Select
                             label="Turno"
@@ -193,6 +220,7 @@ const HorariosPage: React.FC = () => {
                             <MenuItem value="Matutino">Matutino</MenuItem>
                             <MenuItem value="Vespertino">Vespertino</MenuItem>
                         </Select>
+                        {errors.turno && <Typography color="error">{errors.turno}</Typography>}
                     </FormControl>
                     <TextField
                         margin="dense"
@@ -201,6 +229,8 @@ const HorariosPage: React.FC = () => {
                         fullWidth
                         value={selectedHorario?.entrada || ''}
                         onChange={(e) => setSelectedHorario({ ...selectedHorario, entrada: e.target.value })}
+                        error={!!errors.entrada}
+                        helperText={errors.entrada}
                     />
                     <TextField
                         margin="dense"
@@ -209,6 +239,8 @@ const HorariosPage: React.FC = () => {
                         fullWidth
                         value={selectedHorario?.salida || ''}
                         onChange={(e) => setSelectedHorario({ ...selectedHorario, salida: e.target.value })}
+                        error={!!errors.salida}
+                        helperText={errors.salida}
                     />
                 </DialogContent>
                 <DialogActions>
