@@ -66,7 +66,7 @@ const HorariosPage: React.FC = () => {
     };
 
     const handleSaveEdit = async () => {
-        if (selectedHorario) {
+        if (selectedHorario && selectedHorario.id !== undefined) {
             try {
                 await handleUpdateHorario(selectedHorario.id, selectedHorario);
                 setHorarios(horarios.map((horario) => horario.id === selectedHorario.id ? selectedHorario : horario));
@@ -82,10 +82,11 @@ const HorariosPage: React.FC = () => {
 
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', width: 90 },
-        { field: 'Fecha', headerName: 'Fecha', width: 130, editable: true },
-        { field: 'Turno', headerName: 'Turno', width: 90, editable: true },
-        { field: 'Entrada', headerName: 'Entrada', width: 90, editable: true },
-        { field: 'Salida', headerName: 'Salida', width: 90, editable: true },
+        { field: 'name', headerName: 'Nombre', width: 130, editable: true },
+        { field: 'fecha', headerName: 'Fecha', width: 130, editable: true },
+        { field: 'turno', headerName: 'Turno', width: 90, editable: true },
+        { field: 'entrada', headerName: 'Entrada', width: 90, editable: true },
+        { field: 'salida', headerName: 'Salida', width: 90, editable: true },
         {
             field: 'Editar',
             headerName: 'Editar',

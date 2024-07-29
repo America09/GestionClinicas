@@ -1,5 +1,5 @@
 import { getHorarios, getHorarioById, createHorario, updateHorario, deleteHorario } from '../Services/HorarioService';
-import { Horario } from '../Types/Horario';
+import { Horario, CreateHorarioDto, UpdateHorarioDto } from '../Types/Horario';
 
 export const handleGetHorarios = async (): Promise<Horario[]> => {
     try {
@@ -21,7 +21,7 @@ export const handleGetHorarioById = async (id: number): Promise<Horario> => {
     }
 };
 
-export const handleCreateHorario = async (horario: Horario): Promise<void> => {
+export const handleCreateHorario = async (horario: CreateHorarioDto): Promise<void> => {
     try {
         await createHorario(horario);
     } catch (error) {

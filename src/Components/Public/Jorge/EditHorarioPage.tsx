@@ -1,12 +1,10 @@
-/* import React, { useState, useEffect } from 'react';
-import {
-    TextField, Button, Box, Typography,
-    FormControl, Grid, Breadcrumbs, Link, Container, Paper
-} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {TextField, Button, Box, Typography,FormControl, Grid, Breadcrumbs, Link, Container, Paper} from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { handleUpdateHorario, getHorarioById } from '../../../Handlers/HorarioHandler';
+import { handleUpdateHorario, handleGetHorarioById } from '../../../Handlers/HorarioHandler';
+
 
 interface FormData {
     name: string;
@@ -30,29 +28,32 @@ const EditarHorario: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const horario = await getHorarioById(id);
-                setFormData({
-                    name: horario.Name,
-                    fecha: horario.Fecha,
-                    turno: horario.Turno,
-                    entrada: horario.Entrada,
-                    salida: horario.Salida
-                });
-            } catch (error) {
-                console.error('Error al obtener el horario:', error);
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Hubo un problema al obtener los datos del horario.',
-                    icon: 'error',
-                    confirmButtonText: 'Aceptar'
-                });
+            if (id) {
+                try {
+                    const numericId = parseInt(id, 10); // Convertir id a número
+                    const horario = await handleGetHorarioById(numericId);
+                    setFormData({
+                        name: horario.name,
+                        fecha: horario.fecha,
+                        turno: horario.turno,
+                        entrada: horario.entrada,
+                        salida: horario.salida
+                    });
+                } catch (error) {
+                    console.error('Error al obtener el horario:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema al obtener los datos del horario.',
+                        icon: 'error',
+                        confirmButtonText: 'Aceptar'
+                    });
+                }
             }
         };
         fetchData();
     }, [id]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
@@ -82,29 +83,28 @@ const EditarHorario: React.FC = () => {
         if (Object.keys(errors).length === 0) {
             try {
                 const payload = {
-                    Name: formData.name,
-                    Fecha: formData.fecha,
-                    Turno: formData.turno,
-                    Entrada: formData.entrada,
-                    Salida: formData.salida
+                    name: formData.name,
+                    fecha: formData.fecha,
+                    turno: formData.turno,
+                    entrada: formData.entrada,
+                    salida: formData.salida
                 };
-                console.log('Payload enviado:', payload); // Verificar el payload
-                await handleUpdateHorario(id, payload);
-                Swal.fire({
-                    title: 'Actualizado exitosamente',
-                    text: 'El horario ha sido actualizado correctamente.',
-                    icon: 'success',
-                    confirmButtonText: 'Aceptar'
-                });
-            } catch (error) {
-                console.error('Error al actualizar el horario:', error);
-                if (error.response) {
-                    console.error('Respuesta del servidor:', error.response);
-                    console.error('Datos de la respuesta:', error.response.data);
+                console.log('Payload enviado:', payload); 
+                if (id) {
+                    const numericId = parseInt(id, 10); 
+                    await handleUpdateHorario(numericId, payload);
+                    Swal.fire({
+                        title: 'Actualizado exitosamente',
+                        text: 'El horario ha sido actualizado correctamente.',
+                        icon: 'success',
+                        confirmButtonText: 'Aceptar'
+                    });
                 }
+            } catch (error: any) {
+                console.error('Error al actualizar el horario:', error);
                 Swal.fire({
                     title: 'Error',
-                    text: `Hubo un problema al actualizar el horario. ${error.response?.data?.message || error.message}`,
+                    text: `Hubo un problema al actualizar el horario. ${error?.response?.data?.message || error.message || 'Error desconocido'}`,
                     icon: 'error',
                     confirmButtonText: 'Aceptar'
                 });
@@ -264,4 +264,3 @@ const EditarHorario: React.FC = () => {
 };
 
 export default EditarHorario;
- */
