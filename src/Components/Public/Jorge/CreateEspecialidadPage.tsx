@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-  TextField, Button, Box, Typography, Breadcrumbs, Link, Container, Grid, FormControl, Paper
+  TextField, Button, Box, Typography, Breadcrumbs, Link, Grid, Paper, useMediaQuery, useTheme
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -14,7 +14,6 @@ interface FormData {
 }
 
 const CreateEspecialidad: React.FC = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
     descripcion: '',
@@ -74,92 +73,85 @@ const CreateEspecialidad: React.FC = () => {
     }
   };
 
+  const theme = useTheme();
+  const isLargeScreen = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
-    <Container
-      maxWidth="md"
-      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', py: 4 }}
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+        mt: 10,
+        px: 2, 
+      }}
     >
       <Paper
         sx={{
-          padding: 4,
-          textAlign: 'center',
+          padding: 3,
+          maxWidth: 600,
           width: '100%',
-          maxWidth: '800px',
           boxShadow: 3,
           borderRadius: 2,
+          margin: '0 auto',
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 3 }}>
+        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-start', ml: 2 }}>
           <Breadcrumbs aria-label="breadcrumb">
-            <Link color="inherit" component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
+            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />
               Inicio
             </Link>
-            <Link color="inherit" component={RouterLink} to="/admin-especialidades">
+            <Link color="inherit" component={RouterLink} to="/admin-especialidad">
               Especialidades
             </Link>
             <Typography color="textPrimary">Añadir Especialidad</Typography>
           </Breadcrumbs>
         </Box>
-        <Box sx={{ textAlign: 'center', mb: 3 }}>
-          <Typography variant="h5" component="h2" gutterBottom>
-            Añadir Especialidad
-          </Typography>
-        </Box>
-        <Box component="form" onSubmit={handleSubmit}>
+        <Typography variant="h6" gutterBottom align="center">
+          Agregar Especialidad
+        </Typography>
+        <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <FormControl fullWidth>
-                <TextField
-                  label="Nombre"
-                  variant="outlined"
-                  name="nombre"
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  fullWidth
-                  error={!!formErrors.nombre}
-                  helperText={formErrors.nombre}
-                  required
-                />
-              </FormControl>
+              <TextField
+                fullWidth
+                label="Nombre"
+                name="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+                required
+                error={!!formErrors.nombre}
+                helperText={formErrors.nombre}
+              />
             </Grid>
             <Grid item xs={12}>
-              <FormControl fullWidth>
-                <TextField
-                  label="Descripción"
-                  variant="outlined"
-                  name="descripcion"
-                  value={formData.descripcion}
-                  onChange={handleChange}
-                  fullWidth
-                  error={!!formErrors.descripcion}
-                  helperText={formErrors.descripcion}
-                  required
-                />
-              </FormControl>
+              <TextField
+                fullWidth
+                label="Descripción"
+                name="descripcion"
+                value={formData.descripcion}
+                onChange={handleChange}
+                required
+                error={!!formErrors.descripcion}
+                helperText={formErrors.descripcion}
+              />
             </Grid>
-            <Grid item xs={12}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    backgroundColor: '#43A49B',
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: '#51C5BA',
-                    },
-                  }}
-                  type="submit"
-                >
-                  Guardar
-                </Button>
-              </Box>
+            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto' }}
+              >
+                Agregar
+              </Button>
             </Grid>
           </Grid>
-        </Box>
+        </form>
       </Paper>
-    </Container>
+    </Box>
   );
 };
 
-export default CreateEspecialidad;
+export default AgregarEspecialidades;

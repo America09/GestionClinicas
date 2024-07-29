@@ -1,11 +1,11 @@
-
 import { Box } from "@mui/material";
 import CreateHorario from "../../../Components/Public/Jorge/CreateHorarioPage";
 
-export const AddHorario = () => {
+export const AGHorario = () => {
   return (
     <Box>
-        <CreateHorario />
+      <CreateHorario/>
     </Box>
   )
 }
+

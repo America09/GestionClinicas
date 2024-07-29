@@ -1,11 +1,82 @@
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { Box, Grid, Typography, TextField, Button, Link } from '@mui/material';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import { ContactMen } from '../../Services/Contact'; 
 
 const ContactForm = () => {
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [message, setMessage] = useState<string>('');
+  const [errors, setErrors] = useState<{ name: string; email: string; phone: string; message: string }>({
+    name: '',
+    email: '',
+    phone: '',
+    message: '',
+  });
+  const [success, setSuccess] = useState<string>(''); 
+  const [submitError, setSubmitError] = useState<string>(''); 
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    let valid = true;
+    let errors = { name: '', email: '', phone: '', message: '' };
+
+    if (!name) {
+      valid = false;
+      errors.name = 'Nombre es requerido';
+    } else if (/\d/.test(name)) {
+      valid = false;
+      errors.name = 'Nombre no debe contener números';
+    }
+
+    if (!email) {
+      valid = false;
+      errors.email = 'Correo es requerido';
+    } else if (!validateEmail(email)) {
+      valid = false;
+      errors.email = 'Correo no válido. Debe contener un "@" y un "."';
+    }
+    if (!message) {
+      valid = false;
+      errors.message = 'Mensaje es requerido';
+    }
+
+    setErrors(errors);
+
+    if (valid) {
+      try {
+        await ContactMen(name, email, message);
+        setSuccess('Mensaje enviado con éxito');
+        setName('');
+        setEmail('');
+        setMessage('');
+        setSubmitError('');
+      } catch (error: any) {
+        setSubmitError(error.message);
+        setSuccess('');
+      }
+    }
+  };
+
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (!/\d/.test(value)) {
+      setName(value);
+      setErrors((prevErrors) => ({ ...prevErrors, name: '' }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, name: 'Nombre no debe contener números' }));
+    }
+  };
+
   return (
     <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 4 }}>
       <Grid container spacing={2} sx={{ maxWidth: 900, boxShadow: 3, borderRadius: 3, overflow: 'hidden', backgroundColor: 'white' }}>
@@ -46,7 +117,7 @@ const ContactForm = () => {
               <Typography variant="body1">Twitter</Typography>
             </Link>
           </Box>
-          <Box component="form" sx={{ mt: 3 }}>
+          <Box component="form" sx={{ mt: 3 }} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -57,6 +128,10 @@ const ContactForm = () => {
               name="name"
               autoComplete="name"
               autoFocus
+              value={name}
+              onChange={handleNameChange}
+              error={!!errors.name}
+              helperText={errors.name}
             />
             <TextField
               variant="outlined"
@@ -67,16 +142,10 @@ const ContactForm = () => {
               label="Email"
               name="email"
               autoComplete="email"
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="phone"
-              label="Teléfono"
-              name="phone"
-              autoComplete="phone"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!errors.email}
+              helperText={errors.email}
             />
             <TextField
               variant="outlined"
@@ -89,6 +158,10 @@ const ContactForm = () => {
               autoComplete="message"
               multiline
               rows={4}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              error={!!errors.message}
+              helperText={errors.message}
             />
             <Button
               type="submit"
@@ -98,6 +171,8 @@ const ContactForm = () => {
             >
               Enviar
             </Button>
+            {submitError && <Typography color="error">{submitError}</Typography>}
+            {success && <Typography color="success">{success}</Typography>}
           </Box>
         </Grid>
       </Grid>

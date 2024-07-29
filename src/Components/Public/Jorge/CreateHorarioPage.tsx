@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     TextField, Button, Box, Typography,
     FormControl, Grid, Breadcrumbs, Link, Container, Paper, Select, MenuItem, InputLabel
@@ -273,4 +273,4 @@ const CreateHorario: React.FC = () => {
     );
 };
 
-export default CreateHorario;
+export default AgregarHorario;

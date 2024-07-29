@@ -1,9 +1,10 @@
-import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Paper } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Especialidad } from '../../../Types/Especialidad';
 import { handleDeleteEspecialidad, handleGetEspecialidades, handleUpdateEspecialidad } from '../../../Handlers/EspecialidadHandler';
@@ -113,28 +114,35 @@ const EspecialidadPage: React.FC = () => {
         },
     ];
 
-    return (
-        <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-            <Paper
-                sx={{
-                    padding: 4,
-                    textAlign: 'center',
-                    width: '100%',
-                    boxShadow: 3,
-                    borderRadius: 2,
-                }}
-            >
-                <Box sx={{ width: '100%' }}>
-                    <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'flex-start', display: 'flex', mb: 2 }}>
-                        <Link underline="hover" color="inherit" href="/">
-                            Home
-                        </Link>
-                        <Typography color="text.primary">Especialidades</Typography>
-                    </Breadcrumbs>
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+      <Paper
+        sx={{
+          padding: 3,
+          maxWidth: 850,
+          width: '100%',
+          boxShadow: 3,
+          borderRadius: 2,
+          mt: 1,
+          margin: '0 auto', 
+        }}
+      >
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ display: 'flex', mb: 2 }}>
+            <Breadcrumbs aria-label="breadcrumb">
+              <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+                <HomeIcon sx={{ mr: 0.5 }} />
+                Inicio
+              </Link>
+              <Typography color="textPrimary">Especialidades</Typography>
+            </Breadcrumbs>
+          </Box>
 
-                    <Typography variant="h4" component="h2" gutterBottom>
-                        Lista de Especialidades
-                    </Typography>
+          <Box sx={{ textAlign: 'center', mb: 2 }}>
+            <Typography variant="h4" component="h2" gutterBottom>
+              Lista de Especialidades
+            </Typography>
+          </Box>
 
                     <Box sx={{ width: '100%', mt: 2 }}>
                         <DataGrid
@@ -207,5 +215,3 @@ const EspecialidadPage: React.FC = () => {
         </Container>
     );
 };
-
-export default EspecialidadPage;

@@ -1,15 +1,19 @@
-import { useState, useContext } from 'react';
-import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, Divider, Hidden, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
-import { NavLink, useNavigate  } from 'react-router-dom';
+import { useState, useContext, ChangeEvent, MouseEvent, KeyboardEvent } from 'react';
+import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, Divider, IconButton, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
-import FacebookIcon from '@mui/icons-material/Facebook';
 import CrearCuentaModal from './CrearCuentaPage';
 import RecuperarContrasenaModal from './RecupContraPage';
 import { AuthContext } from '../../Context/AuthContext';
 import { handleLogin } from '../../Handlers/AuthHandler';
 import { LoginRequest } from '../../Types/Api';
+import HomeIcon from '@mui/icons-material/Home';
+import BusinessIcon from '@mui/icons-material/Business';
+import EventIcon from '@mui/icons-material/Event';
+import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
+import LoginIcon from '@mui/icons-material/Login';
 
 const HeaderPublic = () => {
     const [openLogin, setOpenLogin] = useState(false);
@@ -18,17 +22,16 @@ const HeaderPublic = () => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
-
 
     const handleOpenLogin = () => {
         setOpenLogin(true);
         setOpenSignup(false);
         setOpenRecuperarContrasena(false);
     };
-
 
     const handleCloseLogin = () => setOpenLogin(false);
 
@@ -48,8 +51,8 @@ const HeaderPublic = () => {
 
     const handleCloseRecuperarContrasena = () => setOpenRecuperarContrasena(false);
 
-    const toggleDrawer = (open : any) => (event :any) => {
-        if (event.type === 'keydown' && ((event.key === 'Tab') || (event.key === 'Shift'))) {
+    const toggleDrawer = (open: boolean) => (event: KeyboardEvent | MouseEvent) => {
+        if (event.type === 'keydown' && ((event as KeyboardEvent).key === 'Tab' || (event as KeyboardEvent).key === 'Shift')) {
             return;
         }
         setOpenDrawer(open);
@@ -58,37 +61,77 @@ const HeaderPublic = () => {
     const drawerContent = (
         <Box
             sx={{
-                width: 250,
-                padding: 1.5,
-                height: '700px',
-                backgroundColor: '#508D86'
+                width: 200,
+                padding: 2,
+                height: '100vh',
+                backgroundColor: '#508D86',
+                color: 'white',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start' 
             }}
             role="presentation"
             onClick={toggleDrawer(false)}
             onKeyDown={toggleDrawer(false)}
         >
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 4 }}>
+                <Typography variant="h6" sx={{ ml: 2 }}>Menú</Typography>
+                <IconButton onClick={toggleDrawer(false)} sx={{ color: 'white' }}>
+                    <CloseIcon />
+                </IconButton>
+            </Box>
             <List>
-            <CloseIcon />
-                {['Inicio', 'Servicios', 'Citas', 'Medicos', 'Login'].map((text) => (
-                    <ListItem sx={{color: 'white'}}
-                        key={text}
+                {[
+                    { text: 'Inicio', icon: <HomeIcon />, link: '/' },
+                    { text: 'Servicios', icon: <BusinessIcon />, link: '/servicios' },
+                    { text: 'Citas', icon: <EventIcon />, link: '/citas' },
+                    { text: 'Medicos', icon: <MedicalServicesIcon />, link: '/medicos' },
+                    { text: 'Login', icon: <LoginIcon />, link: '#', action: handleOpenLogin }
+                ].map((item) => (
+                    <ListItem
+                        sx={{ color: 'white' }}
+                        key={item.text}
                         button
-                        component={text === 'Login' ? 'button' : NavLink}
-                        to={text === 'Inicio' ? '/' : `/${text.toLowerCase()}`}
-                        onClick={text === 'Login' ? handleOpenLogin : undefined}
+                        component={item.text === 'Login' ? 'button' : NavLink}
+                        to={item.text === 'Login' ? undefined : item.link}
+                        onClick={item.text === 'Login' ? item.action : undefined}
                     >
-                        <ListItemText primary={text} />
+                        <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
+                        <ListItemText primary={item.text} />
                     </ListItem>
                 ))}
             </List>
         </Box>
     );
 
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const onLogin = async () => {
-        const loginRequest: LoginRequest = { email, password };
-        const success = await handleLogin(loginRequest, authContext);
-        if (success) {
-            navigate('/dashboard'); 
+        let valid = true;
+
+        if (!validateEmail(email)) {
+            setEmailError('Correo no válido. Debe contener un "@" y un "."');
+            valid = false;
+        } else {
+            setEmailError('');
+        }
+
+        if (password.length < 8) {
+            setPasswordError('La contraseña debe tener al menos 8 caracteres');
+            valid = false;
+        } else {
+            setPasswordError('');
+        }
+
+        if (valid) {
+            const loginRequest: LoginRequest = { email, password };
+            const success = await handleLogin(loginRequest, authContext);
+            if (success) {
+                navigate('/dashboard'); 
+            }
         }
     };
 
@@ -102,27 +145,65 @@ const HeaderPublic = () => {
                         </Link>
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: '5rem', flexGrow: 1, justifyContent: 'center' }}>
-                        <Link component={NavLink} to="/" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        <NavLink
+                            to="/"
+                            style={({ isActive }) => ({
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontSize: '1.5rem',
+                                fontWeight: 'medium',
+                                borderBottom: isActive ? '2px solid white' : 'none',
+                                paddingBottom: '5px',
+                            })}
+                        >
                             Inicio
-                        </Link>
-                        <Link component={NavLink} to="/servicios" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        </NavLink>
+                        <NavLink
+                            to="/servicios"
+                            style={({ isActive }) => ({
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontSize: '1.5rem',
+                                fontWeight: 'medium',
+                                borderBottom: isActive ? '2px solid white' : 'none',
+                                paddingBottom: '5px',
+                            })}
+                        >
                             Servicios
-                        </Link>
-                        <Link component={NavLink} to="/citas" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        </NavLink>
+                        <NavLink
+                            to="/citas"
+                            style={({ isActive }) => ({
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontSize: '1.5rem',
+                                fontWeight: 'medium',
+                                borderBottom: isActive ? '2px solid white' : 'none',
+                                paddingBottom: '5px',
+                            })}
+                        >
                             Citas
-                        </Link>
-                        <Link component={NavLink} to="/medicos" sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium' }}>
+                        </NavLink>
+                        <NavLink
+                            to="/medicos"
+                            style={({ isActive }) => ({
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontSize: '1.5rem',
+                                fontWeight: 'medium',
+                                borderBottom: isActive ? '2px solid white' : 'none',
+                                paddingBottom: '5px',
+                            })}
+                        >
                             Médicos
-                        </Link>
-                        <Link component="button" onClick={handleOpenLogin} sx={{ textDecoration: 'underline', color: 'white', fontSize: '1.5rem', fontWeight: 'medium', background: 'none', border: 'none', cursor: 'pointer' }}>
+                        </NavLink>
+                        <Link component="button" onClick={handleOpenLogin} sx={{ textDecoration: 'none', color: 'white', fontSize: '1.5rem', fontWeight: 'medium', background: 'none', border: 'none', cursor: 'pointer' }}>
                             Login
                         </Link>
                     </Box>
-                    <Hidden mdUp>
-                        <IconButton edge="start" color="inherit" aria-label="menú" onClick={toggleDrawer(true)}>
-                            <MenuIcon />
-                        </IconButton>
-                    </Hidden>
+                    <IconButton edge="start" color="inherit" aria-label="menú" onClick={toggleDrawer(true)} sx={{ display: { md: 'none' } }}>
+                        <MenuIcon />
+                    </IconButton>
                 </Toolbar>
             </AppBar>
 
@@ -131,26 +212,50 @@ const HeaderPublic = () => {
             </Drawer>
 
             <Modal open={openLogin} onClose={handleCloseLogin} aria-labelledby="modal-title" aria-describedby="modal-description">
-                <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: { xs: '90%', sm: 400 },
-                    bgcolor: 'background.paper', boxShadow: 24, p: 4, borderRadius: '30px',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <Box sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: { xs: '90%', sm: '80%', md: '60%', lg: '40%' },
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    p: { xs: 2, sm: 3, md: 4 },
+                    borderRadius: '30px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                }}>
                     <IconButton onClick={handleCloseLogin} sx={{ position: 'absolute', top: 10, right: 10 }}>
                         <CloseIcon />
                     </IconButton>
-                    <Button onClick={handleCloseLogin} variant="outlined"
-                        sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
-                        <FacebookIcon sx={{ mr: 1, color: '#3b5998' }} />
-                        Continuar con Facebook
-                    </Button>
-                    <Button onClick={handleCloseLogin} variant="outlined"
-                        sx={{ mt: 2, bgcolor: 'transparent', color: '#333333', borderColor: '#ccc', width: '100%', borderRadius: 30, textTransform: 'capitalize' }}>
-                        <FacebookIcon sx={{ mr: 1, color: '#db4437' }} />
-                        Continuar con Google
-                    </Button>
-
+                    <Typography sx={{fontSize: 30, color:"#263339", fontWeight: "semibold"}}>
+                        Inicio de sesión
+                    </Typography>
                     <Divider sx={{ width: '100%', my: 2 }} />
-                    <TextField label="Correo" variant="outlined" required fullWidth margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />
-                    <TextField label="Contraseña" type="password" variant="outlined" required fullWidth margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
+                    <TextField
+                        label="Correo"
+                        variant="outlined"
+                        required
+                        fullWidth
+                        margin="normal"
+                        value={email}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                        error={!!emailError}
+                        helperText={emailError}
+                    />
+                    <TextField
+                        label="Contraseña"
+                        type="password"
+                        variant="outlined"
+                        required
+                        fullWidth
+                        margin="normal"
+                        value={password}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                        error={!!passwordError} 
+                        helperText={passwordError} 
+/>
                     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
                         Al menos 8 caracteres*
                     </Typography>

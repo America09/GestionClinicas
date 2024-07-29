@@ -1,16 +1,23 @@
-import { useState } from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import InputBase from '@mui/material/InputBase';
+import React, { useState, useEffect } from 'react';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  Menu,
+  MenuItem,
+  Box,
+  Badge,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useNavigate } from 'react-router-dom';
+import { styled, alpha } from '@mui/material/styles';
+import { fetchContactRecords } from '../../Services/Contact';
+import { ContactRecibido } from '../../types/Contact';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -20,11 +27,8 @@ const Search = styled('div')(({ theme }) => ({
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(1),
-    width: 'auto',
-  },
+  marginRight: theme.spacing(2),
+  width: 'auto',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -35,102 +39,128 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: theme.palette.text.secondary,
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: theme.palette.text.secondary,
-  width: '100%',
+  color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
-    [theme.breakpoints.up('sm')]: {
-      width: '12ch',
-      '&:focus': {
-        width: '20ch',
-      },
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
     },
   },
 }));
 
-const CustomToolbar = styled(Toolbar)({
-  height: '60px',
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-});
+interface HeaderAuthProps {
+  handleDrawerToggle: () => void;
+}
 
-export const HeaderAuth = () => {
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+const HeaderAuth: React.FC<HeaderAuthProps> = ({ handleDrawerToggle }) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [notificationAnchorEl, setNotificationAnchorEl] = useState<null | HTMLElement>(null);
+  const [notifications, setNotifications] = useState<ContactRecibido[]>([]);
   const navigate = useNavigate();
 
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget);
+  useEffect(() => {
+    const loadNotifications = async () => {
+      try {
+        const data = await fetchContactRecords();
+        setNotifications(data);
+      } catch (error) {
+        console.error('Error al cargar las notificaciones', error);
+      }
+    };
+
+    loadNotifications();
+  }, []);
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+  const handleNotificationMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setNotificationAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setNotificationAnchorEl(null);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userToken');
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     navigate('/');
+    handleClose();
   };
 
-  const settings = ['Cerrar sesión'];
+  const handleNotificationClick = () => {
+    navigate('/contact-messages');
+    handleClose();
+  };
+
+  const isMenuOpen = Boolean(anchorEl);
+  const isNotificationMenuOpen = Boolean(notificationAnchorEl);
 
   return (
-    <Box sx={{ flexGrow: 0}}>
-      <AppBar sx={{ backgroundColor: '#263339' }}>
-        <CustomToolbar>
+    <>
+      <AppBar position="fixed" sx={{ backgroundColor: '#263339' }}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerToggle}
+            sx={{ mr: 2, display: { md: 'none' } }}
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            Logo
+            App Name
           </Typography>
-          <Search
-            sx={{
-              top: 0,
-              width: { xs: '40%', sm: 'auto' },
-              marginLeft: { xs: 'auto', sm: 0 },
-              marginRight: { xs: 'auto', sm: 'auto' },
-            }}
-          >
+          <Box sx={{ flexGrow: 1 }} />
+          <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Buscar..."
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <StyledInputBase placeholder="Buscar…" inputProps={{ 'aria-label': 'search' }} />
           </Search>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenUserMenu}
-              color="inherit"
-            >
-              <Avatar
-                alt="User Avatar"
-                src="/static/images/avatar/2.jpg"
-                aria-label="user avatar"
-                sx={{ cursor: 'pointer', ml: 1 }}
-              />
-            </IconButton>
-            <Typography variant="body1" sx={{ ml: 1, display: { xs: 'none', sm: 'block' } }}>@Admin</Typography>
-          </Box>
+          <IconButton
+            size="large"
+            aria-label="show notifications"
+            aria-controls={isNotificationMenuOpen ? 'primary-notification-menu' : undefined}
+            aria-haspopup="true"
+            onClick={handleNotificationMenu}
+            color="inherit"
+          >
+            <Badge badgeContent={notifications.filter((notification) => !notification.read).length} color="error">
+              <NotificationsIcon sx={{ fontSize: 30 }} />
+            </Badge>
+          </IconButton>
+          <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls={isMenuOpen ? 'primary-search-account-menu' : undefined}
+            aria-haspopup="true"
+            onClick={handleMenu}
+            color="inherit"
+            sx={{ ml: 2 }}
+          >
+            <AccountCircle sx={{ fontSize: 30 }} />
+          </IconButton>
           <Menu
-            id="menu-appbar"
-            anchorEl={anchorElUser}
+            anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: 'top',
+              vertical: 'bottom',
               horizontal: 'right',
             }}
             keepMounted
@@ -138,25 +168,41 @@ export const HeaderAuth = () => {
               vertical: 'top',
               horizontal: 'right',
             }}
-            open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}
+            open={isMenuOpen}
+            onClose={handleClose}
           >
-            {settings.map((setting) => (
+            <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
+          </Menu>
+          <Menu
+            anchorEl={notificationAnchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={isNotificationMenuOpen}
+            onClose={handleClose}
+          >
+            {notifications.length === 0 && <MenuItem>No hay notificaciones</MenuItem>}
+            {notifications.map((notification) => (
               <MenuItem
-                key={setting}
-                onClick={() => {
-                  handleCloseUserMenu();
-                  if (setting === 'Cerrar sesión') {
-                    handleLogout();
-                  }
-                }}
+                key={notification.id}
+                onClick={handleNotificationClick}
+                sx={{ backgroundColor: notification.read ? 'inherit' : '#f5f5f5' }}
               >
-                <Typography textAlign="center">{setting}</Typography>
+                <strong>Mensaje</strong> {notification.read ? '' : 'nuevo'}
               </MenuItem>
             ))}
           </Menu>
-        </CustomToolbar>
+        </Toolbar>
       </AppBar>
-    </Box>
+      <Box sx={{ mt: '64px' }} />
+    </>
   );
 };
+
+export default HeaderAuth;
