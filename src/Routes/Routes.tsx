@@ -33,12 +33,11 @@ import { AddPacientes } from '../Pages/Public/Katherine/AddPacientesPage';
 import { HistorialClinicoPage } from '../Pages/Public/Katherine/HistorialPage';
 import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
 import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
-import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
+import { AGHorario } from '../Pages/Public/Jorge/AGHorario';
 /* import EspecialidadPage from '../Components/Public/Jorge/EspecialidadPage';
 import CreateEspecialidad from '../Components/Public/Jorge/CreateEspecialidadPage'; */
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
-import { AGHorario } from '../Pages/Public/Jorge/AGHorario';
-import { AGEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
+
 import ContactMessage from '../Components/ContactMessage';
 
 const AppRouter = () => {
@@ -80,18 +79,15 @@ const AppRouter = () => {
                         <Route path="/agregar-horarios" element={<AGHorario/>} />
                         <Route path="/admin-especialidad" element={<CrudEspecialidad/>} />
                         <Route path="/admin-edithoario" element={<EditHorario/>} />
-                        <Route path="/agregar-especialidad" element={<AGEspecialidad/>} />
                         {/* Rutas Katherine */}
                         <Route path="/admin-Listpacientes" element={<PacientesList/>} />
                         <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
                         <Route path="/admin-Historial1" element={<HistorialClinicoPage/>} />
                         {/* Rutas Ame */}
                         <Route path="/admin-citas" element={<CrudCitas/>} />
-                        <Route path="/admin-createhorarios" element={<AddHorario/>} />
+                        <Route path="/admin-createhorarios" element={<AGHorario/>} />
                         <Route path="/admin-especialidades" element={<CrudEspecialidad/>} />
                         <Route path="/admin-createespecialidad" element={<AddEspecialidad/>} />
-                        {/* <Route path="/admin-especialidades" element={<EspecialidadPage />} />
-                <Route path="/admin-createEspecialidad" element={<CreateEspecialidad />} /> */}
                         <Route path="/contact-messages" element={<ContactMessage />} />
                     </Route>
                 </Route>
