@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   TextField, Button, Box, Typography, Breadcrumbs, Link, Grid, Paper, useMediaQuery, useTheme
 } from '@mui/material';
@@ -20,6 +20,8 @@ const CreateEspecialidad: React.FC = () => {
   });
 
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
+
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -84,7 +86,7 @@ const CreateEspecialidad: React.FC = () => {
         alignItems: 'center',
         flexDirection: 'column',
         mt: 10,
-        px: 2, 
+        px: 2,
       }}
     >
       <Paper
@@ -103,7 +105,7 @@ const CreateEspecialidad: React.FC = () => {
               <HomeIcon sx={{ mr: 0.5 }} />
               Inicio
             </Link>
-            <Link color="inherit" component={RouterLink} to="/admin-especialidad">
+            <Link color="inherit" component={RouterLink} to="/admin-especialidades">
               Especialidades
             </Link>
             <Typography color="textPrimary">Añadir Especialidad</Typography>
@@ -154,4 +156,4 @@ const CreateEspecialidad: React.FC = () => {
   );
 };
 
-export default AgregarEspecialidades;
+export default CreateEspecialidad;
