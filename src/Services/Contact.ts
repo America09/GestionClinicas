@@ -1,6 +1,6 @@
 import axios from 'axios'; 
 import clientAxios from '../Config/Axios'; 
-import { ContactRecibido } from '../types/Contact'; 
+import { ContactRecibido } from '../types/Contact';
 export const ContactMen = async (name: string, email: string, message: string) => {
   try {
     const response = await clientAxios.post('/contact', {
