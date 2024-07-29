@@ -15,10 +15,10 @@ export const Boton = () => {
     backgroundColor: '#408D86',
     color: 'white',
     '&:hover': { backgroundColor: '#004d50' },
-    padding: '4px 8px', // Ajusta el padding para reducir el tamaño del botón
-    minWidth: '80px', // Ancho mínimo del botón
-    fontSize: '0.875rem', // Tamaño de fuente más pequeño
-    height: '36px', // Altura más pequeña del botón
+    padding: '4px 8px', 
+    minWidth: '80px', 
+    fontSize: '0.875rem', 
+    height: '36px', 
   }}
 >
   Enviar

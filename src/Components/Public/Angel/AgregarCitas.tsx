@@ -64,9 +64,9 @@ const AgregarCita: React.FC = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulación de retraso
+        await new Promise((resolve) => setTimeout(resolve, 1000)); 
 
-        // Reinicia el formulario
+      
         setFormData({
           paciente: '',
           medico: '',
