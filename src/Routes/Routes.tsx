@@ -34,10 +34,7 @@ import { HistorialClinicoPage } from '../Pages/Public/Katherine/HistorialPage';
 import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
 import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
 import { AGHorario } from '../Pages/Public/Jorge/AGHorario';
-/* import EspecialidadPage from '../Components/Public/Jorge/EspecialidadPage';
-import CreateEspecialidad from '../Components/Public/Jorge/CreateEspecialidadPage'; */
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
-
 import ContactMessage from '../Components/ContactMessage';
 import Unauthorized from '../Components/Unauthorized ';
 import ProtectedRoute from './ProtectedRoute';
@@ -59,16 +56,94 @@ const AppRouter = () => {
                     <Route path="/confirma" element={<Confirma />} />
                     <Route path="/form" element={<ConfirmarCOntraseña />} />
                 </Route>
-
                 <Route element={<ProtectedRoute requiredPermissions={['/dashboard']} />}>
                     <Route element={<AuthLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                     </Route>
                 </Route>
-
+                <Route element={<ProtectedRoute requiredPermissions={['/editar-citas']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/editar-citas" element={<EditarCitas />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/lista-de-pacientes']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/lista-de-pacientes" element={<PacientesList />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-horario']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-horario" element={<AGHorario />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/mensajes-contacto']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/mensajes-contacto" element={<ContactMessage />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/editar-horario']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/editar-horario" element={<EditHorario />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-pacientes']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-pacientes" element={<AddPacientes/>} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-especialidad']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-especialidad" element={<AddEspecialidad />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/historial-clinico']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/historial-clinico" element={<HistorialClinicoPage />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/crud-especialidad']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/crud-especialidad" element={<CrudEspecialidad />} />
+                    </Route>
+                </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/admin-consultorios']} />}>
                     <Route element={<AuthLayout />}>
                         <Route path="/admin-consultorios" element={<CrudConsultorio />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/crud-horario']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/crud-horario" element={<CrudHorario />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-medicos']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-medicos" element={<AGMedicos />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-roles']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-roles" element={<AGRoles />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-citas']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-citas" element={<AGCitas />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/crud-roles']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/crud-roles" element={<CrudRoles />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/asignar-permisos']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/asignar-permisos" element={<AsignarPermisos />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/editar-medicos']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/editar-medico" element={<EdiMed />} />
                     </Route>
                 </Route>
 
