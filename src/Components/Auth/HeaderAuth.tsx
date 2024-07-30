@@ -127,12 +127,6 @@ const HeaderAuth: React.FC<HeaderAuthProps> = ({ handleDrawerToggle }) => {
             App Name
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase placeholder="Buscar…" inputProps={{ 'aria-label': 'search' }} />
-          </Search>
           <IconButton
             size="large"
             aria-label="show notifications"

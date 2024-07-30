@@ -165,7 +165,7 @@ export const ListPacientes = () => {
               variant="contained"
               sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }
               }}
-              onClick={() => navigate("/admin-Addpacientes")}
+              onClick={() => navigate("/agregar-pacientes")}
             >
               + Añadir Paciente
             </Button>

@@ -66,29 +66,29 @@ const AppRouter = () => {
                         <Route path="/editar-citas" element={<EditarCitas />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/lista-de-pacientes']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-Listpacientes']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/lista-de-pacientes" element={<PacientesList />} />
+                        <Route path="/admin-Listpacientes" element={<PacientesList />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/agregar-horario']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-horarios']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/agregar-horario" element={<AGHorario />} />
+                        <Route path="/agregar-horarios" element={<AGHorario />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/mensajes-contacto']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/contact-messages']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/mensajes-contacto" element={<ContactMessage />} />
+                        <Route path="/contact-messages" element={<ContactMessage />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/editar-horario']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-edithoario']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/editar-horario" element={<EditHorario />} />
+                        <Route path="/admin-edithoario" element={<EditHorario />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/agregar-pacientes']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-Addpacientes']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/agregar-pacientes" element={<AddPacientes/>} />
+                        <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/agregar-especialidad']} />}>
@@ -96,14 +96,14 @@ const AppRouter = () => {
                         <Route path="/agregar-especialidad" element={<AddEspecialidad />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/historial-clinico']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-Historial1']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/historial-clinico" element={<HistorialClinicoPage />} />
+                        <Route path="/admin-Historial1" element={<HistorialClinicoPage />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/crud-especialidad']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-especialidad']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/crud-especialidad" element={<CrudEspecialidad />} />
+                        <Route path="/admin-especialidad" element={<CrudEspecialidad />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/admin-consultorios']} />}>
@@ -111,9 +111,9 @@ const AppRouter = () => {
                         <Route path="/admin-consultorios" element={<CrudConsultorio />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/crud-horario']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-horarios']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/crud-horario" element={<CrudHorario />} />
+                        <Route path="/admin-horarios" element={<CrudHorario />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/agregar-medicos']} />}>
@@ -131,14 +131,14 @@ const AppRouter = () => {
                         <Route path="/agregar-citas" element={<AGCitas />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/crud-roles']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-roles']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/crud-roles" element={<CrudRoles />} />
+                        <Route path="/admin-roles" element={<CrudRoles />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/asignar-permisos']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-rolespermisos']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/asignar-permisos" element={<AsignarPermisos />} />
+                        <Route path="/admin-rolespermisos" element={<AsignarPermisos />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/editar-medicos']} />}>
@@ -173,7 +173,9 @@ const AppRouter = () => {
 
                 
                 <Route path="*" element={<Error404 />} />
-                <Route path="/unauthorized" element={<Unauthorized />} />
+                <Route element={<AuthLayout />}>
+                    <Route path="/unauthorized" element={<Unauthorized />} /> 
+                </Route>
             </Routes>
         </BrowserRouter>
     );
