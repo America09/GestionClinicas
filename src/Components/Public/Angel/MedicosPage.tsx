@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper, Switch, FormControlLabel, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -9,8 +9,10 @@ import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { handleDeleteMedic, handleGetMedics, handleUpdateMedic } from '../../../Handlers/MedicHandler';
 import { getConsultorios } from '../../../Handlers/ConsultorioHandler';
+import { handleGetHorarios } from '../../../Handlers/HorarioHandler';
 import { Medic } from '../../../Types/Medics';
 import { Consultorio } from '../../../Types/Consultorio';
+import { Horario } from '../../../Types/Horario';
 
 const MedicsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -18,10 +20,12 @@ const MedicsPage: React.FC = () => {
     const [openEdit, setOpenEdit] = React.useState(false);
     const [selectedMedic, setSelectedMedic] = React.useState<Medic | null>(null);
     const [consultorios, setConsultorios] = React.useState<Consultorio[]>([]);
+    const [horarios, setHorarios] = React.useState<Horario[]>([]);
 
     React.useEffect(() => {
         fetchMedics();
         fetchConsultorios();
+        fetchHorarios();
     }, []);
 
     const fetchMedics = async () => {
@@ -39,6 +43,15 @@ const MedicsPage: React.FC = () => {
             setConsultorios(fetchedConsultorios);
         } catch (error) {
             console.error('Error al obtener los consultorios:', error);
+        }
+    };
+
+    const fetchHorarios = async () => {
+        try {
+            const fetchedHorarios = await handleGetHorarios();
+            setHorarios(fetchedHorarios);
+        } catch (error) {
+            console.error('Error al obtener los horarios:', error);
         }
     };
 
@@ -98,7 +111,6 @@ const MedicsPage: React.FC = () => {
         { field: 'userId', headerName: 'Medico', flex: 1, minWidth: 90, renderCell: (params) => (params.row.userName) },
         { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 150, renderCell: (params) => (params.row.consultorioName) },
         { field: 'horarioId', headerName: 'Horario', flex: 1, minWidth: 130, renderCell: (params) => (params.row.horarioName) },
-        { field: 'availability', headerName: 'Disponibilidad', flex: 1, minWidth: 110, renderCell: (params) => (params.value ? 'Disponible' : 'No Disponible') },
         { field: 'professionalId', headerName: 'ID Profesional', flex: 1, minWidth: 110 },
         { field: 'school', headerName: 'Escuela', flex: 1, minWidth: 90 },
         { field: 'yearExperience', headerName: 'Años Exp.', flex: 1, minWidth: 90 },
@@ -232,14 +244,21 @@ const MedicsPage: React.FC = () => {
                         value={selectedMedic?.userId || ''}
                         onChange={(e) => setSelectedMedic({ ...selectedMedic, userId: Number(e.target.value) })}
                     />
-                    <TextField
-                        margin="dense"
-                        label="Horario"
-                        type="number"
-                        fullWidth
-                        value={selectedMedic?.horarioId || ''}
-                        onChange={(e) => setSelectedMedic({ ...selectedMedic, horarioId: Number(e.target.value) })}
-                    />
+                    <FormControl fullWidth margin="dense">
+                        <InputLabel id="horario-label">Horario</InputLabel>
+                        <Select
+                            labelId="horario-label"
+                            value={selectedMedic?.horarioId || ''}
+                            onChange={(e) => setSelectedMedic({ ...selectedMedic, horarioId: Number(e.target.value) })}
+                            label="Horario"
+                        >
+                            {horarios.map((horario) => (
+                                <MenuItem key={horario.id} value={horario.id}>
+                                    {horario.name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
                     <FormControl fullWidth margin="dense">
                         <InputLabel id="consultorio-label">Consultorio</InputLabel>
                         <Select
@@ -255,16 +274,6 @@ const MedicsPage: React.FC = () => {
                             ))}
                         </Select>
                     </FormControl>
-                    <FormControlLabel
-                        control={
-                            <Switch
-                                checked={selectedMedic?.availability || false}
-                                onChange={(e) => setSelectedMedic({ ...selectedMedic, availability: e.target.checked })}
-                                name="availability"
-                            />
-                        }
-                        label="Disponibilidad"
-                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseEdit}>Cancelar</Button>

@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, FormControlLabel, Switch, MenuItem, Select, InputLabel, FormControl, Grid } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, MenuItem, Select, InputLabel, FormControl, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { handleCreateMedic } from '../../../Handlers/MedicHandler';
 import Swal from 'sweetalert2';
 import { Consultorio } from '../../../Types/Consultorio'; 
-import { getConsultorios } from '../../../Handlers/ConsultorioHandler'; // Asegúrate de importar esta función correctamente
+import { getConsultorios } from '../../../Handlers/ConsultorioHandler'; 
+import { handleGetHorarios } from '../../../Handlers/HorarioHandler';
 
 const AgregarMedico: React.FC = () => {
     const navigate = useNavigate();
@@ -12,11 +13,11 @@ const AgregarMedico: React.FC = () => {
     const [school, setSchool] = React.useState<string>('');
     const [yearExperience, setYearExperience] = React.useState<number>(0);
     const [dateGraduate, setDateGraduate] = React.useState<string>('');
-    const [availability, setAvailability] = React.useState<boolean>(true);
     const [userId, setUserId] = React.useState<number>(0);
     const [horarioId, setHorarioId] = React.useState<number>(0);
     const [consultorioId, setConsultorioId] = React.useState<number>(0);
     const [consultorios, setConsultorios] = React.useState<Consultorio[]>([]);
+    const [horarios, setHorarios] = React.useState<{ id: number; name: string }[]>([]);
 
     React.useEffect(() => {
         const fetchConsultorios = async () => {
@@ -28,7 +29,17 @@ const AgregarMedico: React.FC = () => {
             }
         };
 
+        const fetchHorarios = async () => {
+            try {
+                const fetchedHorarios = await handleGetHorarios();
+                setHorarios(fetchedHorarios);
+            } catch (error) {
+                console.error('Error al obtener los horarios:', error);
+            }
+        };
+
         fetchConsultorios();
+        fetchHorarios();
     }, []);
 
     const handleSave = async () => {
@@ -47,7 +58,6 @@ const AgregarMedico: React.FC = () => {
                 year,
                 month,
                 day,
-                availability,
                 userId,
                 horarioId,
                 consultorioId
@@ -134,14 +144,20 @@ const AgregarMedico: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    margin="dense"
-                                    label="Horario"
-                                    type="number"
-                                    fullWidth
-                                    value={horarioId}
-                                    onChange={(e) => setHorarioId(Number(e.target.value))}
-                                />
+                                <FormControl fullWidth margin="dense">
+                                    <InputLabel>Horario</InputLabel>
+                                    <Select
+                                        value={horarioId}
+                                        onChange={(e) => setHorarioId(Number(e.target.value))}
+                                        label="Horario"
+                                    >
+                                        {horarios.map((horario) => (
+                                            <MenuItem key={horario.id} value={horario.id}>
+                                                {horario.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth margin="dense">
@@ -158,18 +174,6 @@ const AgregarMedico: React.FC = () => {
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={availability}
-                                            onChange={(e) => setAvailability(e.target.checked)}
-                                            name="availability"
-                                        />
-                                    }
-                                    label="Disponibilidad"
-                                />
                             </Grid>
                         </Grid>
 
