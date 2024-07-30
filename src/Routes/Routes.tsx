@@ -33,7 +33,7 @@ import { AddPacientes } from '../Pages/Public/Katherine/AddPacientesPage';
 import { HistorialClinicoPage } from '../Pages/Public/Katherine/HistorialPage';
 import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
 import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
-import { AGHorario } from '../Pages/Public/Jorge/AGHorario';
+import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
 import ContactMessage from '../Components/ContactMessage';
 import Unauthorized from '../Components/Unauthorized ';
@@ -71,9 +71,9 @@ const AppRouter = () => {
                         <Route path="/admin-Listpacientes" element={<PacientesList />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/agregar-horarios']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-createhorarios']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/agregar-horarios" element={<AGHorario />} />
+                        <Route path="/admin-createhorarios" element={<AddHorario />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/contact-messages']} />}>
