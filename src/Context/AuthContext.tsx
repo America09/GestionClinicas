@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { AuthState, AuthContextType } from '../Types/Auth';
-
+import { jwtDecode } from 'jwt-decode';
 const initialAuthState: AuthState = {
     token: null,
     isAuthenticated: false,
+    permissions: [],
 };
 
 export const AuthContext = createContext<AuthContextType>({
@@ -15,11 +16,23 @@ export const AuthContext = createContext<AuthContextType>({
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [authState, setAuthState] = useState<AuthState>(initialAuthState);
 
+    useEffect(() => {
+        if (authState.token) {
+            const decodedToken: any = jwtDecode(authState.token);
+            setAuthState((prevState) => ({
+                ...prevState,
+                permissions: decodedToken.permissions ? decodedToken.permissions.split(',') : [],
+            }));
+        }
+    }, [authState.token]);
+
     const login = (token: string) => {
         localStorage.setItem('token', token);
+        const decodedToken: any = jwtDecode(token);
         setAuthState({
             token,
             isAuthenticated: true,
+            permissions: decodedToken.permissions ? decodedToken.permissions.split(',') : [],
         });
     };
 

@@ -4,6 +4,7 @@
 export interface AuthState {
     token: string | null;
     isAuthenticated: boolean;
+    permissions: string[];
 }
 
 export interface AuthContextType {
