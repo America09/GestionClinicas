@@ -182,8 +182,6 @@ const ConsultoriosPage: React.FC = () => {
                     </Box>
                 </Box>
             </Paper>
-
-            {/* Modal para editar consultorio */}
             <Dialog open={openEdit} onClose={handleCloseEdit}>
                 <DialogTitle>Editar Consultorio</DialogTitle>
                 <DialogContent>
