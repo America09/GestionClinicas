@@ -9,15 +9,15 @@ import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const rows = [
-  { id: 1, Nombre: 'Samantha', Apellido: 'Magaña', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
-  { id: 2, Nombre: 'Anny', Apellido: 'Lopez', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
-  { id: 3, Nombre: 'Sofía', Apellido: 'Ramos', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
-  { id: 4, Nombre: 'Carlos', Apellido: 'Jimenez', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
-  { id: 5, Nombre: 'Esmeralda', Apellido: 'Florio', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
-  { id: 6, Nombre: 'Gerardo', Apellido: 'Tun', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
-  { id: 7, Nombre: 'Hector', Apellido: 'Gonzales', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
-  { id: 8, Nombre: 'Ivan', Apellido: 'Basurto', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
-  { id: 9, Nombre: 'Javier', Apellido: 'Escobedo', Correo: 'usuario123@gmail.com', Teléfono:'9988971232' },
+  { id: 1, Nombre: 'Samantha', Apellido: 'Magaña', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
+  { id: 2, Nombre: 'Anny', Apellido: 'Lopez', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
+  { id: 3, Nombre: 'Sofía', Apellido: 'Ramos', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
+  { id: 4, Nombre: 'Carlos', Apellido: 'Jimenez', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
+  { id: 5, Nombre: 'Esmeralda', Apellido: 'Florio', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
+  { id: 6, Nombre: 'Gerardo', Apellido: 'Tun', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
+  { id: 7, Nombre: 'Hector', Apellido: 'Gonzales', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
+  { id: 8, Nombre: 'Ivan', Apellido: 'Basurto', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
+  { id: 9, Nombre: 'Javier', Apellido: 'Escobedo', Correo: 'usuario123@gmail.com', Teléfono: '9988971232' },
 ];
 
 export const ListPacientes = () => {
@@ -160,11 +160,8 @@ export const ListPacientes = () => {
 
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Button
-              type="submit"
-              fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }
-              }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
               onClick={() => navigate("/admin-Addpacientes")}
             >
               + Añadir Paciente
@@ -174,4 +171,4 @@ export const ListPacientes = () => {
       </Paper>
     </Box>
   );
-}
+};
