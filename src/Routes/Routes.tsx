@@ -35,6 +35,7 @@ import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
 import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
 import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
+import { PermisosPage } from '../Pages/Public/Angel/PermisosPage';
 import ContactMessage from '../Components/ContactMessage';
 import Unauthorized from '../Components/Unauthorized ';
 import ProtectedRoute from './ProtectedRoute';
@@ -138,7 +139,7 @@ const AppRouter = () => {
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/admin-rolespermisos']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/admin-rolespermisos" element={<AsignarPermisos />} />
+                        <Route path="/admin-rolespermisos" element={<PermisosPage />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/editar-medicos']} />}>

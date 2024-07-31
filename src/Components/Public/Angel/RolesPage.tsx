@@ -1,18 +1,36 @@
 import * as React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box, Breadcrumbs, Link } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+  Button,
+  Box,
+  Breadcrumbs,
+  Link,
+  Modal,
+  TextField,
+} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { fetchRoles } from '../../../Handlers/RolHandler';
+import { fetchRoles, deleteRole, updateRole } from '../../../Handlers/RolHandler';
 import { Role } from '../../../Types/Roles';
 
 const RolesPage: React.FC = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = React.useState<Role[]>([]);
   const [loading, setLoading] = React.useState<boolean>(true);
+  const [openEditModal, setOpenEditModal] = React.useState<boolean>(false);
+  const [selectedRole, setSelectedRole] = React.useState<Role | null>(null);
+  const [formData, setFormData] = React.useState<{ nombreRol: string }>({ nombreRol: '' });
 
   React.useEffect(() => {
     const fetchRolesData = async () => {
@@ -29,18 +47,10 @@ const RolesPage: React.FC = () => {
     fetchRolesData();
   }, []);
 
-  const handleEdit = (id: number) => {
-    Swal.fire({
-      title: "¿Estás seguro de que deseas editar este rol?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: 'Sí, editar',
-      cancelButtonText: 'No, cancelar',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        Swal.fire("Editado", "El rol ha sido editado correctamente.", "success");
-      }
-    });
+  const handleEdit = (role: Role) => {
+    setSelectedRole(role);
+    setFormData({ nombreRol: role.name });
+    setOpenEditModal(true);
   };
 
   const handleDelete = (id: number) => {
@@ -52,9 +62,29 @@ const RolesPage: React.FC = () => {
       cancelButtonText: 'No, cancelar',
     }).then(async (result) => {
       if (result.isConfirmed) {
-        Swal.fire("Eliminado", "El rol ha sido eliminado correctamente.", "success");
+        try {
+          await deleteRole(id);
+          setRoles(roles.filter((role) => role.id !== id));
+          Swal.fire("Eliminado", "El rol ha sido eliminado correctamente.", "success");
+        } catch (error) {
+          Swal.fire("Error", "Hubo un problema al eliminar el rol.", "error");
+        }
       }
     });
+  };
+
+  const handleEditSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedRole) {
+      try {
+        await updateRole(selectedRole.id, { ...selectedRole, name: formData.nombreRol });
+        setRoles(roles.map((role) => (role.id === selectedRole.id ? { ...role, name: formData.nombreRol } : role)));
+        Swal.fire("Editado", "El rol ha sido editado correctamente.", "success");
+        setOpenEditModal(false);
+      } catch (error) {
+        Swal.fire("Error", "Hubo un problema al editar el rol.", "error");
+      }
+    }
   };
 
   if (loading) {
@@ -106,7 +136,7 @@ const RolesPage: React.FC = () => {
                   <TableCell>{role.name}</TableCell>
                   <TableCell>{role.userNames.join(', ')}</TableCell>
                   <TableCell>
-                    <Button onClick={() => handleEdit(role.id)}><EditIcon /></Button>
+                    <Button onClick={() => handleEdit(role)}><EditIcon /></Button>
                     <Button onClick={() => handleDelete(role.id)}><DeleteIcon /></Button>
                   </TableCell>
                 </TableRow>
@@ -146,6 +176,45 @@ const RolesPage: React.FC = () => {
           </Button>
         </Box>
       </Paper>
+
+      <Modal
+        open={openEditModal}
+        onClose={() => setOpenEditModal(false)}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <Box
+          component="form"
+          onSubmit={handleEditSubmit}
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            boxShadow: 24,
+            p: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+          }}
+        >
+          <Typography id="modal-title" variant="h6" component="h2">
+            Editar Rol
+          </Typography>
+          <TextField
+            label="Nombre del Rol"
+            name="nombreRol"
+            value={formData.nombreRol}
+            onChange={(e) => setFormData({ ...formData, nombreRol: e.target.value })}
+            required
+          />
+          <Button type="submit" variant="contained" color="primary">
+            Guardar
+          </Button>
+        </Box>
+      </Modal>
     </Box>
   );
 };

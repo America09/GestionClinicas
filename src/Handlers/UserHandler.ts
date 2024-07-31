@@ -1,7 +1,7 @@
 import { getUserProfile } from '../Services/UserService';
 import { User } from '../Types/Api';
 
-export const fetchUserProfile = async (): Promise<User> => {
+export const fetchUsers = async (): Promise<User> => {
     try {
         const userProfile = await getUserProfile();
         return userProfile;

@@ -4,3 +4,8 @@ export interface Role {
     userNames: string[];
     permissions: string[];
 }
+
+export interface Permission {
+    id: number;
+    name: string;
+}

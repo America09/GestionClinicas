@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Grid,
   Button,
@@ -24,15 +24,31 @@ import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Swal from 'sweetalert2';
+import { fetchRoles, addRole } from '../../../Handlers/RolHandler';
+import { Role } from '../../../Types/Roles';
 
 const AsignarPermisos: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<{ rol: string; permiso: string }>({
     rol: '',
     permiso: '',
   });
 
+  const [roles, setRoles] = useState<Role[]>([]);
   const [formErrors, setFormErrors] = useState<any>({});
   const [permisosAsignados, setPermisosAsignados] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const rolesData = await fetchRoles();
+        setRoles(rolesData);
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+      }
+    };
+
+    fetchInitialData();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     const { name, value } = e.target;
@@ -65,9 +81,13 @@ const AsignarPermisos: React.FC = () => {
 
     if (Object.keys(errors).length === 0) {
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const roleId = roles.find((role) => role.name === formData.rol)?.id;
+        if (roleId) {
+          await Promise.all(
+            permisosAsignados.map((permiso) => addRole(permiso))
+          );
+        }
 
-        // Reseteo del formulario y permisos asignados
         setFormData({
           rol: '',
           permiso: '',
@@ -143,9 +163,11 @@ const AsignarPermisos: React.FC = () => {
                     value={formData.rol}
                     onChange={handleChange}
                   >
-                    <MenuItem value="Administrador">Administrador</MenuItem>
-                    <MenuItem value="Medico">Medico</MenuItem>
-                    <MenuItem value="Paciente">Paciente</MenuItem>
+                    {roles.map((role) => (
+                      <MenuItem key={role.id} value={role.name}>
+                        {role.name}
+                      </MenuItem>
+                    ))}
                   </Select>
                   {formErrors.rol && (
                     <Typography variant="body2" color="error">{formErrors.rol}</Typography>
