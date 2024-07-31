@@ -18,9 +18,9 @@ import {
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { addRole } from '../../../Handlers/RolHandler';
-import { fetchUsers } from '../../../Handlers/UserHandler';
+import { addRole, fetchRoles } from '../../../Handlers/RolHandler';
 import { User } from '../../../Types/User';
+import { Role } from '../../../Types/Role';
 
 const AgregarRol: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -29,20 +29,20 @@ const AgregarRol: React.FC = () => {
   });
 
   const [formErrors, setFormErrors] = useState<any>({});
-  const [usuarios, setUsuarios] = useState<User[]>([]);
+  const [roles, setRoles] = useState<Role[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUsuarios = async () => {
+    const fetchRolesData = async () => {
       try {
-        const usuariosData = await fetchUsers();
-        setUsuarios(usuariosData);
+        const rolesData = await fetchRoles();
+        setRoles(rolesData);
       } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching roles:', error);
       }
     };
 
-    fetchUsuarios();
+    fetchRolesData();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
@@ -133,35 +133,35 @@ const AgregarRol: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                label="Nombre del Rol"
-                name="nombreRol"
-                value={formData.nombreRol}
-                onChange={handleChange}
-                error={!!formErrors.nombreRol}
-                helperText={formErrors.nombreRol}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControl fullWidth required error={!!formErrors.usuarioId}>
-                <InputLabel>Usuario</InputLabel>
+              <FormControl fullWidth required error={!!formErrors.nombreRol}>
+                <InputLabel>Rol</InputLabel>
                 <Select
-                  name="usuarioId"
-                  value={formData.usuarioId}
+                  name="nombreRol"
+                  value={formData.nombreRol}
                   onChange={handleChange}
                 >
-                  {usuarios.map((usuario) => (
-                    <MenuItem key={usuario.id} value={usuario.id}>
-                      {usuario.name}
+                  {roles.map((rol) => (
+                    <MenuItem key={rol.id} value={rol.name}>
+                      {rol.name}
                     </MenuItem>
                   ))}
                 </Select>
-                {formErrors.usuarioId && (
-                  <Typography variant="body2" color="error">{formErrors.usuarioId}</Typography>
+                {formErrors.nombreRol && (
+                  <Typography variant="body2" color="error">{formErrors.nombreRol}</Typography>
                 )}
               </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                required
+                label="Usuario"
+                name="usuarioId"
+                value={formData.usuarioId}
+                onChange={handleChange}
+                error={!!formErrors.usuarioId}
+                helperText={formErrors.usuarioId}
+              />
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
