@@ -12,38 +12,19 @@ import {
   TextField,
   FormControl,
   InputLabel,
-  Select,
-  MenuItem,
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { addRole, fetchRoles } from '../../../Handlers/RolHandler';
-import { User } from '../../../Types/User';
-import { Role } from '../../../Types/Role';
+import { addRole } from '../../../Handlers/RolHandler';
 
 const AgregarRol: React.FC = () => {
   const [formData, setFormData] = useState({
     nombreRol: '',
-    usuarioId: '',
   });
 
   const [formErrors, setFormErrors] = useState<any>({});
-  const [roles, setRoles] = useState<Role[]>([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchRolesData = async () => {
-      try {
-        const rolesData = await fetchRoles();
-        setRoles(rolesData);
-      } catch (error) {
-        console.error('Error fetching roles:', error);
-      }
-    };
-
-    fetchRolesData();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => {
     const { name, value } = e.target;
@@ -60,18 +41,14 @@ const AgregarRol: React.FC = () => {
     if (!formData.nombreRol) {
       errors.nombreRol = 'El nombre del rol es requerido';
     }
-    if (!formData.usuarioId) {
-      errors.usuarioId = 'El usuario es requerido';
-    }
 
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
       try {
-        await addRole({ name: formData.nombreRol, userId: formData.usuarioId });
+        await addRole({ name: formData.nombreRol });
         setFormData({
           nombreRol: '',
-          usuarioId: '',
         });
 
         Swal.fire({
@@ -135,33 +112,17 @@ const AgregarRol: React.FC = () => {
             <Grid item xs={12}>
               <FormControl fullWidth required error={!!formErrors.nombreRol}>
                 <InputLabel>Rol</InputLabel>
-                <Select
+                <TextField
                   name="nombreRol"
                   value={formData.nombreRol}
                   onChange={handleChange}
-                >
-                  {roles.map((rol) => (
-                    <MenuItem key={rol.id} value={rol.name}>
-                      {rol.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  fullWidth
+                  required
+                />
                 {formErrors.nombreRol && (
                   <Typography variant="body2" color="error">{formErrors.nombreRol}</Typography>
                 )}
               </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                required
-                label="Usuario"
-                name="usuarioId"
-                value={formData.usuarioId}
-                onChange={handleChange}
-                error={!!formErrors.usuarioId}
-                helperText={formErrors.usuarioId}
-              />
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button
