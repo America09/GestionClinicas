@@ -20,6 +20,11 @@ const AgregarCitas: React.FC = () => {
     const [fechaCita, setFechaCita] = React.useState<string>('');
 
     const handleSave = async () => {
+        if (!reason || !medicId || !specialtyId || !fechaCita) {
+            Swal.fire('Error', 'Por favor, complete todos los campos obligatorios.', 'error');
+            return;
+        }
+
         try {
             await handleCreateAppointment({
                 reason,
