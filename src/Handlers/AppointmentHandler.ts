@@ -1,4 +1,4 @@
-import { getAppointments, getAppointmentById, createAppointment, updateAppointment, deleteAppointment } from '../Services/AppointmentService';
+import { getAppointments, getAppointmentById, createAppointment, updateAppointment, deleteAppointment } from '../Services/appointmentService';
 import { Appointment } from '../Types/Appointment';
 
 export const handleGetAppointments = async (): Promise<Appointment[]> => {
