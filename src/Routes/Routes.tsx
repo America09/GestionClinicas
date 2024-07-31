@@ -68,9 +68,9 @@ const AppRouter = () => {
                         <Route path="/admin-Listpacientes" element={<PacientesList />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/admin-createhorarios']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-createHorarios']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/admin-createhorarios" element={<AddHorario />} />
+                        <Route path="/admin-createHorarios" element={<AddHorario />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/contact-messages']} />}>
@@ -140,7 +140,7 @@ const AppRouter = () => {
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/editar-medicos']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/editar-medico" element={<EdiMed />} />
+                        <Route path="/editar-medicos" element={<EdiMed />} />
                     </Route>
                 </Route>
 

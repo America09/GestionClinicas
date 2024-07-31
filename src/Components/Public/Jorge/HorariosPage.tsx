@@ -158,7 +158,7 @@ const HorariosPage: React.FC = () => {
 
                     <Typography variant="h4" component="h2" gutterBottom>Lista de Horarios</Typography>
 
-                    <Box sx={{ width: '100%', mt: 2 }}>
+                    <Box sx={{ width: '100%' }}>
                         <DataGrid
                             rows={horarios}
                             columns={columns}

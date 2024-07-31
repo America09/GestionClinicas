@@ -5,7 +5,6 @@ import { handleCreateMedic } from '../../../Handlers/MedicHandler';
 import { handleGetConsultorios } from '../../../Handlers/ConsultorioHandler';
 import Swal from 'sweetalert2';
 import { Consultorio } from '../../../Types/Consultorio'; 
-import { getConsultorios } from '../../../Handlers/ConsultorioHandler'; 
 import { handleGetHorarios } from '../../../Handlers/HorarioHandler';
 
 const AgregarMedico: React.FC = () => {
@@ -18,6 +17,7 @@ const AgregarMedico: React.FC = () => {
     const [horarioId, setHorarioId] = React.useState<number>(0);
     const [consultorioId, setConsultorioId] = React.useState<number>(0);
     const [consultorios, setConsultorios] = React.useState<{ id: number, name: string }[]>([]);
+    const [horarios, setHorarios] = React.useState<{ id: number, name: string }[]>([]); // Agregado
 
     React.useEffect(() => {
         const fetchConsultorios = async () => {
@@ -29,7 +29,17 @@ const AgregarMedico: React.FC = () => {
             }
         };
 
+        const fetchHorarios = async () => { 
+            try {
+                const fetchedHorarios = await handleGetHorarios();
+                setHorarios(fetchedHorarios);
+            } catch (error) {
+                console.error('Error al obtener los horarios:', error);
+            }
+        };
+
         fetchConsultorios();
+        fetchHorarios(); 
     }, []);
 
     const handleSave = async () => {
