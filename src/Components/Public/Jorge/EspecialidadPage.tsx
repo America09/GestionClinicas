@@ -118,7 +118,7 @@ const EspecialidadPage: React.FC = () => {
   ];
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <Paper
         sx={{
           padding: 3,
@@ -182,7 +182,7 @@ const EspecialidadPage: React.FC = () => {
               }}
               onClick={() => navigate("/admin-createEspecialidad")}
             >
-              + Añadir especialidad
+              Añadir especialidad
             </Button>
           </Box>
         </Box>
@@ -217,9 +217,23 @@ const EspecialidadPage: React.FC = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseEdit}>Cancelar</Button>
-          <Button onClick={handleSaveEdit} variant="contained">Guardar</Button>
-        </DialogActions>
+  <Button 
+    onClick={handleCloseEdit} 
+    sx={{ color: 'red' }} 
+  >
+    Cancelar
+  </Button>
+  <Button 
+    onClick={handleSaveEdit} 
+    variant="contained" 
+    sx={{ 
+      backgroundColor: '#408D86', 
+      '&:hover': { backgroundColor: '#43A49B' }  
+    }}
+  >
+    Guardar
+  </Button>
+</DialogActions>
       </Dialog>
     </Box>
   );

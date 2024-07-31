@@ -44,7 +44,7 @@ const CreateEspecialidad: React.FC = () => {
     if (Object.keys(errors).length === 0) {
       try {
         const nuevaEspecialidad: Especialidad = {
-          id: 0, // Este valor será asignado por el servidor
+          id: 0,
           nombre: formData.nombre,
           descripcion: formData.descripcion,
         };
@@ -53,16 +53,18 @@ const CreateEspecialidad: React.FC = () => {
           title: 'Guardado exitosamente',
           text: 'La especialidad ha sido guardada correctamente.',
           icon: 'success',
+          confirmButtonColor: '#43A49B',
           confirmButtonText: 'Aceptar'
         });
-        navigate('/admin-especialidades');
+        navigate('/admin-especialidad');
       } catch (error) {
         console.error('Error al crear la especialidad:', error);
         Swal.fire({
           title: 'Error',
           text: 'Hubo un problema al guardar la especialidad.',
           icon: 'error',
-          confirmButtonText: 'Aceptar'
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#43A49B'
         });
       }
     } else {
@@ -70,7 +72,9 @@ const CreateEspecialidad: React.FC = () => {
         title: 'Error',
         text: 'Por favor, completa todos los campos requeridos.',
         icon: 'error',
-        confirmButtonText: 'Aceptar'
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#43A49B'
+        
       });
     }
   };
@@ -105,7 +109,7 @@ const CreateEspecialidad: React.FC = () => {
               <HomeIcon sx={{ mr: 0.5 }} />
               Inicio
             </Link>
-            <Link color="inherit" component={RouterLink} to="/admin-especialidades">
+            <Link color="inherit" component={RouterLink} to="/admin-especialidad">
               Especialidades
             </Link>
             <Typography color="textPrimary">Añadir Especialidad</Typography>
@@ -144,7 +148,7 @@ const CreateEspecialidad: React.FC = () => {
               <Button
                 type="submit"
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto' }}
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto', textTransform: 'capitalize' }}
               >
                 Agregar
               </Button>
