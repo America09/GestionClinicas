@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
 import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -21,19 +20,14 @@ const MedicsPage: React.FC = () => {
     const [consultorios, setConsultorios] = React.useState<Consultorio[]>([]);
 
     React.useEffect(() => {
-        fetchMedics();
-        fetchConsultorios();
-        fetchHorarios();
-    }, []);
-
-    const fetchMedics = async () => {
-        try {
-            const fetchedMedics = await handleGetMedics();
-            setMedics(fetchedMedics);
-        } catch (error) {
-            console.error('Error al obtener los médicos:', error);
-        }
-    };
+        const fetchMedics = async () => {
+            try {
+                const fetchedMedics = await handleGetMedics();
+                setMedics(fetchedMedics);
+            } catch (error) {
+                console.error('Error al obtener los médicos:', error);
+            }
+        };
 
         const fetchConsultorios = async () => {
             try {
@@ -88,7 +82,7 @@ const MedicsPage: React.FC = () => {
         if (selectedMedic) {
             try {
                 await handleUpdateMedic(selectedMedic.id.toString(), selectedMedic);
-                fetchMedics(); // Refrescar la lista de médicos después de guardar
+                setMedics(medics.map((medic) => medic.id === selectedMedic.id ? selectedMedic : medic));
                 setOpenEdit(false);
                 setSelectedMedic(null);
                 Swal.fire('Guardado!', 'El médico ha sido editado exitosamente.', 'success');
@@ -102,7 +96,7 @@ const MedicsPage: React.FC = () => {
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
         { field: 'userId', headerName: 'Medico', flex: 1, minWidth: 90, renderCell: (params) => (params.row.userName) },
-        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 150, renderCell: (params) => (params.row.consultorioName) },
+        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 110, renderCell: (params) => (params.row.consultorioName) },
         { field: 'horarioId', headerName: 'Horario', flex: 1, minWidth: 130, renderCell: (params) => (params.row.horarioName) },
         { field: 'professionalId', headerName: 'ID Profesional', flex: 1, minWidth: 110 },
         { field: 'school', headerName: 'Escuela', flex: 1, minWidth: 90 },
