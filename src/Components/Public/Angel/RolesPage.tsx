@@ -1,98 +1,65 @@
 import * as React from 'react';
-import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Button, Box, Paper, Breadcrumbs, Link } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button, Box, Breadcrumbs, Link } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { fetchRoles } from '../../../Handlers/RolHandler';
+import { Role } from '../../../Types/Roles';
 
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'Rol', headerName: 'Rol', width: 150, editable: true },
-  { field: 'Usuario', headerName: 'Usuario', width: 180, editable: true },
-  { field: 'Acceso', headerName: 'Acceso', width: 180, editable: true },
-  {
-    field: 'Editar',
-    headerName: 'Editar',
-    width: 100,
-    sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        onClick={() => handleEdit(params.id)}
-      />
-    ),
-  },
-  {
-    field: 'Eliminar',
-    headerName: 'Eliminar',
-    width: 100,
-    sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<DeleteIcon />}
-        label="Delete"
-        onClick={() => handleDelete(params.id)}
-      />
-    ),
-  },
-];
-
-const rows = [
-  { id: 1, Rol: 'Administrador', Usuario: 'Juan Pérez', Acceso: 'Acceso Total' },
-  { id: 2, Rol: 'Usuario', Usuario: 'María López', Acceso: 'Acceso Moderado' },
-  { id: 3, Rol: 'Médico', Usuario: 'Carlos Sánchez', Acceso: 'Acceso Limitado' },
-  { id: 4, Rol: 'Usuario', Usuario: 'Ana Rodríguez', Acceso: 'Acceso Moderado' },
-  { id: 5, Rol: 'Médico', Usuario: 'Luis Gómez', Acceso: 'Acceso Limitado' },
-  { id: 6, Rol: 'Administrador', Usuario: 'Laura Fernández', Acceso: 'Acceso Total' },
-  { id: 7, Rol: 'Usuario', Usuario: 'David Martínez', Acceso: 'Acceso Moderado' },
-  { id: 8, Rol: 'Médico', Usuario: 'Andrea Morales', Acceso: 'Acceso Limitado' },
-  { id: 9, Rol: 'Usuario', Usuario: 'Sofia Ramírez', Acceso: 'Acceso Moderado' },
-];
-
-const handleEdit = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas editar este rol?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, editar',
-    cancelButtonText: 'No, cancelar',
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Editado", "El rol ha sido editado correctamente.", "success");
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar el rol. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
-
-const handleDelete = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas eliminar este rol?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'No, cancelar',
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Eliminado", "El rol ha sido eliminado correctamente.", "success");
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al eliminar el rol. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
-
-export const RolesPage = () => {
+const RolesPage: React.FC = () => {
   const navigate = useNavigate();
+  const [roles, setRoles] = React.useState<Role[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    const fetchRolesData = async () => {
+      try {
+        const rolesData = await fetchRoles();
+        setRoles(rolesData);
+      } catch (error) {
+        console.error("Error fetching roles:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRolesData();
+  }, []);
+
+  const handleEdit = (id: number) => {
+    Swal.fire({
+      title: "¿Estás seguro de que deseas editar este rol?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Sí, editar',
+      cancelButtonText: 'No, cancelar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Editado", "El rol ha sido editado correctamente.", "success");
+      }
+    });
+  };
+
+  const handleDelete = (id: number) => {
+    Swal.fire({
+      title: "¿Estás seguro de que deseas eliminar este rol?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'No, cancelar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Eliminado", "El rol ha sido eliminado correctamente.", "success");
+      }
+    });
+  };
+
+  if (loading) {
+    return <Typography>Loading...</Typography>;
+  }
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
@@ -122,22 +89,31 @@ export const RolesPage = () => {
           </Typography>
         </Box>
 
-        <Box sx={{ mt: 2 }}>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: {
-                  pageSize: 5,
-                },
-              },
-            }}
-            pageSizeOptions={[5]}
-            disableSelectionOnClick
-            autoHeight
-          />
-        </Box>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell>Rol</TableCell>
+                <TableCell>Usuarios</TableCell>
+                <TableCell>Acciones</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {roles.map((role) => (
+                <TableRow key={role.id}>
+                  <TableCell>{role.id}</TableCell>
+                  <TableCell>{role.name}</TableCell>
+                  <TableCell>{role.userNames.join(', ')}</TableCell>
+                  <TableCell>
+                    <Button onClick={() => handleEdit(role.id)}><EditIcon /></Button>
+                    <Button onClick={() => handleDelete(role.id)}><DeleteIcon /></Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
 
         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2, gap: 2 }}>
           <Button
@@ -173,3 +149,5 @@ export const RolesPage = () => {
     </Box>
   );
 };
+
+export default RolesPage;

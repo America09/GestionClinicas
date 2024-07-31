@@ -3,10 +3,11 @@ import { Box } from "@mui/material";
 import CreateEspecialidad from "../../../Components/Public/Jorge/CreateEspecialidadPage";
 
 
-export const AGEspecialidad = () => {
+
+export const AddEspecialidad = () => {
   return (
     <Box>
-        <CreateEspecialidad />
+        <CreateEspecialidad/>
     </Box>
   )
 }

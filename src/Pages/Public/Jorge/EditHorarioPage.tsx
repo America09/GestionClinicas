@@ -1,12 +1,8 @@
-import { Box } from "@mui/material";
-import EditHorarioPage from "../../../Components/Public/Jorge/EditHorarioPage";
-
-
-
+import { Box } from "@mui/material"
 export const EditHorario = () => {
   return (
     <Box>
-        <EditHorarioPage />
+        <EditHorario />
     </Box>
   )
 }

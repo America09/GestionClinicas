@@ -1,5 +1,4 @@
-import { Consultorio } from './Consultorio';
-import { Horario } from './Horario';
+
 
 export interface Medic {
     id: number;

@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../Pages/Public/Home';
-// import Login from '../Pages/Auth/Login';
 import Dashboard from '../Pages/Public/Dashboard';
 import AuthLayout from '../Layout/AuthLayout';
 import PublicLayout from '../Layout/PublicLayout';
-import ProtectedLayout from '../Layout/ProtectedLayout';
 import Servicios from '../Pages/Public/Servicios';
 import { Error404 } from '../Pages/Public/Error404';
 import Citas from '../Pages/Public/Citas';
@@ -32,10 +30,12 @@ import { PacientesList } from '../Pages/Public/Katherine/ListPacientesPage';
 import { AddPacientes } from '../Pages/Public/Katherine/AddPacientesPage';
 import { HistorialClinicoPage } from '../Pages/Public/Katherine/HistorialPage';
 import { CrudEspecialidad } from '../Pages/Public/Jorge/CrudEspecialidad';
+import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
+import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
-import { AGHorario } from '../Pages/Public/Jorge/AGHorario';
-import { AGEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
 import ContactMessage from '../Components/ContactMessage';
+import Unauthorized from '../Components/Unauthorized ';
+import ProtectedRoute from './ProtectedRoute';
 
 const AppRouter = () => {
     return (
@@ -46,7 +46,6 @@ const AppRouter = () => {
                     <Route path="/servicios" element={<Servicios />} />
                     <Route path="/citas" element={<Citas />} />
                     <Route path="/medicos" element={<Medicos />} />
-                    {/* <Route path="/login" element={<Login />} /> */}
                     <Route path="/terminos" element={<Terminoss />} />
                     <Route path="/politicas" element={<Politicas />} />
                     <Route path="/nosotros" element={<Nosotross />} />
@@ -54,39 +53,126 @@ const AppRouter = () => {
                     <Route path="/confirma" element={<Confirma />} />
                     <Route path="/form" element={<ConfirmarCOntraseña />} />
                 </Route>
-
-                <Route element={<ProtectedLayout />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/dashboard']} />}>
                     <Route element={<AuthLayout />}>
                         <Route path="/dashboard" element={<Dashboard />} />
-                        {/* AngelRutas */}
-                        <Route path="/admin-consultorios" element={<CrudConsultorio />} />
-                        <Route path="/agregar-consultorios" element={<AGConsultorios/>} />
-                        <Route path="/editar-consultorios" element={<EditConsultorios/>} />
-                        <Route path="/admin-medicos" element={<CrudMedico />} />
-                        <Route path="/admin-citas" element={<CrudCitas />} />
-                        <Route path="/agregar-medicos" element={<AGMedicos/>} />
-                        <Route path="/editar-medicos" element={<EdiMed/>} />
-                        <Route path="/editar-citas" element={<EditarCitas/>} />
-                        <Route path="/agregar-roles" element={<AGRoles/>} />
-                        <Route path="/agregar-citas" element={<AGCitas/>} />
-                        <Route path="/admin-roles" element={<CrudRoles/>} />
-                        <Route path="/admin-rolespermisos" element={<AsignarPermisos/>} />
-                        {/* Otras Jorge */}
-                        <Route path="/admin-horarios" element={<CrudHorario/>} />
-                        <Route path="/agregar-horarios" element={<AGHorario/>} />
-                        <Route path="/admin-especialidad" element={<CrudEspecialidad/>} />
-                        <Route path="/admin-edithoario" element={<EditHorario/>} />
-                        <Route path="/agregar-especialidad" element={<AGEspecialidad/>} />
-                        {/* Rutas Katherine */}
-                        <Route path="/admin-Listpacientes" element={<PacientesList/>} />
-                        <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
-                        <Route path="/admin-Historial1" element={<HistorialClinicoPage/>} />
-                        {/* Rutas Ame */}
-                        <Route path="/admin-citas" element={<CrudCitas/>} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/editar-citas']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/editar-citas" element={<EditarCitas />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-Listpacientes']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-Listpacientes" element={<PacientesList />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-createhorarios']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-createhorarios" element={<AddHorario />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/contact-messages']} />}>
+                    <Route element={<AuthLayout />}>
                         <Route path="/contact-messages" element={<ContactMessage />} />
                     </Route>
                 </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-edithoario']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-edithoario" element={<EditHorario />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-Addpacientes']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-createEspecialidad']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-createEspecialidad" element={<AddEspecialidad />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-Historial1']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-Historial1" element={<HistorialClinicoPage />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-especialidad']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-especialidad" element={<CrudEspecialidad />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-consultorios']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-consultorios" element={<CrudConsultorio />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-horarios']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-horarios" element={<CrudHorario />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-medicos']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-medicos" element={<AGMedicos />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-roles']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-roles" element={<AGRoles />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-citas']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-citas" element={<AGCitas />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-roles']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-roles" element={<CrudRoles />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-rolespermisos']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-rolespermisos" element={<AsignarPermisos />} />
+                    </Route>
+                </Route>
+                <Route element={<ProtectedRoute requiredPermissions={['/editar-medicos']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/editar-medico" element={<EdiMed />} />
+                    </Route>
+                </Route>
+
+                <Route element={<ProtectedRoute requiredPermissions={['/agregar-consultorios']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/agregar-consultorios" element={<AGConsultorios />} />
+                    </Route>
+                </Route>
+
+                <Route element={<ProtectedRoute requiredPermissions={['/editar-consultorios']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/editar-consultorios" element={<EditConsultorios />} />
+                    </Route>
+                </Route>
+
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-medicos']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-medicos" element={<CrudMedico />} />
+                    </Route>
+                </Route>
+
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-citas']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/admin-citas" element={<CrudCitas />} />
+                    </Route>
+                </Route>
+
+                
                 <Route path="*" element={<Error404 />} />
+                <Route element={<AuthLayout />}>
+                    <Route path="/unauthorized" element={<Unauthorized />} /> 
+                </Route>
             </Routes>
         </BrowserRouter>
     );

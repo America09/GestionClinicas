@@ -1,94 +1,124 @@
+import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { Especialidad } from '../../../Types/Especialidad';
+import { handleDeleteEspecialidad, handleGetEspecialidades, handleUpdateEspecialidad } from '../../../Handlers/EspecialidadHandler';
 
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
-  { field: 'nombre', headerName: 'Nombre', width: 150 },
-  { field: 'descripcion', headerName: 'Descripción', width: 300 },
-  {
-    field: 'editar',
-    headerName: 'Editar',
-    width: 100,
-    sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<EditIcon />}
-        label="Edit"
-        onClick={() => handleEdit(params.id)}
-      />
-    ),
-  },
-  {
-    field: 'eliminar',
-    headerName: 'Eliminar',
-    width: 100,
-    sortable: false,
-    renderCell: (params) => (
-      <GridActionsCellItem
-        icon={<DeleteIcon />}
-        label="Delete"
-        onClick={() => handleDelete(params.id)}
-      />
-    ),
-  },
-];
-
-const rows = [
-  { id: 1, nombre: 'Cardiología', descripcion: 'Especialidad médica que se encarga del estudio, diagnóstico y tratamiento de las enfermedades del corazón y del aparato circulatorio.' },
-  { id: 2, nombre: 'Dermatología', descripcion: 'Especialidad médica encargada del estudio y tratamiento de las enfermedades de la piel.' },
-  { id: 3, nombre: 'Gastroenterología', descripcion: 'Especialidad médica que se ocupa de las enfermedades del aparato digestivo y sus glándulas anexas.' },
-];
-
-const handleEdit = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas editar esta especialidad?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, editar',
-    cancelButtonText: 'No, cancelar',
-    dangerMode: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al editar la especialidad. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
-
-const handleDelete = (id: number) => {
-  Swal.fire({
-    title: "¿Estás seguro de que deseas eliminar esta especialidad?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: 'Sí, eliminar',
-    cancelButtonText: 'No, cancelar',
-    dangerMode: true,
-  }).then(async (result) => {
-    if (result.isConfirmed) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        Swal.fire("Eliminado", "La especialidad ha sido eliminada correctamente.", "success");
-      } catch (error) {
-        Swal.fire("Error", "Hubo un problema al eliminar la especialidad. Inténtalo de nuevo.", "error");
-      }
-    }
-  });
-};
-
-export const EspecialidadPage: React.FC = () => {
+const EspecialidadPage: React.FC = () => {
   const navigate = useNavigate();
+  const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [selectedEspecialidad, setSelectedEspecialidad] = useState<Especialidad | null>(null);
+
+  useEffect(() => {
+    const fetchEspecialidades = async () => {
+      try {
+        const fetchedEspecialidades = await handleGetEspecialidades();
+        setEspecialidades(fetchedEspecialidades);
+      } catch (error) {
+        console.error('Error al obtener las especialidades:', error);
+      }
+    };
+
+    fetchEspecialidades();
+  }, []);
+
+  const handleEdit = (id: number) => {
+    const especialidad = especialidades.find((especialidad) => especialidad.id === id);
+    if (especialidad) {
+      setSelectedEspecialidad({ ...especialidad });
+      setOpenEdit(true);
+    }
+  };
+
+  const handleDelete = (id: number) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await handleDeleteEspecialidad(id.toString());
+          setEspecialidades(especialidades.filter((especialidad) => especialidad.id !== id));
+          Swal.fire('Eliminado!', 'La especialidad ha sido eliminada.', 'success');
+        } catch (error) {
+          console.error('Error al eliminar la especialidad:', error);
+          Swal.fire('Error', 'Hubo un problema al eliminar la especialidad.', 'error');
+        }
+      }
+    });
+  };
+
+  const handleCloseEdit = () => {
+    setOpenEdit(false);
+    setSelectedEspecialidad(null);
+  };
+
+  const handleSaveEdit = async () => {
+    if (selectedEspecialidad) {
+      try {
+        const updatedEspecialidad = { ...selectedEspecialidad };
+        await handleUpdateEspecialidad(selectedEspecialidad.id?.toString() || '', updatedEspecialidad);
+        setEspecialidades(especialidades.map((especialidad) =>
+          especialidad.id === selectedEspecialidad.id ? updatedEspecialidad : especialidad
+        ));
+        setOpenEdit(false);
+        setSelectedEspecialidad(null);
+        Swal.fire('Guardado!', 'La especialidad ha sido editada exitosamente.', 'success');
+      } catch (error) {
+        console.error('Error al actualizar la especialidad:', error);
+        Swal.fire('Error', 'Hubo un problema al guardar los cambios.', 'error');
+      }
+    }
+  };
+
+  const columns: GridColDef[] = [
+    { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
+    { field: 'nombre', headerName: 'Nombre', flex: 1, minWidth: 150 },
+    { field: 'descripcion', headerName: 'Descripción', flex: 1, minWidth: 250 },
+    {
+      field: 'editar',
+      headerName: 'Editar',
+      flex: 0.5,
+      minWidth: 100,
+      sortable: false,
+      renderCell: (params) => (
+        <GridActionsCellItem
+          icon={<EditIcon />}
+          label="Edit"
+          onClick={() => handleEdit(params.id as number)}
+        />
+      ),
+    },
+    {
+      field: 'eliminar',
+      headerName: 'Eliminar',
+      flex: 0.5,
+      minWidth: 100,
+      sortable: false,
+      renderCell: (params) => (
+        <GridActionsCellItem
+          icon={<DeleteIcon />}
+          label="Delete"
+          onClick={() => handleDelete(params.id as number)}
+        />
+      ),
+    },
+  ];
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <Paper
         sx={{
           padding: 3,
@@ -97,7 +127,7 @@ export const EspecialidadPage: React.FC = () => {
           boxShadow: 3,
           borderRadius: 2,
           mt: 1,
-          margin: '0 auto', 
+          margin: '0 auto',
         }}
       >
         <Box sx={{ width: '100%' }}>
@@ -117,9 +147,9 @@ export const EspecialidadPage: React.FC = () => {
             </Typography>
           </Box>
 
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ width: '100%', mt: 2 }}>
             <DataGrid
-              rows={rows}
+              rows={especialidades}
               columns={columns}
               initialState={{
                 pagination: {
@@ -128,14 +158,19 @@ export const EspecialidadPage: React.FC = () => {
                   },
                 },
               }}
-              pageSizeOptions={[5]}
-              disableSelectionOnClick
+              pageSizeOptions={[5, 10, 20]}
+              disableRowSelectionOnClick
               autoHeight
+              sx={{
+                '& .MuiDataGrid-root': {
+                  overflowX: 'auto',
+                },
+              }}
             />
           </Box>
 
           <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Button
+            <Button 
               variant="contained"
               sx={{
                 bgcolor: '#43A49B',
@@ -145,13 +180,63 @@ export const EspecialidadPage: React.FC = () => {
                   bgcolor: '#51C5BA',
                 },
               }}
-              onClick={() => navigate("/agregar-especialidad")}
+              onClick={() => navigate("/admin-createEspecialidad")}
             >
-              + Añadir especialidad
+              Añadir especialidad
             </Button>
           </Box>
         </Box>
       </Paper>
+
+      <Dialog open={openEdit} onClose={handleCloseEdit}>
+        <DialogTitle>Editar Especialidad</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            label="Nombre"
+            type="text"
+            fullWidth
+            value={selectedEspecialidad?.nombre || ''}
+            onChange={(e) => setSelectedEspecialidad({
+              ...selectedEspecialidad!,
+              nombre: e.target.value
+            })}
+          />
+          <TextField
+            margin="dense"
+            label="Descripción"
+            type="text"
+            fullWidth
+            multiline
+            rows={4}
+            value={selectedEspecialidad?.descripcion || ''}
+            onChange={(e) => setSelectedEspecialidad({
+              ...selectedEspecialidad!,
+              descripcion: e.target.value
+            })}
+          />
+        </DialogContent>
+        <DialogActions>
+  <Button 
+    onClick={handleCloseEdit} 
+    sx={{ color: 'red' }} 
+  >
+    Cancelar
+  </Button>
+  <Button 
+    onClick={handleSaveEdit} 
+    variant="contained" 
+    sx={{ 
+      backgroundColor: '#408D86', 
+      '&:hover': { backgroundColor: '#43A49B' }  
+    }}
+  >
+    Guardar
+  </Button>
+</DialogActions>
+      </Dialog>
     </Box>
   );
 };
+
+export default EspecialidadPage;

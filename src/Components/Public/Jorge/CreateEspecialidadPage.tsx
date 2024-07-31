@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
   TextField, Button, Box, Typography, Breadcrumbs, Link, Grid, Paper, useMediaQuery, useTheme
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { handleCreateEspecialidad } from '../../../Handlers/EspecialidadHandler';
+import { Especialidad } from '../../../Types/Especialidad';
 
 interface FormData {
   nombre: string;
   descripcion: string;
 }
 
-const AgregarEspecialidades: React.FC = () => {
+const CreateEspecialidad: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     nombre: '',
     descripcion: '',
@@ -19,12 +21,14 @@ const AgregarEspecialidades: React.FC = () => {
 
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
 
+  const navigate = useNavigate();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const errors: Partial<FormData> = {};
@@ -38,18 +42,39 @@ const AgregarEspecialidades: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      Swal.fire({
-        title: 'Guardado exitosamente',
-        text: 'La especialidad ha sido guardada correctamente.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar'
-      });
+      try {
+        const nuevaEspecialidad: Especialidad = {
+          id: 0,
+          nombre: formData.nombre,
+          descripcion: formData.descripcion,
+        };
+        await handleCreateEspecialidad(nuevaEspecialidad);
+        Swal.fire({
+          title: 'Guardado exitosamente',
+          text: 'La especialidad ha sido guardada correctamente.',
+          icon: 'success',
+          confirmButtonColor: '#43A49B',
+          confirmButtonText: 'Aceptar'
+        });
+        navigate('/admin-especialidad');
+      } catch (error) {
+        console.error('Error al crear la especialidad:', error);
+        Swal.fire({
+          title: 'Error',
+          text: 'Hubo un problema al guardar la especialidad.',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#43A49B'
+        });
+      }
     } else {
       Swal.fire({
         title: 'Error',
         text: 'Por favor, completa todos los campos requeridos.',
         icon: 'error',
-        confirmButtonText: 'Aceptar'
+        confirmButtonText: 'Aceptar',
+        confirmButtonColor: '#43A49B'
+        
       });
     }
   };
@@ -65,7 +90,7 @@ const AgregarEspecialidades: React.FC = () => {
         alignItems: 'center',
         flexDirection: 'column',
         mt: 10,
-        px: 2, 
+        px: 2,
       }}
     >
       <Paper
@@ -123,7 +148,7 @@ const AgregarEspecialidades: React.FC = () => {
               <Button
                 type="submit"
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto' }}
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto', textTransform: 'capitalize' }}
               >
                 Agregar
               </Button>
@@ -135,4 +160,4 @@ const AgregarEspecialidades: React.FC = () => {
   );
 };
 
-export default AgregarEspecialidades;
+export default CreateEspecialidad;

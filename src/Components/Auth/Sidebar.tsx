@@ -19,7 +19,6 @@ const menuItems = [
     { icon: <EventAvailableOutlinedIcon fontSize="medium" />, label: 'Horarios', route: '/admin-horarios' },
 ];
 
-const drawerWidth = 200;
 
 const Sidebar: React.FC = () => {
     const navigate = useNavigate();

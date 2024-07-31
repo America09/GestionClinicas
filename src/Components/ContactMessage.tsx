@@ -9,6 +9,7 @@ const ContactMessage: React.FC = () => {
   const [messages, setMessages] = useState<ContactRecibido[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [viewedMessages, setViewedMessages] = useState<Set<string>>(new Set());
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -43,12 +44,22 @@ const ContactMessage: React.FC = () => {
       try {
         await deleteContactMessage(id);
         setMessages(messages.filter(message => message.id !== id));
+        updateNotificationCount(-1); // Decrementar el contador de notificaciones
         Swal.fire('Eliminado!', 'El mensaje ha sido eliminado.', 'success');
       } catch (error) {
         Swal.fire('Error!', 'Hubo un problema al eliminar el mensaje.', 'error');
         console.error('Error eliminando el mensaje:', error);
       }
     }
+  };
+
+  const handleViewMessage = (id: string) => {
+    setViewedMessages(prev => new Set(prev).add(id));
+  };
+
+  const updateNotificationCount = (change: number) => {
+    // Implementa la lógica para actualizar el contador de notificaciones.
+    console.log(`Notification count changed by ${change}`);
   };
 
   if (loading) {
@@ -65,7 +76,7 @@ const ContactMessage: React.FC = () => {
       {isSmallScreen ? (
         <Box>
           {messages.map((message) => (
-            <Paper key={message.id} sx={{ padding: 2, marginBottom: 2, boxShadow: 1 }}>
+            <Paper key={message.id} sx={{ padding: 2, marginBottom: 2, boxShadow: 1 }} onClick={() => handleViewMessage(message.id)}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: '#333' }}>ID: {message.id}</Typography>
@@ -103,7 +114,11 @@ const ContactMessage: React.FC = () => {
             </TableHead>
             <TableBody>
               {messages.map((message) => (
-                <TableRow key={message.id}>
+                <TableRow
+                  key={message.id}
+                  onClick={() => handleViewMessage(message.id)}
+                  sx={{ backgroundColor: viewedMessages.has(message.id) ? '#e0f7fa' : 'white' }}
+                >
                   <TableCell>{message.id}</TableCell>
                   <TableCell>{message.name}</TableCell>
                   <TableCell>{message.message}</TableCell>

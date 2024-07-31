@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { handleCreateMedic } from '../../../Handlers/MedicHandler';
 import { handleGetConsultorios } from '../../../Handlers/ConsultorioHandler';
 import Swal from 'sweetalert2';
+import { Consultorio } from '../../../Types/Consultorio'; 
+import { getConsultorios } from '../../../Handlers/ConsultorioHandler'; 
+import { handleGetHorarios } from '../../../Handlers/HorarioHandler';
 
 const AgregarMedico: React.FC = () => {
     const navigate = useNavigate();
@@ -131,14 +134,20 @@ const AgregarMedico: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    margin="dense"
-                                    label="Horario"
-                                    type="number"
-                                    fullWidth
-                                    value={horarioId}
-                                    onChange={(e) => setHorarioId(Number(e.target.value))}
-                                />
+                                <FormControl fullWidth margin="dense">
+                                    <InputLabel>Horario</InputLabel>
+                                    <Select
+                                        value={horarioId}
+                                        onChange={(e) => setHorarioId(Number(e.target.value))}
+                                        label="Horario"
+                                    >
+                                        {horarios.map((horario) => (
+                                            <MenuItem key={horario.id} value={horario.id}>
+                                                {horario.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth margin="dense">
