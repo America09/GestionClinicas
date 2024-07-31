@@ -11,7 +11,6 @@ import {
   useTheme,
   TextField,
   FormControl,
-  InputLabel,
 } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -111,17 +110,16 @@ const AgregarRol: React.FC = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <FormControl fullWidth required error={!!formErrors.nombreRol}>
-                <InputLabel>Rol</InputLabel>
                 <TextField
+                  label="Rol"
                   name="nombreRol"
                   value={formData.nombreRol}
                   onChange={handleChange}
                   fullWidth
                   required
+                  error={!!formErrors.nombreRol}
+                  helperText={formErrors.nombreRol}
                 />
-                {formErrors.nombreRol && (
-                  <Typography variant="body2" color="error">{formErrors.nombreRol}</Typography>
-                )}
               </FormControl>
             </Grid>
             <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
