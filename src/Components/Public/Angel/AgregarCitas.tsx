@@ -62,7 +62,7 @@ const AgregarCitas: React.FC = () => {
                         <Link underline="hover" color="inherit" href="/admin-citas">
                             Citas
                         </Link>
-                        <Typography color="text.primary">Crear Cita</Typography>
+                        <Typography color="text.primary">Crear Citas</Typography>
                     </Breadcrumbs>
 
                     <Typography variant="h4" component="h2" gutterBottom>
