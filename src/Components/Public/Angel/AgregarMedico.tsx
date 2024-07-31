@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, MenuItem, Select, InputLabel, FormControl, Grid } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, Grid, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { handleCreateMedic } from '../../../Handlers/MedicHandler';
+import { handleGetConsultorios } from '../../../Handlers/ConsultorioHandler';
 import Swal from 'sweetalert2';
 import { Consultorio } from '../../../Types/Consultorio'; 
-import { getConsultorios } from '../../../Handlers/ConsultorioHandler'; 
 import { handleGetHorarios } from '../../../Handlers/HorarioHandler';
 
 const AgregarMedico: React.FC = () => {
@@ -16,20 +16,20 @@ const AgregarMedico: React.FC = () => {
     const [userId, setUserId] = React.useState<number>(0);
     const [horarioId, setHorarioId] = React.useState<number>(0);
     const [consultorioId, setConsultorioId] = React.useState<number>(0);
-    const [consultorios, setConsultorios] = React.useState<Consultorio[]>([]);
-    const [horarios, setHorarios] = React.useState<{ id: number; name: string }[]>([]);
+    const [consultorios, setConsultorios] = React.useState<{ id: number, name: string }[]>([]);
+    const [horarios, setHorarios] = React.useState<{ id: number, name: string }[]>([]); // Agregado
 
     React.useEffect(() => {
         const fetchConsultorios = async () => {
             try {
-                const fetchedConsultorios = await getConsultorios();
+                const fetchedConsultorios = await handleGetConsultorios();
                 setConsultorios(fetchedConsultorios);
             } catch (error) {
                 console.error('Error al obtener los consultorios:', error);
             }
         };
 
-        const fetchHorarios = async () => {
+        const fetchHorarios = async () => { 
             try {
                 const fetchedHorarios = await handleGetHorarios();
                 setHorarios(fetchedHorarios);
@@ -39,7 +39,7 @@ const AgregarMedico: React.FC = () => {
         };
 
         fetchConsultorios();
-        fetchHorarios();
+        fetchHorarios(); 
     }, []);
 
     const handleSave = async () => {
@@ -161,11 +161,12 @@ const AgregarMedico: React.FC = () => {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth margin="dense">
-                                    <InputLabel>Consultorio</InputLabel>
+                                    <InputLabel id="consultorio-label">Consultorio</InputLabel>
                                     <Select
+                                        labelId="consultorio-label"
                                         value={consultorioId}
-                                        onChange={(e) => setConsultorioId(Number(e.target.value))}
                                         label="Consultorio"
+                                        onChange={(e) => setConsultorioId(Number(e.target.value))}
                                     >
                                         {consultorios.map((consultorio) => (
                                             <MenuItem key={consultorio.id} value={consultorio.id}>

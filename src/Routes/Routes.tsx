@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../Pages/Public/Home';
-// import Login from '../Pages/Auth/Login';
 import Dashboard from '../Pages/Public/Dashboard';
 import AuthLayout from '../Layout/AuthLayout';
 import PublicLayout from '../Layout/PublicLayout';
-import ProtectedLayout from '../Layout/ProtectedLayout';
 import Servicios from '../Pages/Public/Servicios';
 import { Error404 } from '../Pages/Public/Error404';
 import Citas from '../Pages/Public/Citas';
@@ -49,7 +47,6 @@ const AppRouter = () => {
                     <Route path="/servicios" element={<Servicios />} />
                     <Route path="/citas" element={<Citas />} />
                     <Route path="/medicos" element={<Medicos />} />
-                    {/* <Route path="/login" element={<Login />} /> */}
                     <Route path="/terminos" element={<Terminoss />} />
                     <Route path="/politicas" element={<Politicas />} />
                     <Route path="/nosotros" element={<Nosotross />} />
@@ -72,9 +69,9 @@ const AppRouter = () => {
                         <Route path="/admin-Listpacientes" element={<PacientesList />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/admin-createhorarios']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-createHorarios']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/admin-createhorarios" element={<AddHorario />} />
+                        <Route path="/admin-createHorarios" element={<AddHorario />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/contact-messages']} />}>
@@ -92,9 +89,9 @@ const AppRouter = () => {
                         <Route path="/admin-Addpacientes" element={<AddPacientes/>} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/agregar-especialidad']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-createEspecialidad']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/agregar-especialidad" element={<AddEspecialidad />} />
+                        <Route path="/admin-createEspecialidad" element={<AddEspecialidad />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/admin-Historial1']} />}>
@@ -144,7 +141,7 @@ const AppRouter = () => {
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/editar-medicos']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/editar-medico" element={<EdiMed />} />
+                        <Route path="/editar-medicos" element={<EdiMed />} />
                     </Route>
                 </Route>
 
