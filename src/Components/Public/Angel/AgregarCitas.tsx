@@ -1,40 +1,45 @@
 import * as React from 'react';
-import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, FormControl, InputLabel, Select, MenuItem, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { handleCreateAppointment } from '../../../Handlers/appointmentHandlers';
+import { handleCreateAppointment } from '../../../Handlers/AppointmentHandler';
 import Swal from 'sweetalert2';
 
-const AgregarCita: React.FC = () => {
+const AgregarCitas: React.FC = () => {
     const navigate = useNavigate();
     const [reason, setReason] = React.useState<string>('');
     const [medicId, setMedicId] = React.useState<number>(0);
+    const [patientId, setPatientId] = React.useState<number | undefined>(undefined);
+    const [nombre, setNombre] = React.useState<string>('');
+    const [apellido, setApellido] = React.useState<string>('');
+    const [genero, setGenero] = React.useState<string>('');
+    const [correo, setCorreo] = React.useState<string>('');
+    const [numeroTelefono, setNumeroTelefono] = React.useState<string>('');
+    const [estado, setEstado] = React.useState<string>('');
+    const [codigoPostal, setCodigoPostal] = React.useState<string>('');
     const [specialtyId, setSpecialtyId] = React.useState<number>(0);
-    const [fechaCita, setFechaCita] = React.useState<string>(''); // Formato 'yyyy-MM-dd'
-    const [hora, setHora] = React.useState<string>('');
-    const [descripcion, setDescripcion] = React.useState<string>('');
+    const [fechaCita, setFechaCita] = React.useState<string>('');
 
     const handleSave = async () => {
         try {
-            const newAppointment = {
-                reason,
-                medicId,
-                specialtyId,
-                fechaCita: `${fechaCita}T${hora}:00`, // Asegúrate de incluir segundos en la fecha
-                descripcion
-            };
-
-            console.log("Datos de la cita que se envían:", JSON.stringify(newAppointment, null, 2)); // Consola para ver los datos que se envían
-
-            await handleCreateAppointment(newAppointment);
+            await handleCreateAppointment({ 
+                reason, 
+                medicId, 
+                patientId, 
+                nombre, 
+                apellido, 
+                genero, 
+                correo, 
+                numeroTelefono, 
+                estado, 
+                codigoPostal, 
+                specialtyId, 
+                fechaCita 
+            });
             Swal.fire('Guardado!', 'La cita ha sido creada exitosamente.', 'success');
             navigate('/admin-citas');
         } catch (error) {
             console.error('Error al crear la cita:', error);
-            if (error.response && error.response.data && error.response.data.message) {
-                Swal.fire('Error', `Hubo un problema al crear la cita: ${error.response.data.message}`, 'error');
-            } else {
-                Swal.fire('Error', 'Hubo un problema al crear la cita.', 'error');
-            }
+            Swal.fire('Error', 'Hubo un problema al crear la cita.', 'error');
         }
     };
 
@@ -57,56 +62,133 @@ const AgregarCita: React.FC = () => {
                     </Typography>
 
                     <Box component="form" sx={{ mt: 2 }}>
-                        <TextField
-                            margin="dense"
-                            label="Razón"
-                            type="text"
-                            fullWidth
-                            value={reason}
-                            onChange={(e) => setReason(e.target.value)}
-                        />
-                        <TextField
-                            margin="dense"
-                            label="ID del Médico"
-                            type="number"
-                            fullWidth
-                            value={medicId}
-                            onChange={(e) => setMedicId(Number(e.target.value))}
-                        />
-                        <TextField
-                            margin="dense"
-                            label="ID de la Especialidad"
-                            type="number"
-                            fullWidth
-                            value={specialtyId}
-                            onChange={(e) => setSpecialtyId(Number(e.target.value))}
-                        />
-                        <TextField
-                            margin="dense"
-                            label="Fecha de la Cita"
-                            type="date"
-                            fullWidth
-                            value={fechaCita}
-                            onChange={(e) => setFechaCita(e.target.value)}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                        <TextField
-                            margin="dense"
-                            label="Hora"
-                            type="time"
-                            fullWidth
-                            value={hora}
-                            onChange={(e) => setHora(e.target.value)}
-                            InputLabelProps={{ shrink: true }}
-                        />
-                        <TextField
-                            margin="dense"
-                            label="Descripción"
-                            type="text"
-                            fullWidth
-                            value={descripcion}
-                            onChange={(e) => setDescripcion(e.target.value)}
-                        />
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Razón"
+                                    type="text"
+                                    fullWidth
+                                    value={reason}
+                                    onChange={(e) => setReason(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="ID del Médico"
+                                    type="number"
+                                    fullWidth
+                                    value={medicId}
+                                    onChange={(e) => setMedicId(Number(e.target.value))}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Paciente"
+                                    type="number"
+                                    fullWidth
+                                    value={patientId}
+                                    onChange={(e) => setPatientId(Number(e.target.value))}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Nombre"
+                                    type="text"
+                                    fullWidth
+                                    value={nombre}
+                                    onChange={(e) => setNombre(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Apellido"
+                                    type="text"
+                                    fullWidth
+                                    value={apellido}
+                                    onChange={(e) => setApellido(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <FormControl fullWidth margin="dense">
+                                    <InputLabel>Género</InputLabel>
+                                    <Select
+                                        value={genero}
+                                        onChange={(e) => setGenero(e.target.value as string)}
+                                        label="Género"
+                                    >
+                                        <MenuItem value="Masculino">Masculino</MenuItem>
+                                        <MenuItem value="Femenino">Femenino</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Correo"
+                                    type="text"
+                                    fullWidth
+                                    value={correo}
+                                    onChange={(e) => setCorreo(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Número de Teléfono"
+                                    type="text"
+                                    fullWidth
+                                    value={numeroTelefono}
+                                    onChange={(e) => setNumeroTelefono(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Estado"
+                                    type="text"
+                                    fullWidth
+                                    value={estado}
+                                    onChange={(e) => setEstado(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Código Postal"
+                                    type="text"
+                                    fullWidth
+                                    value={codigoPostal}
+                                    onChange={(e) => setCodigoPostal(e.target.value)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="ID de la Especialidad"
+                                    type="number"
+                                    fullWidth
+                                    value={specialtyId}
+                                    onChange={(e) => setSpecialtyId(Number(e.target.value))}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    margin="dense"
+                                    label="Fecha de la Cita"
+                                    type="datetime-local"
+                                    fullWidth
+                                    InputLabelProps={{ shrink: true }}
+                                    value={fechaCita}
+                                    onChange={(e) => setFechaCita(e.target.value)}
+                                />
+                            </Grid>
+                        </Grid>
+
                         <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                             <Button
                                 variant="contained"
@@ -130,4 +212,4 @@ const AgregarCita: React.FC = () => {
     );
 };
 
-export default AgregarCita;
+export default AgregarCitas;

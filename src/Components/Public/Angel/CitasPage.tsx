@@ -1,16 +1,16 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, IconButton } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { handleDeleteAppointment, handleGetAppointments, handleUpdateAppointment } from '../../../Handlers/appointmentHandlers';
+import { handleDeleteAppointment, handleGetAppointments, handleUpdateAppointment } from '../../../Handlers/AppointmentHandler';
 import { Appointment } from '../../../Types/Appointment';
 
-const CitaPage: React.FC = () => {
+const CitasPage: React.FC = () => {
     const navigate = useNavigate();
     const [appointments, setAppointments] = React.useState<Appointment[]>([]);
     const [openEdit, setOpenEdit] = React.useState(false);
@@ -88,7 +88,15 @@ const CitaPage: React.FC = () => {
         { field: 'reason', headerName: 'Razón', flex: 1, minWidth: 150 },
         { field: 'medicName', headerName: 'Médico', flex: 1, minWidth: 150 },
         { field: 'patientName', headerName: 'Paciente', flex: 1, minWidth: 150 },
-        { field: 'fechaCita', headerName: 'Fecha', flex: 1, minWidth: 150 },
+        { field: 'nombre', headerName: 'Nombre', flex: 1, minWidth: 150 },
+        { field: 'apellido', headerName: 'Apellido', flex: 1, minWidth: 150 },
+        { field: 'genero', headerName: 'Género', flex: 1, minWidth: 150 },
+        { field: 'correo', headerName: 'Correo', flex: 1, minWidth: 150 },
+        { field: 'numeroTelefono', headerName: 'Número de Teléfono', flex: 1, minWidth: 150 },
+        { field: 'estado', headerName: 'Estado', flex: 1, minWidth: 150 },
+        { field: 'codigoPostal', headerName: 'Código Postal', flex: 1, minWidth: 150 },
+        { field: 'specialtyName', headerName: 'Especialidad', flex: 1, minWidth: 150 },
+        { field: 'fechaCita', headerName: 'Fecha de la Cita', flex: 1, minWidth: 150, renderCell: (params) => new Date(params.value).toLocaleDateString() },
         {
             field: 'editar',
             headerName: 'Editar',
@@ -198,45 +206,62 @@ const CitaPage: React.FC = () => {
                     />
                     <TextField
                         margin="dense"
-                        label="ID del Médico"
-                        type="number"
-                        fullWidth
-                        value={selectedAppointment?.medicId || 0}
-                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, medicId: Number(e.target.value) })}
-                    />
-                    <TextField
-                        margin="dense"
-                        label="ID de la Especialidad"
-                        type="number"
-                        fullWidth
-                        value={selectedAppointment?.specialtyId || 0}
-                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, specialtyId: Number(e.target.value) })}
-                    />
-                    <TextField
-                        margin="dense"
-                        label="Fecha de la Cita"
-                        type="date"
-                        fullWidth
-                        value={selectedAppointment?.fechaCita || ''}
-                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, fechaCita: e.target.value })}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    <TextField
-                        margin="dense"
-                        label="Hora"
-                        type="time"
-                        fullWidth
-                        value={selectedAppointment?.hora || ''}
-                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, hora: e.target.value })}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    <TextField
-                        margin="dense"
-                        label="Descripción"
+                        label="Nombre"
                         type="text"
                         fullWidth
-                        value={selectedAppointment?.descripcion || ''}
-                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, descripcion: e.target.value })}
+                        value={selectedAppointment?.nombre || ''}
+                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, nombre: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Apellido"
+                        type="text"
+                        fullWidth
+                        value={selectedAppointment?.apellido || ''}
+                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, apellido: e.target.value })}
+                    />
+                    <FormControl fullWidth margin="dense">
+                        <InputLabel>Género</InputLabel>
+                        <Select
+                            value={selectedAppointment?.genero || ''}
+                            onChange={(e) => setSelectedAppointment({ ...selectedAppointment, genero: e.target.value as string })}
+                            label="Género"
+                        >
+                            <MenuItem value="Masculino">Masculino</MenuItem>
+                            <MenuItem value="Femenino">Femenino</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <TextField
+                        margin="dense"
+                        label="Correo"
+                        type="text"
+                        fullWidth
+                        value={selectedAppointment?.correo || ''}
+                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, correo: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Número de Teléfono"
+                        type="text"
+                        fullWidth
+                        value={selectedAppointment?.numeroTelefono || ''}
+                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, numeroTelefono: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Estado"
+                        type="text"
+                        fullWidth
+                        value={selectedAppointment?.estado || ''}
+                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, estado: e.target.value })}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Código Postal"
+                        type="text"
+                        fullWidth
+                        value={selectedAppointment?.codigoPostal || ''}
+                        onChange={(e) => setSelectedAppointment({ ...selectedAppointment, codigoPostal: e.target.value })}
                     />
                 </DialogContent>
                 <DialogActions>
@@ -248,4 +273,4 @@ const CitaPage: React.FC = () => {
     );
 };
 
-export default CitaPage;
+export default CitasPage;

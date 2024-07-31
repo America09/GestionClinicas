@@ -1,10 +1,18 @@
 export interface Appointment {
     id: number;
     reason: string;
-    medicId: number;
-    medicName?: string;
+    patientId?: number;
     patientName?: string;
+    medicId: number;
+    medicName: string;
+    nombre?: string;
+    apellido?: string;
+    genero?: string;
+    correo?: string;
+    numeroTelefono?: string;
+    estado?: string;
+    codigoPostal?: string;
     specialtyId: number;
+    specialtyName: string;
     fechaCita: string;
-    descripcion: string;
 }

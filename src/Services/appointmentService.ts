@@ -11,7 +11,7 @@ export const getAppointmentById = async (id: string): Promise<Appointment> => {
     return response.data;
 };
 
-export const createAppointment = async (appointment: Omit<Appointment, 'id'>): Promise<Appointment> => {
+export const createAppointment = async (appointment: Appointment): Promise<Appointment> => {
     const response = await clientAxios.post<Appointment>('/Appointments', appointment);
     return response.data;
 };
