@@ -128,7 +128,7 @@ const CitasPage: React.FC = () => {
     ];
 
     return (
-        <Box sx={{ display: 'flex', justifyContent: 'center'}}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
             <Paper
                 sx={{
                     padding: 3,
