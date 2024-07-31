@@ -93,9 +93,9 @@ const AppRouter = () => {
                         <Route path="/admin-createEspecialidad" element={<AddEspecialidad />} />
                     </Route>
                 </Route>
-                <Route element={<ProtectedRoute requiredPermissions={['/admin-historial']} />}>
+                <Route element={<ProtectedRoute requiredPermissions={['/admin-Historial1']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/admin-Historial/:id" element={<HistorialClinicoPage />} />
+                        <Route path="/admin-Historial1" element={<HistorialClinicoPage />} />
                     </Route>
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/admin-especialidad']} />}>
