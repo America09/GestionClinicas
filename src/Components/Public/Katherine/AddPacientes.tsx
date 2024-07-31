@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Container, Breadcrumbs, Link, Paper } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import HomeIcon from '@mui/icons-material/Home';
-
+import { Patient, UserPatient } from '../../../Types/Patient';  
+import { User} from '../../../Types/Api';
+import Swal from 'sweetalert2';  
+import { useNavigate } from 'react-router-dom';
+import {
+  handleCreatePatient,
+  createUsersPatient
+} from '../../../Handlers/PatientHandler';
 interface FormData {
   name: string;
   surname: string;
@@ -16,6 +23,7 @@ interface FormData {
 }
 
 const AgregarPacientes: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     surname: '',
@@ -27,15 +35,34 @@ const AgregarPacientes: React.FC = () => {
     address: '',
     gender: '',
   });
-
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
-
+  const [errormsg, setErrorMsg] = useState<string>("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const asyncCreateUser = async(UserPatient: UserPatient, paciente:Patient)=>{
 
-  const handleSubmit = (e: React.FormEvent) => {
+    try {
+      const user = await createUsersPatient(UserPatient);
+      if(user.id != 0){
+        paciente.userId = user.id;
+       const pacientecreate = await handleCreatePatient(paciente);
+       if(
+         pacientecreate.userId != 0
+       ){
+        return true;
+       }
+      }
+  } catch (error) {
+ 
+      setErrorMsg(error.response.data.message??'')
+     
+  }
+
+   return false;
+  }
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const errors: Partial<FormData> = {};
@@ -70,7 +97,38 @@ const AgregarPacientes: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      console.log(formData);
+      const user:UserPatient = {
+        username: formData.name +' '+ formData.surname,
+        email:formData.email,
+        password:'pacientetest',
+        role:1
+      }
+      const patients:Patient = {
+        occupation: formData.occupation,
+        picture: "",
+        phone: formData.phone,
+        bloodGroup: formData.bloodGroup,
+        maritalStatus: formData.maritalStatus,
+        address: formData.address,
+        gender: formData.gender,
+        userId: 0
+      }
+      const createUser = await asyncCreateUser(user,patients);
+      if(createUser){
+        Swal.fire({
+          icon: 'success',
+          title: 'Guardado',
+          text: 'El paciente se ha guardado correctamente.',
+        });
+        navigate('/admin-Listpacientes');
+      }else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.'+errormsg,
+        });
+      }
+      console.log(user,formData,'AQUI ESTA INFO');
     }
   };
 
@@ -268,3 +326,7 @@ const AgregarPacientes: React.FC = () => {
 };
 
 export default AgregarPacientes;
+
+
+
+
