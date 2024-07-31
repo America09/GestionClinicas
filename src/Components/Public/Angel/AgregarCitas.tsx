@@ -21,19 +21,22 @@ const AgregarCitas: React.FC = () => {
 
     const handleSave = async () => {
         try {
-            await handleCreateAppointment({ 
-                reason, 
-                medicId, 
-                patientId, 
-                nombre, 
-                apellido, 
-                genero, 
-                correo, 
-                numeroTelefono, 
-                estado, 
-                codigoPostal, 
-                specialtyId, 
-                fechaCita 
+            await handleCreateAppointment({
+                reason,
+                medicId,
+                patientId,
+                nombre,
+                apellido,
+                genero,
+                correo,
+                numeroTelefono,
+                estado,
+                codigoPostal,
+                specialtyId,
+                fechaCita,
+                id: 0,
+                medicName: '',
+                specialtyName: ''
             });
             Swal.fire('Guardado!', 'La cita ha sido creada exitosamente.', 'success');
             navigate('/admin-citas');
