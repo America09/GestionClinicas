@@ -21,9 +21,10 @@ export const handleGetAppointmentById = async (id: string): Promise<Appointment>
     }
 };
 
-export const handleCreateAppointment = async (appointment: Appointment): Promise<Appointment> => {
+export const handleCreateAppointment = async (appointment: Omit<Appointment, 'id'>): Promise<Appointment> => {
     try {
         const newAppointment = await createAppointment(appointment);
+        console.log(newAppointment)
         return newAppointment;
     } catch (error) {
         console.error('Error al crear la cita:', error);

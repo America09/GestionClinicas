@@ -14,7 +14,7 @@ const menuItems = [
     { icon: <MedicalServicesOutlinedIcon fontSize="medium" />, label: 'Especialidad', route: '/admin-especialidad' },
     { icon: <PermContactCalendarOutlinedIcon fontSize="medium" />, label: 'Consultorios', route: '/admin-consultorios' },
     { icon: <PendingActionsOutlinedIcon fontSize="medium" />, label: 'Citas', route: '/admin-citas' },
-    { icon: <PermIdentityOutlinedIcon fontSize="medium" />, label: 'Pacientes', route: '/admin-Listpacientes' },
+    // { icon: <PermIdentityOutlinedIcon fontSize="medium" />, label: 'Pacientes', route: '/admin-Listpacientes' },
     { icon: <Person3OutlinedIcon fontSize="medium" />, label: 'Médicos', route: '/admin-medicos' },
     { icon: <EventAvailableOutlinedIcon fontSize="medium" />, label: 'Horarios', route: '/admin-horarios' },
 ];

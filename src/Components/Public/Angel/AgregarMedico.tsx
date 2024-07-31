@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, FormControlLabel, Switch, Grid } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, Grid, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { handleCreateMedic } from '../../../Handlers/MedicHandler';
+import { handleGetConsultorios } from '../../../Handlers/ConsultorioHandler';
 import Swal from 'sweetalert2';
 
 const AgregarMedico: React.FC = () => {
@@ -10,10 +11,23 @@ const AgregarMedico: React.FC = () => {
     const [school, setSchool] = React.useState<string>('');
     const [yearExperience, setYearExperience] = React.useState<number>(0);
     const [dateGraduate, setDateGraduate] = React.useState<string>('');
-    const [availability, setAvailability] = React.useState<boolean>(true);
     const [userId, setUserId] = React.useState<number>(0);
     const [horarioId, setHorarioId] = React.useState<number>(0);
     const [consultorioId, setConsultorioId] = React.useState<number>(0);
+    const [consultorios, setConsultorios] = React.useState<{ id: number, name: string }[]>([]);
+
+    React.useEffect(() => {
+        const fetchConsultorios = async () => {
+            try {
+                const fetchedConsultorios = await handleGetConsultorios();
+                setConsultorios(fetchedConsultorios);
+            } catch (error) {
+                console.error('Error al obtener los consultorios:', error);
+            }
+        };
+
+        fetchConsultorios();
+    }, []);
 
     const handleSave = async () => {
         try {
@@ -31,7 +45,6 @@ const AgregarMedico: React.FC = () => {
                 year,
                 month,
                 day,
-                availability,
                 userId,
                 horarioId,
                 consultorioId
@@ -128,26 +141,21 @@ const AgregarMedico: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    margin="dense"
-                                    label="Consultorio"
-                                    type="number"
-                                    fullWidth
-                                    value={consultorioId}
-                                    onChange={(e) => setConsultorioId(Number(e.target.value))}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <FormControlLabel
-                                    control={
-                                        <Switch
-                                            checked={availability}
-                                            onChange={(e) => setAvailability(e.target.checked)}
-                                            name="availability"
-                                        />
-                                    }
-                                    label="Disponibilidad"
-                                />
+                                <FormControl fullWidth margin="dense">
+                                    <InputLabel id="consultorio-label">Consultorio</InputLabel>
+                                    <Select
+                                        labelId="consultorio-label"
+                                        value={consultorioId}
+                                        label="Consultorio"
+                                        onChange={(e) => setConsultorioId(Number(e.target.value))}
+                                    >
+                                        {consultorios.map((consultorio) => (
+                                            <MenuItem key={consultorio.id} value={consultorio.id}>
+                                                {consultorio.name}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                         </Grid>
 

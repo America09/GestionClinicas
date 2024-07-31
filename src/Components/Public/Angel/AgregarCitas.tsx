@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, FormControlLabel, Switch } from '@mui/material';
+import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { handleCreateAppointment } from '../../../Handlers/appointmentHandlers';
 import Swal from 'sweetalert2';
 
-const AgregarCitas: React.FC = () => {
+const AgregarCita: React.FC = () => {
     const navigate = useNavigate();
     const [reason, setReason] = React.useState<string>('');
     const [medicId, setMedicId] = React.useState<number>(0);
@@ -15,12 +15,26 @@ const AgregarCitas: React.FC = () => {
 
     const handleSave = async () => {
         try {
-            await handleCreateAppointment({ reason, medicId, specialtyId, fechaCita, hora, descripcion });
+            const newAppointment = {
+                reason,
+                medicId,
+                specialtyId,
+                fechaCita: `${fechaCita}T${hora}:00`, // Asegúrate de incluir segundos en la fecha
+                descripcion
+            };
+
+            console.log("Datos de la cita que se envían:", JSON.stringify(newAppointment, null, 2)); // Consola para ver los datos que se envían
+
+            await handleCreateAppointment(newAppointment);
             Swal.fire('Guardado!', 'La cita ha sido creada exitosamente.', 'success');
             navigate('/admin-citas');
         } catch (error) {
             console.error('Error al crear la cita:', error);
-            Swal.fire('Error', 'Hubo un problema al crear la cita.', 'error');
+            if (error.response && error.response.data && error.response.data.message) {
+                Swal.fire('Error', `Hubo un problema al crear la cita: ${error.response.data.message}`, 'error');
+            } else {
+                Swal.fire('Error', 'Hubo un problema al crear la cita.', 'error');
+            }
         }
     };
 
@@ -116,4 +130,4 @@ const AgregarCitas: React.FC = () => {
     );
 };
 
-export default AgregarCitas;
+export default AgregarCita;
