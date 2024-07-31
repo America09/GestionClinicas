@@ -9,6 +9,8 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ requiredPermissions }) => {
     const { authState } = useAuth();
     const hasPermission = requiredPermissions.every((perm) => authState.permissions.includes(perm));
+    console.log(requiredPermissions,authState,'aquii');
+    console.log(hasPermission);
 
     if (!authState.isAuthenticated) {
         return <Navigate to="/" />;

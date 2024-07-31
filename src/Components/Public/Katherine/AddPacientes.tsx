@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
-import Swal from 'sweetalert2'; 
+import React, { useState,useEffect } from 'react';
 import { TextField, Button, Box, Typography, MenuItem, Select, InputLabel, FormControl, Grid, Container, Breadcrumbs, Link, Paper } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import HomeIcon from '@mui/icons-material/Home';
-
+import { Patient, UserPatient } from '../../../Types/Patient';  
+import { User} from '../../../Types/Api';
+import Swal from 'sweetalert2';  
+import { useNavigate } from 'react-router-dom';
+import {
+  handleCreatePatient,
+  createUsersPatient
+} from '../../../Handlers/PatientHandler';
 interface FormData {
   name: string;
   surname: string;
@@ -17,6 +23,7 @@ interface FormData {
 }
 
 const AgregarPacientes: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     name: '',
     surname: '',
@@ -28,14 +35,33 @@ const AgregarPacientes: React.FC = () => {
     address: '',
     gender: '',
   });
-
   const [formErrors, setFormErrors] = useState<Partial<FormData>>({});
-
+  const [errormsg, setErrorMsg] = useState<string>("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent<string>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const asyncCreateUser = async(UserPatient: UserPatient, paciente:Patient)=>{
 
+    try {
+      const user = await createUsersPatient(UserPatient);
+      if(user.id != 0){
+        paciente.userId = user.id;
+       const pacientecreate = await handleCreatePatient(paciente);
+       if(
+         pacientecreate.userId != 0
+       ){
+        return true;
+       }
+      }
+  } catch (error) {
+ 
+      setErrorMsg(error.response.data.message??'')
+     
+  }
+
+   return false;
+  }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -71,35 +97,38 @@ const AgregarPacientes: React.FC = () => {
     setFormErrors(errors);
 
     if (Object.keys(errors).length === 0) {
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
+      const user:UserPatient = {
+        username: formData.name +' '+ formData.surname,
+        email:formData.email,
+        password:'pacientetest',
+        role:1
+      }
+      const patients:Patient = {
+        occupation: formData.occupation,
+        picture: "",
+        phone: formData.phone,
+        bloodGroup: formData.bloodGroup,
+        maritalStatus: formData.maritalStatus,
+        address: formData.address,
+        gender: formData.gender,
+        userId: 0
+      }
+      const createUser = await asyncCreateUser(user,patients);
+      if(createUser){
         Swal.fire({
-          title: 'Éxito',
-          text: 'Paciente agregado correctamente.',
           icon: 'success',
-          confirmButtonText: 'OK',
+          title: 'Guardado',
+          text: 'El paciente se ha guardado correctamente.',
         });
-
-        setFormData({
-          name: '',
-          surname: '',
-          email: '',
-          phone: '',
-          bloodGroup: '',
-          occupation: '',
-          maritalStatus: '',
-          address: '',
-          gender: '',
-        });
-      } catch (error) {
+        navigate('/admin-Listpacientes');
+      }else{
         Swal.fire({
-          title: 'Error',
-          text: 'Hubo un problema al agregar el paciente. Inténtalo de nuevo.',
           icon: 'error',
-          confirmButtonText: 'OK',
+          title: 'Error',
+          text: 'Hubo un error al enviar el formulario. Por favor, intenta nuevamente.'+errormsg,
         });
       }
+      console.log(user,formData,'AQUI ESTA INFO');
     }
   };
 
@@ -199,12 +228,12 @@ const AgregarPacientes: React.FC = () => {
                   <MenuItem value="O+">O+</MenuItem>
                   <MenuItem value="O-">O-</MenuItem>
                 </Select>
-                {formErrors.bloodGroup && (
-                  <Typography variant="body2" color="error" sx={{ mt: 1 }}>
-                    {formErrors.bloodGroup}
-                  </Typography>
-                )}
               </FormControl>
+              {formErrors.bloodGroup && (
+                <Typography variant="body2" color="error">
+                  {formErrors.bloodGroup}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -233,12 +262,12 @@ const AgregarPacientes: React.FC = () => {
                   <MenuItem value="divorciado">Divorciado</MenuItem>
                   <MenuItem value="viudo">Viudo</MenuItem>
                 </Select>
-                {formErrors.maritalStatus && (
-                  <Typography variant="body2" color="error" sx={{ mt: 1 }}>
-                    {formErrors.maritalStatus}
-                  </Typography>
-                )}
               </FormControl>
+              {formErrors.maritalStatus && (
+                <Typography variant="body2" color="error">
+                  {formErrors.maritalStatus}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -266,12 +295,12 @@ const AgregarPacientes: React.FC = () => {
                   <MenuItem value="femenino">Femenino</MenuItem>
                   <MenuItem value="otro">Otro</MenuItem>
                 </Select>
-                {formErrors.gender && (
-                  <Typography variant="body2" color="error" sx={{ mt: 1 }}>
-                    {formErrors.gender}
-                  </Typography>
-                )}
               </FormControl>
+              {formErrors.gender && (
+                <Typography variant="body2" color="error">
+                  {formErrors.gender}
+                </Typography>
+              )}
             </Grid>
             <Grid item xs={12}>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
