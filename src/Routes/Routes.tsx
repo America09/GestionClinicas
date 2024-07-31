@@ -140,7 +140,7 @@ const AppRouter = () => {
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/editar-medicos']} />}>
                     <Route element={<AuthLayout />}>
-                        <Route path="/editar-medico" element={<EdiMed />} />
+                        <Route path="/editar-medicos" element={<EdiMed />} />
                     </Route>
                 </Route>
 
