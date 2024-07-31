@@ -97,19 +97,19 @@ export const ListPacientes = () => {
         />
       ),
     },
-    {
-      field: 'Editar',
-      headerName: 'Editar',
-      width: 100,
-      sortable: false,
-      renderCell: (params: GridRenderCellParams) => (
-        <GridActionsCellItem
-          icon={<EditIcon />}
-          label="Edit"
-          onClick={() => handleEdit(params.id as number)}
-        />
-      ),
-    },
+    // {
+    //   field: 'Editar',
+    //   headerName: 'Editar',
+    //   width: 100,
+    //   sortable: false,
+    //   renderCell: (params: GridRenderCellParams) => (
+    //     <GridActionsCellItem
+    //       icon={<EditIcon />}
+    //       label="Edit"
+    //       onClick={() => handleEdit(params.id as number)}
+    //     />
+    //   ),
+    // },
     {
       field: 'Eliminar',
       headerName: 'Eliminar',
