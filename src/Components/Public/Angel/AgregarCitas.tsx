@@ -135,7 +135,7 @@ const AgregarCitas: React.FC = () => {
 <<<<<<< Updated upstream
                                                 {patient.phone}
 =======
-                                                {patient.} {/* Puedes ajustar esto para mostrar el nombre del paciente si está disponible */}
+                                                {patient.}
 >>>>>>> Stashed changes
                                             </MenuItem>
                                         ))}
