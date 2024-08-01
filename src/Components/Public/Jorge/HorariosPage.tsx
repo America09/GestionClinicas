@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, FormControl, InputLabel, Paper } from '@mui/material';
+import { Typography, Breadcrumbs, Button, Box, Container, Dialog, DialogTitle, DialogContent, DialogActions, TextField, MenuItem, Select, FormControl, InputLabel, Paper, Link } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import HomeIcon from '@mui/icons-material/Home';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Horario, UpdateHorarioDto } from '../../../Types/Horario';
 import { handleDeleteHorario, handleGetHorarios, handleUpdateHorario } from '../../../Handlers/HorarioHandler';
@@ -152,13 +154,16 @@ const HorariosPage: React.FC = () => {
             <Paper sx={{ padding: 4, textAlign: 'center', width: '100%', boxShadow: 3, borderRadius: 2 }}>
                 <Box sx={{ width: '100%' }}>
                     <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'flex-start', display: 'flex', mb: 2 }}>
-                        <Link underline="hover" color="inherit" href="/">Home</Link>
+                        <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+                            <HomeIcon sx={{ mr: 0.5 }} />
+                            Inicio
+                        </Link>
                         <Typography color="text.primary">Horarios</Typography>
                     </Breadcrumbs>
 
                     <Typography variant="h4" component="h2" gutterBottom>Lista de Horarios</Typography>
 
-                    <Box sx={{ width: '100%', mt: 2 }}>
+                    <Box sx={{ width: '100%' }}>
                         <DataGrid
                             rows={horarios}
                             columns={columns}

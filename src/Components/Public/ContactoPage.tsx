@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { Box, Grid, Typography, TextField, Button, Link } from '@mui/material';
+import { Box, Grid, Typography, TextField, Button, CircularProgress, Link } from '@mui/material';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import EmailIcon from '@mui/icons-material/Email';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -19,6 +19,7 @@ const ContactForm = () => {
   });
   const [success, setSuccess] = useState<string>(''); 
   const [submitError, setSubmitError] = useState<string>(''); 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -53,16 +54,20 @@ const ContactForm = () => {
     setErrors(errors);
 
     if (valid) {
+      setIsLoading(true);
       try {
         await ContactMen(name, email, message);
         setSuccess('Mensaje enviado con éxito');
         setName('');
         setEmail('');
         setMessage('');
+        setErrors({ name: '', email: '', phone: '', message: '' });
         setSubmitError('');
       } catch (error: any) {
         setSubmitError(error.message);
         setSuccess('');
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -163,16 +168,26 @@ const ContactForm = () => {
               error={!!errors.message}
               helperText={errors.message}
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
-            >
-              Enviar
-            </Button>
+            <Box sx={{ position: 'relative' }}>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' } }}
+                disabled={isLoading}
+              >
+                Enviar
+              </Button>
+              {isLoading && <CircularProgress size={24} sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-12px',
+                marginLeft: '-12px',
+              }} />}
+            </Box>
             {submitError && <Typography color="error">{submitError}</Typography>}
-            {success && <Typography color="success">{success}</Typography>}
+            {success && <Typography sx={{ color: 'green' }}>{success}</Typography>}
           </Box>
         </Grid>
       </Grid>

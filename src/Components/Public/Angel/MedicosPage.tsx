@@ -9,10 +9,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { handleDeleteMedic, handleGetMedics, handleUpdateMedic } from '../../../Handlers/MedicHandler';
 import { getConsultorios } from '../../../Handlers/ConsultorioHandler';
-import { handleGetHorarios } from '../../../Handlers/HorarioHandler';
 import { Medic } from '../../../Types/Medics';
 import { Consultorio } from '../../../Types/Consultorio';
-import { Horario } from '../../../Types/Horario';
 
 const MedicsPage: React.FC = () => {
     const navigate = useNavigate();
@@ -20,40 +18,29 @@ const MedicsPage: React.FC = () => {
     const [openEdit, setOpenEdit] = React.useState(false);
     const [selectedMedic, setSelectedMedic] = React.useState<Medic | null>(null);
     const [consultorios, setConsultorios] = React.useState<Consultorio[]>([]);
-    const [horarios, setHorarios] = React.useState<Horario[]>([]);
 
     React.useEffect(() => {
+        const fetchMedics = async () => {
+            try {
+                const fetchedMedics = await handleGetMedics();
+                setMedics(fetchedMedics);
+            } catch (error) {
+                console.error('Error al obtener los médicos:', error);
+            }
+        };
+
+        const fetchConsultorios = async () => {
+            try {
+                const fetchedConsultorios = await getConsultorios();
+                setConsultorios(fetchedConsultorios);
+            } catch (error) {
+                console.error('Error al obtener los consultorios:', error);
+            }
+        };
+
         fetchMedics();
         fetchConsultorios();
-        fetchHorarios();
     }, []);
-
-    const fetchMedics = async () => {
-        try {
-            const fetchedMedics = await handleGetMedics();
-            setMedics(fetchedMedics);
-        } catch (error) {
-            console.error('Error al obtener los médicos:', error);
-        }
-    };
-
-    const fetchConsultorios = async () => {
-        try {
-            const fetchedConsultorios = await getConsultorios();
-            setConsultorios(fetchedConsultorios);
-        } catch (error) {
-            console.error('Error al obtener los consultorios:', error);
-        }
-    };
-
-    const fetchHorarios = async () => {
-        try {
-            const fetchedHorarios = await handleGetHorarios();
-            setHorarios(fetchedHorarios);
-        } catch (error) {
-            console.error('Error al obtener los horarios:', error);
-        }
-    };
 
     const handleEdit = (id: number) => {
         const medic = medics.find((medic) => medic.id === id);
@@ -95,7 +82,7 @@ const MedicsPage: React.FC = () => {
         if (selectedMedic) {
             try {
                 await handleUpdateMedic(selectedMedic.id.toString(), selectedMedic);
-                fetchMedics(); // Refrescar la lista de médicos después de guardar
+                setMedics(medics.map((medic) => medic.id === selectedMedic.id ? selectedMedic : medic));
                 setOpenEdit(false);
                 setSelectedMedic(null);
                 Swal.fire('Guardado!', 'El médico ha sido editado exitosamente.', 'success');
@@ -109,7 +96,7 @@ const MedicsPage: React.FC = () => {
     const columns: GridColDef[] = [
         { field: 'id', headerName: 'ID', flex: 0.2, minWidth: 90 },
         { field: 'userId', headerName: 'Medico', flex: 1, minWidth: 90, renderCell: (params) => (params.row.userName) },
-        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 150, renderCell: (params) => (params.row.consultorioName) },
+        { field: 'consultorioId', headerName: 'Consultorio', flex: 1, minWidth: 110, renderCell: (params) => (params.row.consultorioName) },
         { field: 'horarioId', headerName: 'Horario', flex: 1, minWidth: 130, renderCell: (params) => (params.row.horarioName) },
         { field: 'professionalId', headerName: 'ID Profesional', flex: 1, minWidth: 110 },
         { field: 'school', headerName: 'Escuela', flex: 1, minWidth: 90 },
@@ -244,21 +231,14 @@ const MedicsPage: React.FC = () => {
                         value={selectedMedic?.userId || ''}
                         onChange={(e) => setSelectedMedic({ ...selectedMedic, userId: Number(e.target.value) })}
                     />
-                    <FormControl fullWidth margin="dense">
-                        <InputLabel id="horario-label">Horario</InputLabel>
-                        <Select
-                            labelId="horario-label"
-                            value={selectedMedic?.horarioId || ''}
-                            onChange={(e) => setSelectedMedic({ ...selectedMedic, horarioId: Number(e.target.value) })}
-                            label="Horario"
-                        >
-                            {horarios.map((horario) => (
-                                <MenuItem key={horario.id} value={horario.id}>
-                                    {horario.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                    <TextField
+                        margin="dense"
+                        label="Horario"
+                        type="number"
+                        fullWidth
+                        value={selectedMedic?.horarioId || ''}
+                        onChange={(e) => setSelectedMedic({ ...selectedMedic, horarioId: Number(e.target.value) })}
+                    />
                     <FormControl fullWidth margin="dense">
                         <InputLabel id="consultorio-label">Consultorio</InputLabel>
                         <Select
