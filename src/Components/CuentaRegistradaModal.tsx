@@ -1,61 +1,74 @@
-import { Box, Typography, Button } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, TextField, Button, Box, Paper } from '@mui/material';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { handleConfirmAccount } from '../Handlers/UserHandler';
+import Swal from 'sweetalert2';
 
-const CuentaRegistradaExito = () => {
-const navigate = useNavigate();
+const CuentaRegistradaExito: React.FC = () => {
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const [code, setCode] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
 
-const handleRedirect = () => {
-    navigate('/');
-};
+    useEffect(() => {
+        const initialCode = searchParams.get('code');
+        if (initialCode) {
+            setCode(initialCode);
+        }
+    }, [searchParams]);
 
-return (
-    <Box
-    sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh',
-        bgcolor: 'background.paper',
-        p: { xs: 2, sm: 4, md: 6 },
-        borderRadius: '30px',
-        mx: { xs: 2, sm: 'auto' }, 
-        maxWidth: { xs: '90%', sm: 400 }, 
-        boxShadow: '0px 4px 12px #0000001A', 
-    }}
-    >
-    <CheckCircleIcon sx={{ fontSize: { xs: 40, sm: 60 }, color: '#408D86', mt: 2 }} />
-    <Typography
-        variant="h6"
-        component="h2"
-        sx={{ mt: 2, textAlign: 'center', fontSize: { xs: '1.2rem', sm: '1.5rem' } }}
-    >
-        ¡Cuenta Registrada Exitosamente!
-    </Typography>
-    <Typography
-        variant="body2"
-        sx={{ mt: 2, textAlign: 'center', fontSize: { xs: '0.9rem', sm: '1rem' } }}
-    >
-        Tu cuenta ha sido creada satisfactoriamente. Ahora puedes iniciar sesión y disfrutar de nuestros servicios.
-    </Typography>
-    <Button
-        onClick={handleRedirect}
-        variant="contained"
-        sx={{
-        mt: 2,
-        bgcolor: '#408D86',
-        color: '#FFFFFF',
-        '&:hover': { bgcolor: '#336B5B' },
-        borderRadius: '20px',
-        padding: { xs: '8px 16px', sm: '10px 20px' },
-        width: { xs: '100%', sm: 'auto' },
-        }}
-    >
-        Aceptar
-    </Button>
-    </Box>
-);
+    const handleConfirm = async () => {
+        setLoading(true);
+        try {
+            const message = await handleConfirmAccount(code);
+            Swal.fire('Éxito', message, 'success');
+            navigate('/');
+        } catch (error: any) {
+            Swal.fire('Error', error.message || 'Error al confirmar la cuenta.', 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    return (
+        <Container maxWidth="sm" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'flex-start', height: '100vh', paddingTop: '5vh' }}>
+            <Paper sx={{ padding: 4, textAlign: 'center', width: '100%', boxShadow: 3, borderRadius: 2 }}>
+                <Box sx={{ width: '100%' }}>
+                    <Typography variant="h4" component="h2" gutterBottom>
+                        Confirmar Cuenta
+                    </Typography>
+                    <Box component="form" sx={{ mt: 2 }}>
+                        <TextField
+                            margin="dense"
+                            label="Código de Confirmación"
+                            type="text"
+                            fullWidth
+                            value={code}
+                            onChange={(e) => setCode(e.target.value)}
+                            disabled={loading}
+                        />
+                        <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                            <Button
+                                variant="contained"
+                                sx={{
+                                    bgcolor: '#43A49B',
+                                    color: 'white',
+                                    textTransform: 'capitalize',
+                                    '&:hover': {
+                                        bgcolor: '#51C5BA',
+                                    },
+                                }}
+                                onClick={handleConfirm}
+                                disabled={loading || !code}
+                            >
+                                {loading ? 'Confirmando...' : 'Confirmar Cuenta'}
+                            </Button>
+                        </Box>
+                    </Box>
+                </Box>
+            </Paper>
+        </Container>
+    );
 };
 
 export default CuentaRegistradaExito;

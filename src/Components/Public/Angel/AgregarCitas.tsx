@@ -5,10 +5,8 @@ import Swal from 'sweetalert2';
 import { handleCreateAppointment } from '../../../Handlers/AppointmentHandler';
 import { handleGetMedics } from '../../../Handlers/MedicHandler';
 import { handleGetEspecialidades } from '../../../Handlers/EspecialidadHandler';
-import { handleGetPatient } from '../../../Handlers/PatientHandler';
 import { Medic } from '../../../Types/Medics';
 import { Especialidad } from '../../../Types/Especialidad';
-import { Patient } from '../../../Types/Patient';
 
 const AgregarCitas: React.FC = () => {
     const navigate = useNavigate();
@@ -26,7 +24,6 @@ const AgregarCitas: React.FC = () => {
     const [fechaCita, setFechaCita] = React.useState<string>('');
     const [medics, setMedics] = React.useState<Medic[]>([]);
     const [especialidades, setEspecialidades] = React.useState<Especialidad[]>([]);
-    const [patients, setPatients] = React.useState<Patient[]>([]);
 
     React.useEffect(() => {
         const fetchData = async () => {
@@ -35,8 +32,6 @@ const AgregarCitas: React.FC = () => {
                 setMedics(fetchedMedics);
                 const fetchedEspecialidades = await handleGetEspecialidades();
                 setEspecialidades(fetchedEspecialidades);
-                const fetchedPatients = await handleGetPatient();
-                setPatients(fetchedPatients);
             } catch (error) {
                 console.error('Error al obtener datos:', error);
             }
@@ -88,7 +83,7 @@ const AgregarCitas: React.FC = () => {
                         <Link underline="hover" color="inherit" href="/admin-citas">
                             Citas
                         </Link>
-                        <Typography color="text.primary">Crear Citas</Typography>
+                        <Typography color="text.primary">Crear Cita</Typography>
                     </Breadcrumbs>
 
                     <Typography variant="h4" component="h2" gutterBottom>
@@ -124,20 +119,14 @@ const AgregarCitas: React.FC = () => {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <FormControl fullWidth margin="dense">
-                                    <InputLabel>Paciente</InputLabel>
-                                    <Select
-                                        value={patientId}
-                                        onChange={(e) => setPatientId(Number(e.target.value))}
-                                        label="Paciente"
-                                    >
-                                        {patients.map((patient) => (
-                                            <MenuItem key={patient.userId} value={patient.userId}>
-                                                {patient.phone} {/* Puedes ajustar esto para mostrar el nombre del paciente si está disponible */}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                </FormControl>
+                                <TextField
+                                    margin="dense"
+                                    label="ID del Paciente"
+                                    type="number"
+                                    fullWidth
+                                    value={patientId}
+                                    onChange={(e) => setPatientId(Number(e.target.value))}
+                                />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -164,7 +153,7 @@ const AgregarCitas: React.FC = () => {
                                     <InputLabel>Género</InputLabel>
                                     <Select
                                         value={genero}
-                                        onChange={(e) => setGenero(e.target.value)}
+                                        onChange={(e) => setGenero(e.target.value as string)}
                                         label="Género"
                                     >
                                         <MenuItem value="Masculino">Masculino</MenuItem>

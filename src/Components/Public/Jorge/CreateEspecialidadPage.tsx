@@ -74,7 +74,6 @@ const CreateEspecialidad: React.FC = () => {
         icon: 'error',
         confirmButtonText: 'Aceptar',
         confirmButtonColor: '#43A49B'
-        
       });
     }
   };
@@ -103,7 +102,7 @@ const CreateEspecialidad: React.FC = () => {
           margin: '0 auto',
         }}
       >
-        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-start', ml: 2 }}>
+        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center', ml: 2, mr: 2 }}>
           <Breadcrumbs aria-label="breadcrumb">
             <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
               <HomeIcon sx={{ mr: 0.5 }} />
@@ -114,7 +113,21 @@ const CreateEspecialidad: React.FC = () => {
             </Link>
             <Typography color="textPrimary">Añadir Especialidad</Typography>
           </Breadcrumbs>
+
+          <Button
+            variant="contained"
+            sx={{ 
+              backgroundColor: '#408D86', 
+              color: 'white', 
+              '&:hover': { backgroundColor: '#004d50' }, 
+              textTransform: 'capitalize' 
+            }}
+            onClick={handleSubmit}
+          >
+            Agregar
+          </Button>
         </Box>
+
         <Typography variant="h6" gutterBottom align="center">
           Agregar Especialidad
         </Typography>
@@ -143,15 +156,6 @@ const CreateEspecialidad: React.FC = () => {
                 error={!!formErrors.descripcion}
                 helperText={formErrors.descripcion}
               />
-            </Grid>
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Button
-                type="submit"
-                variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundColor: '#408D86', color: 'white', '&:hover': { backgroundColor: '#004d50' }, width: 'auto', textTransform: 'capitalize' }}
-              >
-                Agregar
-              </Button>
             </Grid>
           </Grid>
         </form>

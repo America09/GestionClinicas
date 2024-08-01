@@ -1,5 +1,6 @@
 import clientAxios from '../Config/Axios';
-import { Appointment } from '../Types/Appointment';
+import { Appointment, CreateAppointment } from '../Types/Appointment';
+
 
 export const getAppointments = async (): Promise<Appointment[]> => {
     const response = await clientAxios.get<Appointment[]>('/Appointments');
@@ -11,7 +12,7 @@ export const getAppointmentById = async (id: string): Promise<Appointment> => {
     return response.data;
 };
 
-export const createAppointment = async (appointment: Appointment): Promise<Appointment> => {
+export const createAppointment = async (appointment: CreateAppointment): Promise<Appointment> => {
     const response = await clientAxios.post<Appointment>('/Appointments', appointment);
     return response.data;
 };

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, Box, Typography, FormControl, Grid, Breadcrumbs, Link, Container, Paper } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { CreateHorarioDto } from '../../../Types/Horario';
 import { handleCreateHorario } from '../../../Handlers/HorarioHandler';
-
 
 const CreateHorario: React.FC = () => {
     const [formData, setFormData] = useState<CreateHorarioDto>({
@@ -17,6 +16,7 @@ const CreateHorario: React.FC = () => {
     });
 
     const [formErrors, setFormErrors] = useState<Partial<CreateHorarioDto>>({});
+    const navigate = useNavigate(); // Hook para la redirección
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -50,6 +50,8 @@ const CreateHorario: React.FC = () => {
                     text: 'El horario ha sido guardado correctamente.',
                     icon: 'success',
                     confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    navigate('/admin-horarios'); // Redirección a la lista de horarios
                 });
             } catch (error: any) {
                 Swal.fire({

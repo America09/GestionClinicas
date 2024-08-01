@@ -153,13 +153,22 @@ const HorariosPage: React.FC = () => {
         <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <Paper sx={{ padding: 4, textAlign: 'center', width: '100%', boxShadow: 3, borderRadius: 2 }}>
                 <Box sx={{ width: '100%' }}>
-                    <Breadcrumbs aria-label="breadcrumb" sx={{ justifyContent: 'flex-start', display: 'flex', mb: 2 }}>
-                        <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
-                            <HomeIcon sx={{ mr: 0.5 }} />
-                            Inicio
-                        </Link>
-                        <Typography color="text.primary">Horarios</Typography>
-                    </Breadcrumbs>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <Breadcrumbs aria-label="breadcrumb">
+                            <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
+                                <HomeIcon sx={{ mr: 0.5 }} />
+                                Inicio
+                            </Link>
+                            <Typography color="text.primary">Horarios</Typography>
+                        </Breadcrumbs>
+                        <Button 
+                            variant="contained"
+                            sx={{ bgcolor: '#43A49B', color: 'white', textTransform: 'capitalize', '&:hover': { bgcolor: '#51C5BA' }}}
+                            onClick={() => navigate("/admin-createHorarios")}
+                        >
+                            Añadir horario
+                        </Button>
+                    </Box>
 
                     <Typography variant="h4" component="h2" gutterBottom>Lista de Horarios</Typography>
 
@@ -179,16 +188,6 @@ const HorariosPage: React.FC = () => {
                             autoHeight
                             sx={{ '& .MuiDataGrid-root': { overflowX: 'auto' } }}
                         />
-                    </Box>
-
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                        <Button 
-                            variant="contained"
-                            sx={{ bgcolor: '#43A49B', color: 'white', textTransform: 'capitalize', '&:hover': { bgcolor: '#51C5BA' }}}
-                            onClick={() => navigate("/admin-createHorarios")}
-                        >
-                            + Añadir horario
-                        </Button>
                     </Box>
                 </Box>
             </Paper>
