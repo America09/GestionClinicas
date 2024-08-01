@@ -6,6 +6,8 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { ContactMen } from '../../Services/Contact'; 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContactForm = () => {
   const [name, setName] = useState<string>('');
@@ -63,6 +65,9 @@ const ContactForm = () => {
         setMessage('');
         setErrors({ name: '', email: '', phone: '', message: '' });
         setSubmitError('');
+        toast.success('Mensaje enviado con éxito', {
+          position: 'top-right',
+        });        
       } catch (error: any) {
         setSubmitError(error.message);
         setSuccess('');
@@ -84,6 +89,7 @@ const ContactForm = () => {
 
   return (
     <Box sx={{ height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 4 }}>
+      <ToastContainer />
       <Grid container spacing={2} sx={{ maxWidth: 900, boxShadow: 3, borderRadius: 3, overflow: 'hidden', backgroundColor: 'white' }}>
         <Grid item xs={12} md={6} sx={{ display: { xs: 'none', md: 'block' } }}>
           <img

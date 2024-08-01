@@ -179,7 +179,7 @@ const PermissionsPage: React.FC = () => {
             }}
             onClick={() => handleOpenModal(null)}
           >
-            + Añadir Permiso
+             Añadir Permiso
           </Button>
         </Box>
       </Paper>

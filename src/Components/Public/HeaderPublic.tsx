@@ -1,5 +1,5 @@
 import { useState, useContext, ChangeEvent, MouseEvent, KeyboardEvent } from 'react';
-import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, Divider, IconButton, Drawer, List, ListItem, ListItemText, ListItemIcon } from '@mui/material';
+import { AppBar, Toolbar, Box, Link, Modal, Typography, Button, TextField, Divider, IconButton, Drawer, List, ListItem, ListItemText, ListItemIcon, CircularProgress } from '@mui/material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,6 +14,8 @@ import BusinessIcon from '@mui/icons-material/Business';
 import EventIcon from '@mui/icons-material/Event';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import LoginIcon from '@mui/icons-material/Login';
+import { GoogleLogin } from '@react-oauth/google';
+import {jwtDecode} from 'jwt-decode';
 
 const HeaderPublic = () => {
     const [openLogin, setOpenLogin] = useState(false);
@@ -24,6 +26,8 @@ const HeaderPublic = () => {
     const [password, setPassword] = useState('');
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [generalError, setGeneralError] = useState('');
+    const [isLoading, setIsLoading] = useState(false); 
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -33,7 +37,10 @@ const HeaderPublic = () => {
         setOpenRecuperarContrasena(false);
     };
 
-    const handleCloseLogin = () => setOpenLogin(false);
+    const handleCloseLogin = () => {
+        setOpenLogin(false);
+        setGeneralError('');
+    };
 
     const handleOpenSignup = () => {
         setOpenSignup(true);
@@ -58,6 +65,19 @@ const HeaderPublic = () => {
         setOpenDrawer(open);
     };
 
+     const handleGoogleLoginSuccess = (credentialResponse: any) => {
+        if (credentialResponse.credential) {
+            const decodedToken: any = jwtDecode(credentialResponse.credential);
+            authContext.login(credentialResponse.credential);
+            console.log('Google login successful:', decodedToken);
+            navigate('/dashboard');
+        }
+    };
+
+    const handleGoogleLoginError = () => {
+        console.error('Google login failed');
+    };
+
     const drawerContent = (
         <Box
             sx={{
@@ -68,7 +88,7 @@ const HeaderPublic = () => {
                 color: 'white',
                 display: 'flex',
                 flexDirection: 'column',
-                justifyContent: 'flex-start' 
+                justifyContent: 'flex-start'
             }}
             role="presentation"
             onClick={toggleDrawer(false)}
@@ -127,10 +147,20 @@ const HeaderPublic = () => {
         }
 
         if (valid) {
-            const loginRequest: LoginRequest = { email, password };
-            const success = await handleLogin(loginRequest, authContext);
-            if (success) {
-                navigate('/dashboard'); 
+            setIsLoading(true);
+            try {
+                const loginRequest: LoginRequest = { email, password };
+                const success = await handleLogin(loginRequest, authContext);
+                setIsLoading(false); 
+
+                if (success) {
+                    navigate('/dashboard');
+                } else {
+                    setGeneralError('Correo o contraseña incorrectos');
+                }
+            } catch (error) {
+                setIsLoading(false); 
+                setGeneralError('Ocurrió un error. Por favor, inténtelo de nuevo.');
             }
         }
     };
@@ -253,16 +283,30 @@ const HeaderPublic = () => {
                         margin="normal"
                         value={password}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                        error={!!passwordError} 
-                        helperText={passwordError} 
-/>
+                        error={!!passwordError}
+                        helperText={passwordError}
+                    />
                     <Typography variant="body2" sx={{ color: 'text.secondary', textAlign: 'left', width: '100%' }}>
                         Al menos 8 caracteres*
                     </Typography>
-                    <Button onClick={onLogin} variant="contained" color="primary"
-                        sx={{ mt: 2, bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}>
-                        Ingresar
+                    {generalError && (
+                        <Typography color="error" sx={{ mt: 1, mb: 2 }}>
+                            {generalError}
+                        </Typography>
+                    )}
+                    <Button
+                        onClick={onLogin}
+                        variant="contained"
+                        color="primary"
+                        sx={{ mt: 2, bgcolor: '#408D86', color: '#FFFFFF', '&:hover': { bgcolor: '#336B5B' }, borderRadius: '20px', padding: '10px 20px', width: '100%' }}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Ingresar'}
                     </Button>
+                    <GoogleLogin
+                        onSuccess={credentialResponse => handleGoogleLoginSuccess(credentialResponse)}
+                        onError={handleGoogleLoginError}
+                    />
                     <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center', marginTop: 3 }}>
                         ¿No tienes cuenta?
                         <Link component="button" onClick={handleOpenSignup} sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
@@ -280,12 +324,12 @@ const HeaderPublic = () => {
             <CrearCuentaModal
                 open={openSignup}
                 onClose={handleCloseSignup}
-                onOpenLogin={handleOpenLogin} 
+                onOpenLogin={handleOpenLogin}
             />
             <RecuperarContrasenaModal 
                 open={openRecuperarContrasena} 
                 onClose={handleCloseRecuperarContrasena} 
-                setOpenSignup={setOpenSignup} 
+                onOpenSignup={handleOpenRecuperarContrasena} 
             />
         </>
     );

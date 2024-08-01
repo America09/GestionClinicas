@@ -130,18 +130,21 @@ const RolesPage: React.FC = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {roles.map((role) => (
-                <TableRow key={role.id}>
-                  <TableCell>{role.id}</TableCell>
-                  <TableCell>{role.name}</TableCell>
-                  <TableCell>{role.userNames.join(', ')}</TableCell>
-                  <TableCell>
-                    <Button onClick={() => handleEdit(role)}><EditIcon /></Button>
-                    <Button onClick={() => handleDelete(role.id)}><DeleteIcon /></Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
+  {roles.map((role) => (
+    <TableRow key={role.id}>
+      <TableCell>{role.id}</TableCell>
+      <TableCell>{role.name}</TableCell>
+      <TableCell>
+        {role.userNames && role.userNames.length > 0 ? role.userNames.join(', ') : 'Usuario no asignado'}
+      </TableCell>
+      <TableCell>
+        <Button onClick={() => handleEdit(role)}><EditIcon /></Button>
+        <Button onClick={() => handleDelete(role.id)}><DeleteIcon /></Button>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
+
           </Table>
         </TableContainer>
 
@@ -158,7 +161,7 @@ const RolesPage: React.FC = () => {
             }}
             onClick={() => navigate("/agregar-roles")}
           >
-            + Añadir Rol
+            Añadir Rol
           </Button>
           <Button
             variant="contained"
@@ -172,7 +175,7 @@ const RolesPage: React.FC = () => {
             }}
             onClick={() => navigate('/admin-rolespermisos')}
           >
-            + Añadir Permisos
+            Añadir Permisos
           </Button>
         </Box>
       </Paper>
