@@ -171,7 +171,7 @@ const HeaderPublic = () => {
                         >
                             Servicios
                         </NavLink>
-                        {/* <NavLink
+                        <NavLink
                             to="/citas"
                             style={({ isActive }) => ({
                                 textDecoration: 'none',
@@ -183,7 +183,7 @@ const HeaderPublic = () => {
                             })}
                         >
                             Citas
-                        </NavLink> */}
+                        </NavLink>
                         <NavLink
                             to="/medicos"
                             style={({ isActive }) => ({
@@ -269,7 +269,11 @@ const HeaderPublic = () => {
                             Crea una aquí
                         </Link>
                     </Typography>
-                   
+                    <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center' }}>
+                        <Link href="/modal" sx={{ textDecoration: 'underline', color: '#408D86' }}>
+                            Recuperar contraseña
+                        </Link>
+                    </Typography>
                 </Box>
             </Modal>
 

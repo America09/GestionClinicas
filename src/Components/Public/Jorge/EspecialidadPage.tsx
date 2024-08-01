@@ -131,7 +131,7 @@ const EspecialidadPage: React.FC = () => {
         }}
       >
         <Box sx={{ width: '100%' }}>
-          <Box sx={{ display: 'flex', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
             <Breadcrumbs aria-label="breadcrumb">
               <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                 <HomeIcon sx={{ mr: 0.5 }} />
@@ -139,6 +139,21 @@ const EspecialidadPage: React.FC = () => {
               </Link>
               <Typography color="textPrimary">Especialidades</Typography>
             </Breadcrumbs>
+
+            <Button 
+              variant="contained"
+              sx={{
+                bgcolor: '#43A49B',
+                color: 'white',
+                textTransform: 'capitalize',
+                '&:hover': {
+                  bgcolor: '#51C5BA',
+                },
+              }}
+              onClick={() => navigate("/admin-createEspecialidad")}
+            >
+              Añadir especialidad
+            </Button>
           </Box>
 
           <Box sx={{ textAlign: 'center', mb: 2 }}>
@@ -167,23 +182,6 @@ const EspecialidadPage: React.FC = () => {
                 },
               }}
             />
-          </Box>
-
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-            <Button 
-              variant="contained"
-              sx={{
-                bgcolor: '#43A49B',
-                color: 'white',
-                textTransform: 'capitalize',
-                '&:hover': {
-                  bgcolor: '#51C5BA',
-                },
-              }}
-              onClick={() => navigate("/admin-createEspecialidad")}
-            >
-              Añadir especialidad
-            </Button>
           </Box>
         </Box>
       </Paper>
@@ -217,23 +215,11 @@ const EspecialidadPage: React.FC = () => {
           />
         </DialogContent>
         <DialogActions>
-  <Button 
-    onClick={handleCloseEdit} 
-    sx={{ color: 'red' }} 
-  >
-    Cancelar
-  </Button>
-  <Button 
-    onClick={handleSaveEdit} 
-    variant="contained" 
-    sx={{ 
-      backgroundColor: '#408D86', 
-      '&:hover': { backgroundColor: '#43A49B' }  
-    }}
-  >
-    Guardar
-  </Button>
-</DialogActions>
+          <Button onClick={handleCloseEdit} sx={{ color: 'red' }}>Cancelar</Button>
+          <Button onClick={handleSaveEdit} variant="contained" sx={{ backgroundColor: '#408D86', '&:hover': { backgroundColor: '#43A49B' } }}>
+            Guardar
+          </Button>
+        </DialogActions>
       </Dialog>
     </Box>
   );
