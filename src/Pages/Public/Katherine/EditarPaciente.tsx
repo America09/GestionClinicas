@@ -1,11 +1,11 @@
-import  EditarPacientes  from "../../../Components/Public/Katherine/AddPacientes";
+import  EdiPaciente  from "../../../Components/Public/Katherine/EditarPacientes";
 import { Box } from "@mui/material"
 
 export const EditarPaciente = () => {
     return (
 
         <Box>
-        <EditarPaciente/>
+        <EdiPaciente/>
         </Box>
     )
 }

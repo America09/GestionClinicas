@@ -25,6 +25,7 @@ import { CrudCitas } from '../Pages/Public/Angel/CrudCitas';
 import { CrudRoles } from '../Pages/Public/Angel/CrudRoles';
 import { AsignarPermisos } from '../Pages/Public/Angel/AsignarPermisos';
 import { EdiMed } from '../Pages/Public/Angel/EdiMed';
+import {EditarPaciente} from '../Pages/Public/Katherine/EditarPaciente'
 import EditarCitas from "../Pages/Public/Angel/EditCitas";
 import { PacientesList } from '../Pages/Public/Katherine/ListPacientesPage';
 import { AddPacientes } from '../Pages/Public/Katherine/AddPacientesPage';
@@ -146,7 +147,11 @@ const AppRouter = () => {
                         <Route path="/editar-medicos" element={<EdiMed />} />
                     </Route>
                 </Route>
-
+                <Route element={<ProtectedRoute requiredPermissions={['/edit-paciente/:id']} />}>
+                    <Route element={<AuthLayout />}>
+                        <Route path="/edit-paciente/:id" element={<EditarPaciente />} />
+                    </Route>
+                </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/agregar-consultorios']} />}>
                     <Route element={<AuthLayout />}>
                         <Route path="/agregar-consultorios" element={<AGConsultorios />} />

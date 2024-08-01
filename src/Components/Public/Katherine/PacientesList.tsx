@@ -45,12 +45,14 @@ export const ListPacientes = () => {
         try {
           await new Promise((resolve) => setTimeout(resolve, 1000));
           console.log(`Editing paciente with ID: ${id}`);
+          navigate(`/edit-paciente/${id}`);  
         } catch (error) {
           Swal.fire("Error", "Hubo un problema al editar los datos del paciente. Inténtalo de nuevo.", "error");
         }
       }
     });
   };
+  
 
   const handleDelete = (id: number) => {
     Swal.fire({
@@ -93,6 +95,20 @@ export const ListPacientes = () => {
         />
       ),
     },
+    {
+      field: 'Editar',
+      headerName: 'Editar',
+      flex: 0.5,
+      minWidth: 100,
+      sortable: false,
+      renderCell: (params) => (
+          <GridActionsCellItem
+              icon={<EditIcon />}
+              label="Edit"
+              onClick={() => handleEdit(params.id as number)}
+          />
+      ),
+  },
     {
       field: 'Eliminar',
       headerName: 'Eliminar',

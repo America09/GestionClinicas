@@ -14,3 +14,6 @@ export interface UserPatient{
     password:string,
     role:number
 }
+
+// export interface PatientWithUser extends Patient, UserPatient {
+// }
