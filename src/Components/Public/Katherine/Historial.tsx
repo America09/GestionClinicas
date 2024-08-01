@@ -395,7 +395,7 @@ const HistorialClinico: React.FC = () => {
                 </Grid>
               )}
               <Grid item xs={12} sx={{ mt: 2 }}>
-                <Button type="submit" variant="contained" sx={{ backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }}>
+                <Button type="submit" variant="contained" sx={{ textTransform:'capitalize', backgroundColor: 'DarkCyan', '&:hover': { backgroundColor: 'darkcyan' } }}>
                   {editing ? 'Actualizar' : 'Guardar'}
                 </Button>
               </Grid>

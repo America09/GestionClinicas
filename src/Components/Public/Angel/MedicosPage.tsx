@@ -144,7 +144,7 @@ const MedicsPage: React.FC = () => {
                 }}
             >
                 <Box sx={{ width: '100%' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <HomeIcon sx={{ mr: 0.5 }} />
@@ -152,6 +152,20 @@ const MedicsPage: React.FC = () => {
                             </Link>
                             <Typography color="textPrimary">Médicos</Typography>
                         </Breadcrumbs>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                bgcolor: '#43A49B',
+                                color: 'white',
+                                textTransform: 'capitalize',
+                                '&:hover': {
+                                    bgcolor: '#51C5BA',
+                                },
+                            }}
+                            onClick={() => navigate("/agregar-medicos")}
+                        >
+                            Añadir Médico
+                        </Button>
                     </Box>
 
                     <Box sx={{ textAlign: 'center', mb: 2 }}>
@@ -175,23 +189,6 @@ const MedicsPage: React.FC = () => {
                             disableRowSelectionOnClick
                             autoHeight
                         />
-                    </Box>
-
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                bgcolor: '#43A49B',
-                                color: 'white',
-                                textTransform: 'capitalize',
-                                '&:hover': {
-                                    bgcolor: '#51C5BA',
-                                },
-                            }}
-                            onClick={() => navigate("/agregar-medicos")}
-                        >
-                            + Añadir Médico
-                        </Button>
                     </Box>
                 </Box>
             </Paper>
@@ -264,4 +261,4 @@ const MedicsPage: React.FC = () => {
     );
 };
 
-export default MedicsPage;
+export default MedicsPage

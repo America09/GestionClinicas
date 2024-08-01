@@ -306,7 +306,7 @@ const AgregarPacientes: React.FC = () => {
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
                 <Button
                   variant="contained"
-                  sx={{
+                  sx={{textTransform:'capitalize',
                     backgroundColor: 'DarkCyan',
                     '&:hover': {
                       backgroundColor: 'darkcyan',
