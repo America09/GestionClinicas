@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, TextField, DialogActions, CircularProgress } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -13,16 +13,20 @@ import { handleDeleteEspecialidad, handleGetEspecialidades, handleUpdateEspecial
 const EspecialidadPage: React.FC = () => {
   const navigate = useNavigate();
   const [especialidades, setEspecialidades] = useState<Especialidad[]>([]);
+  const [loading, setLoading] = useState(true); // Estado de carga
   const [openEdit, setOpenEdit] = useState(false);
   const [selectedEspecialidad, setSelectedEspecialidad] = useState<Especialidad | null>(null);
 
   useEffect(() => {
     const fetchEspecialidades = async () => {
+      setLoading(true);
       try {
         const fetchedEspecialidades = await handleGetEspecialidades();
         setEspecialidades(fetchedEspecialidades);
       } catch (error) {
         console.error('Error al obtener las especialidades:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -163,25 +167,31 @@ const EspecialidadPage: React.FC = () => {
           </Box>
 
           <Box sx={{ width: '100%', mt: 2 }}>
-            <DataGrid
-              rows={especialidades}
-              columns={columns}
-              initialState={{
-                pagination: {
-                  paginationModel: {
-                    pageSize: 5,
+            {loading ? (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <DataGrid
+                rows={especialidades}
+                columns={columns}
+                initialState={{
+                  pagination: {
+                    paginationModel: {
+                      pageSize: 5,
+                    },
                   },
-                },
-              }}
-              pageSizeOptions={[5, 10, 20]}
-              disableRowSelectionOnClick
-              autoHeight
-              sx={{
-                '& .MuiDataGrid-root': {
-                  overflowX: 'auto',
-                },
-              }}
-            />
+                }}
+                pageSizeOptions={[5, 10, 20]}
+                disableRowSelectionOnClick
+                autoHeight
+                sx={{
+                  '& .MuiDataGrid-root': {
+                    overflowX: 'auto',
+                  },
+                }}
+              />
+            )}
           </Box>
         </Box>
       </Paper>

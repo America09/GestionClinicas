@@ -27,6 +27,7 @@
     "react-google-charts": "^4.0.1",
     "react-hook-form": "^7.52.1",
     "react-router-dom": "^6.23.1",
+    "react-toastify": "^10.0.5",
     "sweetalert2": "^11.12.3"
   },
   "devDependencies": {
