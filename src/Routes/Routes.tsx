@@ -34,6 +34,7 @@ import { AddEspecialidad } from '../Pages/Public/Jorge/AGEspecialidad';
 import { AddHorario } from '../Pages/Public/Jorge/AGHorario';
 import { EditHorario } from '../Pages/Public/Jorge/EditHorarioPage';
 import { PermisosPage } from '../Pages/Public/Angel/PermisosPage';
+import ResetPassword from '../Pages/Public/ResetPassword';
 import ContactMessage from '../Components/ContactMessage';
 import Unauthorized from '../Components/Unauthorized ';
 import ProtectedRoute from './ProtectedRoute';
@@ -53,6 +54,7 @@ const AppRouter = () => {
                     <Route path="/contacto" element={<Contacto />} />
                     <Route path="/confirma" element={<Confirma />} />
                     <Route path="/form" element={<ConfirmarCOntraseña />} />
+                    <Route path="/reset-password" element={<ResetPassword />} />
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/dashboard']} />}>
                     <Route element={<AuthLayout />}>

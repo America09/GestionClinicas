@@ -57,3 +57,10 @@ export interface UserDto {
     roleId: number;
     roleName: string;
 }
+
+export interface RequestPasswordResetResponse {
+    message: string;
+}
+export interface ResetPasswordResponse {
+    message: string;
+}
