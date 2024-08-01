@@ -270,7 +270,7 @@ const HeaderPublic = () => {
                         </Link>
                     </Typography>
                     <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center' }}>
-                        <Link href="/recuperar-contraseña" sx={{ textDecoration: 'underline', color: '#408D86' }}>
+                        <Link component="button" onClick={handleOpenRecuperarContrasena} sx={{ textDecoration: 'underline', color: '#408D86' }}>
                             Recuperar contraseña
                         </Link>
                     </Typography>
@@ -282,7 +282,11 @@ const HeaderPublic = () => {
                 onClose={handleCloseSignup}
                 onOpenLogin={handleOpenLogin} 
             />
-            <RecuperarContrasenaModal open={openRecuperarContrasena} onClose={handleCloseRecuperarContrasena} setOpenSignup={setOpenSignup} />
+            <RecuperarContrasenaModal 
+                open={openRecuperarContrasena} 
+                onClose={handleCloseRecuperarContrasena} 
+                setOpenSignup={setOpenSignup} 
+            />
         </>
     );
 };
