@@ -1,15 +1,5 @@
-import { confirmAccount, getUserProfile, createUser } from '../Services/UserService';
-import { CreateUserDto, User, UserDto } from '../Types/Api';
-
-export const fetchUsers = async (): Promise<User> => {
-    try {
-        const userProfile = await getUserProfile();
-        return userProfile;
-    } catch (error) {
-        console.error('Error al obtener el perfil del usuario:', error);
-        throw error;
-    }
-};
+import { confirmAccount, createUser, requestPasswordReset, resetPassword } from '../Services/UserService';
+import { CreateUserDto, UserDto } from '../Types/Api';
 
 export const handleConfirmAccount = async (code: string): Promise<string> => {
     try {
@@ -30,5 +20,27 @@ export const handleCreateUser = async (userData: CreateUserDto): Promise<UserDto
     } catch (error: any) {
         console.error('Error al crear el usuario:', error.message);
         throw new Error(error.message || 'Error al crear el usuario');
+    }
+};
+
+export const handleRequestPasswordReset = async (email: string): Promise<string> => {
+    try {
+        const message = await requestPasswordReset(email);
+        console.log('Solicitud de restablecimiento de contraseña enviada exitosamente:', message);
+        return message;
+    } catch (error: any) {
+        console.error('Error al solicitar el restablecimiento de contraseña:', error.message);
+        throw new Error(error.message || 'Error al solicitar el restablecimiento de contraseña');
+    }
+};
+
+export const handleResetPassword = async (token: string, newPassword: string): Promise<string> => {
+    try {
+        const message = await resetPassword(token, newPassword);
+        console.log('Contraseña restablecida exitosamente:', message);
+        return message;
+    } catch (error: any) {
+        console.error('Error al restablecer la contraseña:', error.message);
+        throw new Error(error.message || 'Error al restablecer la contraseña');
     }
 };
