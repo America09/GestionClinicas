@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef, GridActionsCellItem } from '@mui/x-data-grid';
-import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Switch, FormControlLabel, IconButton } from '@mui/material';
+import { Typography, Breadcrumbs, Link, Button, Box, Paper, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Switch, FormControlLabel } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -131,7 +131,7 @@ const ConsultoriosPage: React.FC = () => {
                 }}
             >
                 <Box sx={{ width: '100%' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <HomeIcon sx={{ mr: 0.5 }} />
@@ -139,6 +139,20 @@ const ConsultoriosPage: React.FC = () => {
                             </Link>
                             <Typography color="textPrimary">Consultorios</Typography>
                         </Breadcrumbs>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                bgcolor: '#43A49B',
+                                color: 'white',
+                                textTransform: 'capitalize',
+                                '&:hover': {
+                                    bgcolor: '#51C5BA',
+                                },
+                            }}
+                            onClick={() => navigate("/agregar-consultorios")}
+                        >
+                            Añadir Consultorio
+                        </Button>
                     </Box>
 
                     <Box sx={{ textAlign: 'center', mb: 2 }}>
@@ -164,22 +178,6 @@ const ConsultoriosPage: React.FC = () => {
                         />
                     </Box>
 
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                bgcolor: '#43A49B',
-                                color: 'white',
-                                textTransform: 'capitalize',
-                                '&:hover': {
-                                    bgcolor: '#51C5BA',
-                                },
-                            }}
-                            onClick={() => navigate("/agregar-consultorios")}
-                        >
-                            + Añadir Consultorio
-                        </Button>
-                    </Box>
                 </Box>
             </Paper>
             <Dialog open={openEdit} onClose={handleCloseEdit}>
