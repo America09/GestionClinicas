@@ -1,14 +1,20 @@
 import * as React from 'react';
 import { Container, Typography, TextField, Button, Box, Paper, Breadcrumbs, Link, FormControl, InputLabel, Select, MenuItem, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { handleCreateAppointment } from '../../../Handlers/AppointmentHandler';
 import Swal from 'sweetalert2';
+import { handleCreateAppointment } from '../../../Handlers/AppointmentHandler';
+import { handleGetMedics } from '../../../Handlers/MedicHandler';
+import { handleGetEspecialidades } from '../../../Handlers/EspecialidadHandler';
+import { handleGetPatient } from '../../../Handlers/PatientHandler';
+import { Medic } from '../../../Types/Medics';
+import { Especialidad } from '../../../Types/Especialidad';
+import { Patient } from '../../../Types/Patient';
 
 const AgregarCitas: React.FC = () => {
     const navigate = useNavigate();
     const [reason, setReason] = React.useState<string>('');
     const [medicId, setMedicId] = React.useState<number>(0);
-    const [patientId, setPatientId] = React.useState<number | undefined>(undefined);
+    const [patientId, setPatientId] = React.useState<number>(0);
     const [nombre, setNombre] = React.useState<string>('');
     const [apellido, setApellido] = React.useState<string>('');
     const [genero, setGenero] = React.useState<string>('');
@@ -18,9 +24,29 @@ const AgregarCitas: React.FC = () => {
     const [codigoPostal, setCodigoPostal] = React.useState<string>('');
     const [specialtyId, setSpecialtyId] = React.useState<number>(0);
     const [fechaCita, setFechaCita] = React.useState<string>('');
+    const [medics, setMedics] = React.useState<Medic[]>([]);
+    const [especialidades, setEspecialidades] = React.useState<Especialidad[]>([]);
+    const [patients, setPatients] = React.useState<Patient[]>([]);
+
+    React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const fetchedMedics = await handleGetMedics();
+                setMedics(fetchedMedics);
+                const fetchedEspecialidades = await handleGetEspecialidades();
+                setEspecialidades(fetchedEspecialidades);
+                const fetchedPatients = await handleGetPatient();
+                setPatients(fetchedPatients);
+            } catch (error) {
+                console.error('Error al obtener datos:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
 
     const handleSave = async () => {
-        if (!reason || !medicId || !specialtyId || !fechaCita) {
+        if (!reason || !medicId || !patientId || !specialtyId || !fechaCita) {
             Swal.fire('Error', 'Por favor, complete todos los campos obligatorios.', 'error');
             return;
         }
@@ -82,24 +108,36 @@ const AgregarCitas: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    margin="dense"
-                                    label="ID del Médico"
-                                    type="number"
-                                    fullWidth
-                                    value={medicId}
-                                    onChange={(e) => setMedicId(Number(e.target.value))}
-                                />
+                                <FormControl fullWidth margin="dense">
+                                    <InputLabel>Médico</InputLabel>
+                                    <Select
+                                        value={medicId}
+                                        onChange={(e) => setMedicId(Number(e.target.value))}
+                                        label="Médico"
+                                    >
+                                        {medics.map((medic) => (
+                                            <MenuItem key={medic.id} value={medic.id}>
+                                                {medic.userName}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    margin="dense"
-                                    label="Paciente"
-                                    type="number"
-                                    fullWidth
-                                    value={patientId}
-                                    onChange={(e) => setPatientId(Number(e.target.value))}
-                                />
+                                <FormControl fullWidth margin="dense">
+                                    <InputLabel>Paciente</InputLabel>
+                                    <Select
+                                        value={patientId}
+                                        onChange={(e) => setPatientId(Number(e.target.value))}
+                                        label="Paciente"
+                                    >
+                                        {patients.map((patient) => (
+                                            <MenuItem key={patient.userId} value={patient.userId}>
+                                                {patient.phone} {/* Puedes ajustar esto para mostrar el nombre del paciente si está disponible */}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -126,7 +164,7 @@ const AgregarCitas: React.FC = () => {
                                     <InputLabel>Género</InputLabel>
                                     <Select
                                         value={genero}
-                                        onChange={(e) => setGenero(e.target.value as string)}
+                                        onChange={(e) => setGenero(e.target.value)}
                                         label="Género"
                                     >
                                         <MenuItem value="Masculino">Masculino</MenuItem>
@@ -175,14 +213,20 @@ const AgregarCitas: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
-                                <TextField
-                                    margin="dense"
-                                    label="ID de la Especialidad"
-                                    type="number"
-                                    fullWidth
-                                    value={specialtyId}
-                                    onChange={(e) => setSpecialtyId(Number(e.target.value))}
-                                />
+                                <FormControl fullWidth margin="dense">
+                                    <InputLabel>Especialidad</InputLabel>
+                                    <Select
+                                        value={specialtyId}
+                                        onChange={(e) => setSpecialtyId(Number(e.target.value))}
+                                        label="Especialidad"
+                                    >
+                                        {especialidades.map((especialidad) => (
+                                            <MenuItem key={especialidad.id} value={especialidad.id}>
+                                                {especialidad.nombre}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
