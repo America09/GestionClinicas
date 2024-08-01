@@ -326,10 +326,17 @@ const HeaderPublic = () => {
                 onClose={handleCloseSignup}
                 onOpenLogin={handleOpenLogin}
             />
+<<<<<<< HEAD
             <RecuperarContrasenaModal 
                 open={openRecuperarContrasena} 
                 onClose={handleCloseRecuperarContrasena} 
                 onOpenSignup={handleOpenRecuperarContrasena} 
+=======
+            <RecuperarContrasenaModal
+                open={openRecuperarContrasena}
+                onClose={handleCloseRecuperarContrasena}
+                setOpenSignup={setOpenSignup}
+>>>>>>> 846040befa705985ed525749819abc448ef51146
             />
         </>
     );
