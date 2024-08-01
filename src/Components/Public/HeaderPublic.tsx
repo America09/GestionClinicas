@@ -270,7 +270,7 @@ const HeaderPublic = () => {
                         </Link>
                     </Typography>
                     <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center' }}>
-                        <Link href="/modal" sx={{ textDecoration: 'underline', color: '#408D86' }}>
+                        <Link href="/recuperar-contraseña" sx={{ textDecoration: 'underline', color: '#408D86' }}>
                             Recuperar contraseña
                         </Link>
                     </Typography>

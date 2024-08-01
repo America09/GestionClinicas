@@ -37,6 +37,7 @@ import { PermisosPage } from '../Pages/Public/Angel/PermisosPage';
 import ContactMessage from '../Components/ContactMessage';
 import Unauthorized from '../Components/Unauthorized ';
 import ProtectedRoute from './ProtectedRoute';
+import { Recupera } from '../Pages/Recupera';
 
 const AppRouter = () => {
     return (
@@ -53,6 +54,7 @@ const AppRouter = () => {
                     <Route path="/contacto" element={<Contacto />} />
                     <Route path="/confirma" element={<Confirma />} />
                     <Route path="/form" element={<ConfirmarCOntraseña />} />
+                    <Route path="/recuperar-contraseña" element={<Recupera />} />
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/dashboard']} />}>
                     <Route element={<AuthLayout />}>
