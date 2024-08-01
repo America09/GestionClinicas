@@ -38,6 +38,8 @@ import ResetPassword from '../Pages/Public/ResetPassword';
 import ContactMessage from '../Components/ContactMessage';
 import Unauthorized from '../Components/Unauthorized ';
 import ProtectedRoute from './ProtectedRoute';
+import { Token } from '../Pages/Public/Token';
+import TokenForm from '../Components/Token';
 
 const AppRouter = () => {
     return (
@@ -55,6 +57,7 @@ const AppRouter = () => {
                     <Route path="/confirma" element={<Confirma />} />
                     <Route path="/form" element={<ConfirmarCOntraseña />} />
                     <Route path="/reset-password" element={<ResetPassword />} />
+                    <Route path="/token" element={<TokenForm />} />
                 </Route>
                 <Route element={<ProtectedRoute requiredPermissions={['/dashboard']} />}>
                     <Route element={<AuthLayout />}>

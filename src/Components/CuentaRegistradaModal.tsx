@@ -22,7 +22,7 @@ const CuentaRegistradaExito: React.FC = () => {
         try {
             const message = await handleConfirmAccount(code);
             Swal.fire('Éxito', message, 'success');
-            navigate('/');
+            setCode(''); // Resetea el formulario
         } catch (error: any) {
             Swal.fire('Error', error.message || 'Error al confirmar la cuenta.', 'error');
         } finally {

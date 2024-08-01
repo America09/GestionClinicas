@@ -14,8 +14,6 @@ import BusinessIcon from '@mui/icons-material/Business';
 import EventIcon from '@mui/icons-material/Event';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import LoginIcon from '@mui/icons-material/Login';
-import { GoogleLogin } from '@react-oauth/google';
-import {jwtDecode} from 'jwt-decode';
 
 const HeaderPublic = () => {
     const [openLogin, setOpenLogin] = useState(false);
@@ -27,7 +25,7 @@ const HeaderPublic = () => {
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [generalError, setGeneralError] = useState('');
-    const [isLoading, setIsLoading] = useState(false); 
+    const [isLoading, setIsLoading] = useState(false); // Estado de carga
     const authContext = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -63,19 +61,6 @@ const HeaderPublic = () => {
             return;
         }
         setOpenDrawer(open);
-    };
-
-     const handleGoogleLoginSuccess = (credentialResponse: any) => {
-        if (credentialResponse.credential) {
-            const decodedToken: any = jwtDecode(credentialResponse.credential);
-            authContext.login(credentialResponse.credential);
-            console.log('Google login successful:', decodedToken);
-            navigate('/dashboard');
-        }
-    };
-
-    const handleGoogleLoginError = () => {
-        console.error('Google login failed');
     };
 
     const drawerContent = (
@@ -147,16 +132,16 @@ const HeaderPublic = () => {
         }
 
         if (valid) {
-            setIsLoading(true);
+            setIsLoading(true); // Iniciar el estado de carga
             try {
                 const loginRequest: LoginRequest = { email, password };
                 const success = await handleLogin(loginRequest, authContext);
-                setIsLoading(false); 
+                setIsLoading(false);
 
                 if (success) {
                     navigate('/dashboard');
                 } else {
-                    setGeneralError('Correo o contraseña incorrectos');
+                    setGeneralError('La contraseña es incorrecta');
                 }
             } catch (error) {
                 setIsLoading(false); 
@@ -303,10 +288,6 @@ const HeaderPublic = () => {
                     >
                         {isLoading ? <CircularProgress size={24} sx={{ color: 'white' }} /> : 'Ingresar'}
                     </Button>
-                    <GoogleLogin
-                        onSuccess={credentialResponse => handleGoogleLoginSuccess(credentialResponse)}
-                        onError={handleGoogleLoginError}
-                    />
                     <Typography id="modal-title" variant="body1" component="p" sx={{ textAlign: 'center', marginTop: 3 }}>
                         ¿No tienes cuenta?
                         <Link component="button" onClick={handleOpenSignup} sx={{ textDecoration: 'underline', color: '#408D86', marginLeft: 1 }}>
@@ -326,17 +307,10 @@ const HeaderPublic = () => {
                 onClose={handleCloseSignup}
                 onOpenLogin={handleOpenLogin}
             />
-<<<<<<< HEAD
-            <RecuperarContrasenaModal 
-                open={openRecuperarContrasena} 
-                onClose={handleCloseRecuperarContrasena} 
-                onOpenSignup={handleOpenRecuperarContrasena} 
-=======
             <RecuperarContrasenaModal
                 open={openRecuperarContrasena}
                 onClose={handleCloseRecuperarContrasena}
                 setOpenSignup={setOpenSignup}
->>>>>>> 846040befa705985ed525749819abc448ef51146
             />
         </>
     );
