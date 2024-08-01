@@ -140,7 +140,7 @@ const CitasPage: React.FC = () => {
                 }}
             >
                 <Box sx={{ width: '100%' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <HomeIcon sx={{ mr: 0.5 }} />
@@ -148,6 +148,20 @@ const CitasPage: React.FC = () => {
                             </Link>
                             <Typography color="textPrimary">Citas</Typography>
                         </Breadcrumbs>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                bgcolor: '#43A49B',
+                                color: 'white',
+                                textTransform: 'capitalize',
+                                '&:hover': {
+                                    bgcolor: '#51C5BA',
+                                },
+                            }}
+                            onClick={() => navigate("/agregar-citas")}
+                        >
+                            Añadir Cita
+                        </Button>
                     </Box>
 
                     <Box sx={{ textAlign: 'center', mb: 2 }}>
@@ -172,27 +186,9 @@ const CitasPage: React.FC = () => {
                             autoHeight
                         />
                     </Box>
-
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-                        <Button
-                            variant="contained"
-                            sx={{
-                                bgcolor: '#43A49B',
-                                color: 'white',
-                                textTransform: 'capitalize',
-                                '&:hover': {
-                                    bgcolor: '#51C5BA',
-                                },
-                            }}
-                            onClick={() => navigate("/agregar-citas")}
-                        >
-                            + Añadir Cita
-                        </Button>
-                    </Box>
                 </Box>
             </Paper>
 
-            {/* Modal para editar cita */}
             <Dialog open={openEdit} onClose={handleCloseEdit}>
                 <DialogTitle>Editar Cita</DialogTitle>
                 <DialogContent>
