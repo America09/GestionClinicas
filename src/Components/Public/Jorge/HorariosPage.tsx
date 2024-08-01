@@ -153,7 +153,7 @@ const HorariosPage: React.FC = () => {
         <Container maxWidth="lg" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
             <Paper sx={{ padding: 4, textAlign: 'center', width: '100%', boxShadow: 3, borderRadius: 2 }}>
                 <Box sx={{ width: '100%' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2, mt: -3 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                         <Breadcrumbs aria-label="breadcrumb">
                             <Link color="inherit" component={RouterLink} to="/dashboard" sx={{ display: 'flex', alignItems: 'center' }}>
                                 <HomeIcon sx={{ mr: 0.5 }} />
