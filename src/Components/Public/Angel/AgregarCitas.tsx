@@ -133,15 +133,7 @@ const AgregarCitas: React.FC = () => {
                                     >
                                         {patients.map((patient) => (
                                             <MenuItem key={patient.userId} value={patient.userId}>
-<<<<<<< HEAD
                                                 {patient.phone} {/* Puedes ajustar esto para mostrar el nombre del paciente si está disponible */}
-=======
-<<<<<<< Updated upstream
-                                                {patient.phone}
-=======
-                                                {patient.}
->>>>>>> Stashed changes
->>>>>>> 9cee58baea1857f289fc849866bf7b834d6e17e1
                                             </MenuItem>
                                         ))}
                                     </Select>
