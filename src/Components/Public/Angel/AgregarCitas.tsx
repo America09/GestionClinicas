@@ -46,7 +46,7 @@ const AgregarCitas: React.FC = () => {
     }, []);
 
     const handleSave = async () => {
-        if (!reason || !medicId  || !specialtyId || !fechaCita) {
+        if (!reason || !medicId || !patientId || !specialtyId || !fechaCita) {
             Swal.fire('Error', 'Por favor, complete todos los campos obligatorios.', 'error');
             return;
         }
@@ -55,6 +55,7 @@ const AgregarCitas: React.FC = () => {
             await handleCreateAppointment({
                 reason,
                 medicId,
+                patientId,
                 nombre,
                 apellido,
                 genero,
@@ -122,7 +123,7 @@ const AgregarCitas: React.FC = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            {/* <Grid item xs={12} sm={6}>
+                            <Grid item xs={12} sm={6}>
                                 <FormControl fullWidth margin="dense">
                                     <InputLabel>Paciente</InputLabel>
                                     <Select
@@ -132,16 +133,12 @@ const AgregarCitas: React.FC = () => {
                                     >
                                         {patients.map((patient) => (
                                             <MenuItem key={patient.userId} value={patient.userId}>
-<<<<<<< Updated upstream
-                                                {patient.phone}
-=======
-                                                {patient.} {/* Puedes ajustar esto para mostrar el nombre del paciente si está disponible */}
->>>>>>> Stashed changes
+                                                {patient.phone} {/* Puedes ajustar esto para mostrar el nombre del paciente si está disponible */}
                                             </MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </Grid> */}
+                            </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     margin="dense"
