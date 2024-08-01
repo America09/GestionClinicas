@@ -16,3 +16,16 @@ export interface Appointment {
     specialtyName: string;
     fechaCita: string;
 }
+export interface CreateAppointment {
+    reason: string;
+    medicId: number;
+    nombre?: string;
+    apellido?: string;
+    genero?: string;
+    correo?: string;
+    numeroTelefono?: string;
+    estado?: string;
+    codigoPostal?: string;
+    specialtyId: number;
+    fechaCita: string;
+}
